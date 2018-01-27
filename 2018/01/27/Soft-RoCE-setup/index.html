@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="RDMA," />
 
 
 
@@ -79,14 +79,23 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="tags">
-<meta property="og:url" content="http://yoursite.com/tags/index.html">
+<meta name="description" content="Soft-RoCE是RoCE协议的软件栈版本，可以在普通网卡上搭建RDMA环境 先确保安装以下软件： 1234567sudo apt-get install gitsudo apt-get install libncurses5-devsudo apt-get install libssl-devsudo apt-get install libibverbs1 libibcm1libibcm-de">
+<meta name="keywords" content="RDMA">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Soft-RoCE环境搭建">
+<meta property="og:url" content="http://yoursite.com/2018/01/27/Soft-RoCE-setup/index.html">
 <meta property="og:site_name" content="zjwreal">
+<meta property="og:description" content="Soft-RoCE是RoCE协议的软件栈版本，可以在普通网卡上搭建RDMA环境 先确保安装以下软件： 1234567sudo apt-get install gitsudo apt-get install libncurses5-devsudo apt-get install libssl-devsudo apt-get install libibverbs1 libibcm1libibcm-de">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-01-26T10:56:52.206Z">
+<meta property="og:image" content="http://oq8u5pr4b.bkt.clouddn.com/blog/180127/80KJ950a9B.png?imageslim">
+<meta property="og:image" content="http://oq8u5pr4b.bkt.clouddn.com/blog/180127/55c5AB4idD.png?imageslim">
+<meta property="og:image" content="http://oq8u5pr4b.bkt.clouddn.com/blog/180127/3BjC7c2fgk.png?imageslim">
+<meta property="og:image" content="http://oq8u5pr4b.bkt.clouddn.com/blog/180127/kI3KI62ikc.png?imageslim">
+<meta property="og:updated_time" content="2018-01-27T13:40:18.487Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="tags">
+<meta name="twitter:title" content="Soft-RoCE环境搭建">
+<meta name="twitter:description" content="Soft-RoCE是RoCE协议的软件栈版本，可以在普通网卡上搭建RDMA环境 先确保安装以下软件： 1234567sudo apt-get install gitsudo apt-get install libncurses5-devsudo apt-get install libssl-devsudo apt-get install libibverbs1 libibcm1libibcm-de">
+<meta name="twitter:image" content="http://oq8u5pr4b.bkt.clouddn.com/blog/180127/80KJ950a9B.png?imageslim">
 
 
 
@@ -116,13 +125,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/tags/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/01/27/Soft-RoCE-setup/"/>
 
 
 
 
 
-  <title>tags | zjwreal</title>
+  <title>Soft-RoCE环境搭建 | zjwreal</title>
   
 
 
@@ -281,40 +290,246 @@
 
   <div id="posts" class="posts-expand">
     
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/27/Soft-RoCE-setup/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jingwei Zheng">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://oq8u5pr4b.bkt.clouddn.com/blog/180126/AkjAJ78i9J.jpg?imageslim">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zjwreal">
+    </span>
+
     
-    
-    <div class="post-block page">
       <header class="post-header">
 
-	<h1 class="post-title" itemprop="name headline">tags</h1>
-
-
-
-</header>
-
-      
-      
-      
-      <div class="post-body">
         
         
-          <div class="tag-cloud">
-            <div class="tag-cloud-title">
-                目前共计 6 个标签
-            </div>
-            <div class="tag-cloud-tags">
-              <a href="/tags/CSAPP/" style="font-size: 12px; color: #ccc">CSAPP</a> <a href="/tags/Linux/" style="font-size: 12px; color: #ccc">Linux</a> <a href="/tags/RDMA/" style="font-size: 12px; color: #ccc">RDMA</a> <a href="/tags/socket/" style="font-size: 12px; color: #ccc">socket</a> <a href="/tags/学习笔记/" style="font-size: 12px; color: #ccc">学习笔记</a> <a href="/tags/操作系统/" style="font-size: 12px; color: #ccc">操作系统</a>
-            </div>
-          </div>
+          <h1 class="post-title" itemprop="name headline">Soft-RoCE环境搭建</h1>
         
-      </div>
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-27T19:00:00+08:00">
+                2018-01-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/网络协议栈/" itemprop="url" rel="index">
+                    <span itemprop="name">网络协议栈</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
       
       
+
+      
+        <p>Soft-RoCE是RoCE协议的软件栈版本，可以在普通网卡上搭建RDMA环境</p>
+<p>先确保安装以下软件：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install git</span><br><span class="line">sudo apt-get install libncurses5-dev</span><br><span class="line">sudo apt-get install libssl-dev</span><br><span class="line">sudo apt-get install libibverbs1 libibcm1libibcm-dev ibverbs-utils libibverbs-dev </span><br><span class="line">sudo apt-get install libibverbs1librdmacm-dev librdmacm1 rdmacm-utils </span><br><span class="line">sudo apt-get install openssh-server</span><br><span class="line">sudo apt-get install libswitch-perl</span><br></pre></td></tr></table></figure>
+<h1 id="Install-Kernel"><a href="#Install-Kernel" class="headerlink" title="Install Kernel"></a>Install Kernel</h1><p>Clone kernel </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/SoftRoCE/rxe-dev.git</span><br></pre></td></tr></table></figure>
+<p>切换到 ‘rxe_submission_v18’ 分支</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout rxe_submission_v18</span><br></pre></td></tr></table></figure>
+<p>进入到rxe-dev 目录 <code>cd rxe-dev</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp /boot/config-$(uname –r) .config</span><br></pre></td></tr></table></figure>
+<p>切换到root用户权限，运行<code>make menuconfig</code> ，出现选择界面。（在使用 <code>make menuconfig</code> 之前需要安装ncurse-devel</p>
+<p>输入”/“ ，然后输入<code>RDMA_RXE</code>，按下 enter，会查找有关<code>RDMA_RXE</code> 的选择项. 输入数字 1，就会选择到<code>RDMA_RXE</code> 的设置，输入”M” ，选中 RDMA 的配置. </p>
+<p>然后 <code>vi.config</code> 来确认<code>CONFIG_RDMA_RXE</code> 为 m ，<code>CONFIG_INFINIBAND_ADDR_TRANS</code>和<code>CONFIG_INFINIBAND_ADDR_TRANS_CONFIGFS</code> 为 y</p>
+<p>建议在Generalsetup –&gt;Local version中填写一个名称，便于之后编译出的内核与其他内核区别开。</p>
+<p>##编译内核</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">make –j 32</span><br><span class="line">make modules_install</span><br><span class="line">make install</span><br><span class="line">make headers_install INSTALL_HDR_PATH=/usr</span><br></pre></td></tr></table></figure>
+<p>上述步骤如果遇到permission denied，命令前加上sudo 再执行。且上述命令均应在源码目录即 <code>/rxe-dev</code> 下执行</p>
+<p>确认新的内核是否在grub引导中，可以查看 <code>/boot/grub/grub.conf</code></p>
+<p>用新内核启动后查看内核版本号和<code>rdma_rxe</code>模块</p>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">kevin@ubuntu:~$ uname -r</span><br><span class="line">4.7.0-rc3kevin+</span><br><span class="line">kevin@ubuntu:~$ modinfo rdma_rxe</span><br><span class="line">filename:      /lib/modules/4.7.0-rc3kevin+/kernel/drivers/infiniband/hw/rxe/rdma_rxe.ko</span><br><span class="line">version:        0.2</span><br><span class="line">license:        DualBSD/GPL</span><br><span class="line">description:    SoftRDMA transport</span><br><span class="line">author:         BobPearson, Frank Zago, John Groves, Kamal Heib</span><br><span class="line">srcversion:    85F0433D44A5DAF81FBFE5C</span><br><span class="line">depends:       ib_core,ip6_udp_tunnel,udp_tunnel</span><br><span class="line">intree:         Y</span><br><span class="line">vermagic:      4.7.0-rc3kevin+ SMP mod_unload modversions </span><br><span class="line">parm:           add:Create RXE device over network interface</span><br><span class="line">parm:          remove:Remove RXE device over network interface</span><br></pre></td></tr></table></figure>
+<h1 id="Install-user-space-library-librxe"><a href="#Install-user-space-library-librxe" class="headerlink" title="Install user space library (librxe)"></a>Install user space library (librxe)</h1><p>安装以下的包</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">libswitch-perl</span><br><span class="line">libibverbs</span><br><span class="line">libibverbs-devel</span><br><span class="line">libibverbs-utils</span><br><span class="line">librdmacm</span><br><span class="line">librdmacm-devel</span><br><span class="line">librdmacm-utils</span><br></pre></td></tr></table></figure>
+<p>编译安装 install userspace library <code>librxe</code>:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/SoftRoCE/librxe-dev.git</span><br><span class="line">cd librxe-dev</span><br><span class="line">./configure --libdir=/usr/lib64/ --prefix=</span><br><span class="line">make</span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
+<p>（<code>./configure --libdir=/usr/lib64/ --prefix=</code> 中如果路径只有<code>/lib</code> 就用<code>/lib</code>）</p>
+<h1 id="Configure-Soft-RoCE-RXE"><a href="#Configure-Soft-RoCE-RXE" class="headerlink" title="Configure Soft-RoCE (RXE)"></a>Configure Soft-RoCE (RXE)</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">kevin@ubuntu:~$ rxe_cfg status</span><br><span class="line">rxe modules not loaded</span><br><span class="line">  Name   Link  Driver  Speed  NMTU  IPv4_addr        RDEV  RMTU  </span><br><span class="line">  ens33  yes   e1000          1500  192.168.188.132</span><br></pre></td></tr></table></figure>
+<p>Load <code>ib_rxe</code> kernel module, using the <code>rxe_cfg</code> script included in the librxe RPM:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">kevin@ubuntu:~$ sudo rxe_cfg start</span><br><span class="line">sh: echo: I/O error</span><br><span class="line">  Name   Link  Driver  Speed  NMTU  IPv4_addr        RDEV  RMTU          </span><br><span class="line">  ens33  yes   e1000          1500  192.168.188.132  rxe0  1024</span><br></pre></td></tr></table></figure>
+<p>To verify RXE kernel module is loaded, run:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">kevin@ubuntu:~$ lsmod |grep rdma_rxe</span><br><span class="line">rdma_rxe              102400  0</span><br><span class="line">ip6_udp_tunnel         16384  1 rdma_rxe</span><br><span class="line">udp_tunnel             16384  1 rdma_rxe</span><br><span class="line">ib_core               208896  6 rdma_cm,ib_cm,iw_cm,ib_uverbs,rdma_rxe,rdma_ucm</span><br></pre></td></tr></table></figure>
+<p>Create RXE device over network interface (e.g. <code>ens33</code>):</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo rxe_cfg add ens33</span><br></pre></td></tr></table></figure>
+<p>Check the status of <code>rxe_cfg</code>, make sure that <code>rxe0</code> was added under RDEV (rxe device).It is also possible to check the <code>ibv_devices</code> command.</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">kevin@ubuntu:~$ rxe_cfg </span><br><span class="line">  Name   Link  Driver  Speed  NMTU  IPv4_addr        RDEV  RMTU          </span><br><span class="line">  ens33  yes   e1000          1500  192.168.188.132  rxe0  1024  (3)  </span><br><span class="line">kevin@ubuntu:~$ ibv_devices</span><br><span class="line">    device          	   node GUID</span><br><span class="line">    ------          	----------------</span><br><span class="line">    rxe0            	020c29fffebd5e22</span><br></pre></td></tr></table></figure>
+<p>Test connectivity.</p>
+<ul>
+<li>On the server:</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ibv_rc_pingpong -d rxe0 -g 0</span><br></pre></td></tr></table></figure>
+<ul>
+<li>On the client:</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ibv_rc_pingpong -d rxe0 -g 0 &lt;server_management_ip&gt;</span><br></pre></td></tr></table></figure>
+<p>e.g Client:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">kevin@ubuntu:~$ ibv_rc_pingpong -g 0 -d rxe0 -i 1 192.168.188.129</span><br><span class="line">  local address:  LID 0x0000, QPN 0x000011, PSN 0x2cd726, GID fe80::20c:29ff:febd:5e22</span><br><span class="line">  remote address: LID 0x0000, QPN 0x000011, PSN 0x767a62, GID fe80::20c:29ff:fe44:4345</span><br></pre></td></tr></table></figure>
+<h1 id="Test"><a href="#Test" class="headerlink" title="Test"></a>Test</h1><h2 id="rping"><a href="#rping" class="headerlink" title="rping"></a>rping</h2><p>server</p>
+<p><img src="http://oq8u5pr4b.bkt.clouddn.com/blog/180127/80KJ950a9B.png?imageslim" alt="mark"></p>
+<p>client</p>
+<p><img src="http://oq8u5pr4b.bkt.clouddn.com/blog/180127/55c5AB4idD.png?imageslim" alt="mark"></p>
+<h2 id="perftest"><a href="#perftest" class="headerlink" title="perftest"></a>perftest</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install perftest</span><br></pre></td></tr></table></figure>
+<p>测试时需切换到root</p>
+<p>Sever:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ib_send_bw –a</span><br></pre></td></tr></table></figure>
+<p>Client:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ib_send_bw 192.168.46.132 –a</span><br></pre></td></tr></table></figure>
+<p><img src="http://oq8u5pr4b.bkt.clouddn.com/blog/180127/3BjC7c2fgk.png?imageslim" alt="mark"></p>
+<p><img src="http://oq8u5pr4b.bkt.clouddn.com/blog/180127/kI3KI62ikc.png?imageslim" alt="mark"></p>
+<h1 id="FAQ"><a href="#FAQ" class="headerlink" title="FAQ"></a>FAQ</h1><ul>
+<li>用sudoapt-get update时出现“ E: 无法获得锁/var/lib/apt/lists/lock”错误</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo rm /var/lib/apt/lists/lock</span><br></pre></td></tr></table></figure>
+<ul>
+<li>如果出现缺少ssl的错误，就安装ssl</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get install libssl-dev</span><br></pre></td></tr></table></figure>
+<ul>
+<li>ERROR: make <em>*</em>No rule to make target”menuconfig”.stop. </li>
+</ul>
+<p>原因是没有在内核源码目录下进行。例如，要编译或升级的内核解压后的目录为/usr/src/<a href="http://lib.csdn.net/base/linux" target="_blank" rel="noopener">Linux</a>-2.4.24,一定要进入到该目录后使用makemenuconfig命令，这样就不会提示上面的错误了。(在本文中就是在rxe-dev目录下编译)</p>
+<ul>
+<li><p>克隆的虚拟机中找不到eth0。因为网卡是克隆的，所以在测试连通性的时候不能用。要手动修改网卡信息。</p>
+</li>
+<li><p>在试验 rdma 的时候，记得关闭防火墙</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">- sudo iptables -F </span><br><span class="line">chkconfig iptables off  #开机不启动</span><br></pre></td></tr></table></figure>
+<p>​</p>
+</li>
+</ul>
+
       
     </div>
     
     
     
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/RDMA/" rel="tag"># RDMA</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/01/27/CSAPP-lab1-datalab/" rel="next" title="CSAPP实验1:DataLab">
+                <i class="fa fa-chevron-left"></i> CSAPP实验1:DataLab
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
   </div>
 
 
@@ -347,8 +562,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -428,6 +652,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Install-Kernel"><span class="nav-text">Install Kernel</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Install-user-space-library-librxe"><span class="nav-text">Install user space library (librxe)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Configure-Soft-RoCE-RXE"><span class="nav-text">Configure Soft-RoCE (RXE)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Test"><span class="nav-text">Test</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#rping"><span class="nav-text">rping</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#perftest"><span class="nav-text">perftest</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#FAQ"><span class="nav-text">FAQ</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
