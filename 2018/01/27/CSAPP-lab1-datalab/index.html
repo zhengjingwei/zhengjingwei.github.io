@@ -89,8 +89,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://oq8u5pr4b.bkt.clouddn.com/blog/180127/4mI0d8IE6g.png?imageslim">
 <meta property="og:image" content="http://oq8u5pr4b.bkt.clouddn.com/blog/180127/hhBaCcJBdb.png?imageslim">
-<meta property="og:image" content="http://oq8u5pr4b.bkt.clouddn.com/blog/180127/agk3fa7c4D.png?imageslim">
-<meta property="og:updated_time" content="2018-01-27T09:08:14.380Z">
+<meta property="og:updated_time" content="2018-01-27T09:41:30.771Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CSAPP实验1:DataLab">
 <meta name="twitter:description" content="实验简介​    Data LAB 目的是熟悉位运算 要求：      只修改bit.c     使用 btest 进行验证     每次修改完之后都要make clean再make     整数部分：要求只能使用规定的操作符并且不能使用循环、条件语句     在函数开始时声明所有变量，只能使用局部变量     不能使用其他函数/宏/int外的类型/类型转换     int都是默认二进制补码编码">
@@ -236,9 +235,43 @@
       
 
       
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
     </ul>
   
 
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
   
 </nav>
 
@@ -338,6 +371,11 @@
           
 
           
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
 
           
 
@@ -368,22 +406,19 @@
 <li><code>int</code>都是默认二进制补码编码 2’s complement，32bit    </li>
 <li>要考虑数据溢出的情况，比如相减，同号才能相减，否则结果出错</li>
 </ul>
+<a id="more"></a>
 <p>Tips：    </p>
 <ul>
 <li><code># ./btest -f [函数名]</code>，检验某个函数 <code>./btest</code> 检验所有函数    </li>
-<li><p>关注<code>int</code>型的表示范围 -2^31~2^31-1以及一些特殊的数字的补码编码        </p>
-<p>​-2^31：0x80 00 00 00        -1：0xff ff ff ff    </p>
+<li><p>关注<code>int</code>型的表示范围 -2^31~2^31-1以及一些特殊的数字的补码编码  <code>-2^31：0x80 00 00 00</code>   <code>-1：0xff ff ff ff</code>    </p>
 </li>
-<li><p>一个数的相反数是 <code>~x+1</code>    </p>
+<li><p>一个数的相反数是 <code>~x+1</code>   </p>
 </li>
-<li>在float的实验中要对该数是不是规格化 分情况    </li>
+<li>在float的实验中要对该数是不是规格化分情况    </li>
 <li>逻辑右移不带符号，<code>&gt;&gt;</code>是算术右移，带符号    </li>
+<li>0的特性，若x=0, ~x+1和x的符号位都为0。而其他情况则至少有一个数符号位为1。（也可能两个符号位都为1的情况，如x=0x80 00 00 00</li>
 </ul>
-<ul>
-<li><p>0的特性，若x=0, ~x+1和x的符号位都为0。而其他情况则至少有一个数符号位为1。（也可能两个符号位都为1的情况，如x=0x80 00 00 00</p>
 <p>个人认为最难的是ilog2    </p>
-</li>
-</ul>
 <h1 id="文件说明"><a href="#文件说明" class="headerlink" title="文件说明"></a>文件说明</h1><p>Github地址：<a href="https://github.com/zhengjingwei/CSAPP-LAB/tree/master/lab1-datalab" target="_blank" rel="noopener">Data Lab</a></p>
 <ul>
 <li>bit.c：实现缓存模拟器的文件<ul>
@@ -407,11 +442,12 @@
 <h2 id="tmin"><a href="#tmin" class="headerlink" title="tmin"></a>tmin</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* </span></span><br><span class="line"><span class="comment"> * tmin - return minimum two's complement integer </span></span><br><span class="line"><span class="comment"> *   Legal ops: ! ~ &amp; ^ | + &lt;&lt; &gt;&gt;</span></span><br><span class="line"><span class="comment"> *   Max ops: 4</span></span><br><span class="line"><span class="comment"> *   Rating: 1</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">tmin</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0x01</span>&lt;&lt;<span class="number">31</span>; <span class="comment">// 0x80 00 00 00</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>要求：32位二进制补码的最小整数，也就是0x80 00 00 00。（如8位整数，补码编码最小数就是-128，和128是相等的，也就是1000 0000(2)）</p>
 <h2 id="fitBits"><a href="#fitBits" class="headerlink" title="fitBits"></a>fitBits</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* </span></span><br><span class="line"><span class="comment"> * fitsBits - return 1 if x can be represented as an </span></span><br><span class="line"><span class="comment"> *  n-bit, two's complement integer.</span></span><br><span class="line"><span class="comment"> *   1 &lt;= n &lt;= 32</span></span><br><span class="line"><span class="comment"> *   Examples: fitsBits(5,3) = 0, fitsBits(-4,3) = 1</span></span><br><span class="line"><span class="comment"> *   Legal ops: ! ~ &amp; ^ | + &lt;&lt; &gt;&gt;</span></span><br><span class="line"><span class="comment"> *   Max ops: 15</span></span><br><span class="line"><span class="comment"> *   Rating: 2</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">fitsBits</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">int</span> shiftBits = <span class="number">32</span> + (~n+<span class="number">1</span>); <span class="comment">// 32-n</span></span><br><span class="line">  <span class="keyword">return</span> !(x^((x&lt;&lt;shiftBits)&gt;&gt;shiftBits));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>要求：判断x是否可以用n位补码来表示。考虑的是数字是否在范围内能表示，也就是移动后符号位是否会变化。</p>
+<p>要求：判断x是否可以用n位补码来表示。考虑的是数字是否在范围内能表示，也就是移动后符号位是否会变化</p>
 <p>先左移32-n位，再右移32-n位。即保留最后n位。再和x进行异或，若两者相同，表示x可以被表示成一个n为整数，！0为1。eg.以5为例，5 =000….. 101（2），左移27位后再右移27位得到的是 1111….101，与原来不同。而-4 = 111…100（2），移动后得到的还是111…100，同一个数。</p>
 <h2 id="divpwr2"><a href="#divpwr2" class="headerlink" title="divpwr2"></a>divpwr2</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* </span></span><br><span class="line"><span class="comment"> * divpwr2 - Compute x/(2^n), for 0 &lt;= n &lt;= 30</span></span><br><span class="line"><span class="comment"> *  Round toward zero</span></span><br><span class="line"><span class="comment"> *   Examples: divpwr2(15,1) = 7, divpwr2(-33,4) = -2</span></span><br><span class="line"><span class="comment"> *   Legal ops: ! ~ &amp; ^ | + &lt;&lt; &gt;&gt;</span></span><br><span class="line"><span class="comment"> *   Max ops: 15</span></span><br><span class="line"><span class="comment"> *   Rating: 2</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">divpwr2</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">int</span> sgn = x &gt;&gt; <span class="number">31</span>; <span class="comment">// 0xffffffff or 0x0</span></span><br><span class="line">  <span class="keyword">int</span> mask = (<span class="number">1</span> &lt;&lt; n )+ (~<span class="number">0</span>) ; <span class="comment">//2^n -1</span></span><br><span class="line">  <span class="keyword">int</span> bias = sgn &amp; mask; <span class="comment">//if x &gt;= 0 bias = 0</span></span><br><span class="line">  <span class="keyword">return</span> (x+bias) &gt;&gt; n;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>要求：求x /(2^n)，向0取整。</p>
-<p>若是非负数，可以直接右移。如果是负数需要分情况。eg. -33 &gt;&gt;4 =-3 。因为负数右移的结果是，如果除以2次幂出现小数，取小于它的最大整数。所以除非是-4 -8这类后几位全为0的负数，其他的都得+1。<br>构造一个偏置量，因为要右移n位，如果是负数的话，加上2^n-1（后几位全0的话不变，其余的数进1）后再移位。</p>
+<p>若是非负数，可以直接右移。如果是负数需要分情况。eg. -33 &gt;&gt;4 =-3 。因为负数右移的结果是，如果除以2次幂出现小数，取小于它的最大整数。所以除非是-4 -8这类后几位全为0的负数，其他的都得+1。</p>
+<p>构造一个偏置量，因为要右移n位，如果是负数的话，加上2^n-1（后几位全0的话不变，其余的数进1）后再移位。</p>
 <h2 id="negate"><a href="#negate" class="headerlink" title="negate"></a>negate</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* </span></span><br><span class="line"><span class="comment"> * negate - return -x </span></span><br><span class="line"><span class="comment"> *   Example: negate(1) = -1.</span></span><br><span class="line"><span class="comment"> *   Legal ops: ! ~ &amp; ^ | + &lt;&lt; &gt;&gt;</span></span><br><span class="line"><span class="comment"> *   Max ops: 5</span></span><br><span class="line"><span class="comment"> *   Rating: 2</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">negate</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> ~x+<span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>取反加一</p>
 <h2 id="isPositive"><a href="#isPositive" class="headerlink" title="isPositive"></a>isPositive</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* </span></span><br><span class="line"><span class="comment"> * isPositive - return 1 if x &gt; 0, return 0 otherwise </span></span><br><span class="line"><span class="comment"> *   Example: isPositive(-1) = 0.</span></span><br><span class="line"><span class="comment"> *   Legal ops: ! ~ &amp; ^ | + &lt;&lt; &gt;&gt;</span></span><br><span class="line"><span class="comment"> *   Max ops: 8</span></span><br><span class="line"><span class="comment"> *   Rating: 3</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">isPositive</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123;</span><br><span class="line">  <span class="comment">//int nsgn = ((~x)&gt;&gt;31)&amp;0x01; //nsgn = !sgn</span></span><br><span class="line">  <span class="keyword">int</span> nsgn = !(x&gt;&gt;<span class="number">31</span>);</span><br><span class="line">  <span class="keyword">return</span> nsgn ^ !x ;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -419,8 +455,7 @@
 <h2 id="isLessOrEqual"><a href="#isLessOrEqual" class="headerlink" title="isLessOrEqual"></a>isLessOrEqual</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* </span></span><br><span class="line"><span class="comment"> * isLessOrEqual - if x &lt;= y  then return 1, else return 0 </span></span><br><span class="line"><span class="comment"> *   Example: isLessOrEqual(4,5) = 1.</span></span><br><span class="line"><span class="comment"> *   Legal ops: ! ~ &amp; ^ | + &lt;&lt; &gt;&gt;</span></span><br><span class="line"><span class="comment"> *   Max ops: 24</span></span><br><span class="line"><span class="comment"> *   Rating: 3</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">isLessOrEqual</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> y)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">int</span> sgnx = (x&gt;&gt;<span class="number">31</span>) &amp;<span class="number">0x01</span>;</span><br><span class="line">  <span class="keyword">int</span> sgny = (y&gt;&gt;<span class="number">31</span>) &amp;<span class="number">0x01</span>;</span><br><span class="line">  <span class="keyword">int</span> sgn = (sgnx ^ sgny) &amp; sgnx; <span class="comment">// x&lt;0 ,y&gt;=0</span></span><br><span class="line">  <span class="keyword">int</span> val = y + (~x +<span class="number">1</span>); <span class="comment">// y-x</span></span><br><span class="line">  val = ((val &gt;&gt;<span class="number">31</span>) &amp; <span class="number">0x01</span>) | (sgnx^sgny); <span class="comment">// x-y&lt;0 &amp;&amp; sgnx=sgny</span></span><br><span class="line">  <span class="keyword">return</span> (sgn|!val); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>要求：判断x&lt;=y是否成立可以转化为判断x-y的正负。</p>
 <p>注意：当x和y同号时，x-y不会发生溢出，判断符号位即可，当x和y异号时，x-y可能发生溢出，其结果不一定和x的符号一致。所以分解为三部分：x和y异号 / 同号 / 相等。</p>
-<p>##ilog2 </p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * ilog2 - return floor(log base 2 of x), where x &gt; 0</span></span><br><span class="line"><span class="comment"> *   Example: ilog2(16) = 4</span></span><br><span class="line"><span class="comment"> *   Legal ops: ! ~ &amp; ^ | + &lt;&lt; &gt;&gt;</span></span><br><span class="line"><span class="comment"> *   Max ops: 90</span></span><br><span class="line"><span class="comment"> *   Rating: 4</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">ilog2</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">int</span> bitNum =<span class="number">0</span>;</span><br><span class="line">  bitNum  = (!!(x&gt;&gt;<span class="number">16</span>))&lt;&lt;<span class="number">4</span>;</span><br><span class="line">  bitNum = bitNum + ((!!(x&gt;&gt;(bitNum+<span class="number">8</span>)))&lt;&lt;<span class="number">3</span>);</span><br><span class="line">  bitNum = bitNum + ((!!(x&gt;&gt;(bitNum+<span class="number">4</span>)))&lt;&lt;<span class="number">2</span>);</span><br><span class="line">  bitNum = bitNum + ((!!(x&gt;&gt;(bitNum+<span class="number">2</span>)))&lt;&lt;<span class="number">1</span>);</span><br><span class="line">  bitNum = bitNum + (!!(x&gt;&gt;(bitNum+<span class="number">1</span>)));</span><br><span class="line">  <span class="keyword">return</span> bitNum;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="ilog2"><a href="#ilog2" class="headerlink" title="ilog2"></a>ilog2</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * ilog2 - return floor(log base 2 of x), where x &gt; 0</span></span><br><span class="line"><span class="comment"> *   Example: ilog2(16) = 4</span></span><br><span class="line"><span class="comment"> *   Legal ops: ! ~ &amp; ^ | + &lt;&lt; &gt;&gt;</span></span><br><span class="line"><span class="comment"> *   Max ops: 90</span></span><br><span class="line"><span class="comment"> *   Rating: 4</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">ilog2</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">int</span> bitNum =<span class="number">0</span>;</span><br><span class="line">  bitNum  = (!!(x&gt;&gt;<span class="number">16</span>))&lt;&lt;<span class="number">4</span>;</span><br><span class="line">  bitNum = bitNum + ((!!(x&gt;&gt;(bitNum+<span class="number">8</span>)))&lt;&lt;<span class="number">3</span>);</span><br><span class="line">  bitNum = bitNum + ((!!(x&gt;&gt;(bitNum+<span class="number">4</span>)))&lt;&lt;<span class="number">2</span>);</span><br><span class="line">  bitNum = bitNum + ((!!(x&gt;&gt;(bitNum+<span class="number">2</span>)))&lt;&lt;<span class="number">1</span>);</span><br><span class="line">  bitNum = bitNum + (!!(x&gt;&gt;(bitNum+<span class="number">1</span>)));</span><br><span class="line">  <span class="keyword">return</span> bitNum;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>要求：由多少位二进制可以表示。log（2）1 = 0 </p>
 <p>二分法，先右移16位后，若大于0即得到（10000）2 =16，否则得到0，判断最高位是否为0（前16位部分是否为0），若不为0，则包含2^16，同理。</p>
 <p>其实ilog2的结果不会超过31，可以想到用5位二进制来表示，也就是分成这5步.</p>
@@ -434,7 +469,7 @@
 <p>分别求出符号位sign，指数部分exp和小数部分frac。原来整数称x</p>
 <ul>
 <li>首先把特殊情况的0x0 和 0x80 00 00 00（-2^31）挑出来，因为不能用移位的办法求exp和frac。</li>
-<li>求绝对值，找出x的最高位（最左边的1），此时要从第30位找起，因为第31位是符号位。找到之后该位数就是<img src="http://oq8u5pr4b.bkt.clouddn.com/blog/180127/agk3fa7c4D.png?imageslim" alt="mark">中的E，可以求得exp=E+127</li>
+<li>求绝对值，找出x的最高位（最左边的1），此时要从第30位找起，因为第31位是符号位。找到之后该位数就是$ v = (-1)^SM(2)^E $中的E，可以求得exp=E+127 </li>
 <li>求frac：取x最高位后的23位。步骤：先去掉x高位的0，然后右移8位将最高位后的23位移到低23位。</li>
 <li>求精度：int转float型会丢失最后8位的精度（31-23=8），所以要判断x的最后八位需不需要进位，如果最后8位超过128（0x80）或者最后8位=128且frac最后一位=1，则进位。</li>
 <li>进位后：需要检查frac有没有再进位，frac&gt;&gt;23进行判断，如果frac进位了，那么exp+1，frac再取最后23位。把sign    exp    frac组合成结果</li>
@@ -642,7 +677,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#实验简介"><span class="nav-number">1.</span> <span class="nav-text">实验简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#文件说明"><span class="nav-number">2.</span> <span class="nav-text">文件说明</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#整形"><span class="nav-number">3.</span> <span class="nav-text">整形</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#logicalShift"><span class="nav-number">3.1.</span> <span class="nav-text">logicalShift</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#bitCount"><span class="nav-number">3.2.</span> <span class="nav-text">bitCount</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#bang"><span class="nav-number">3.3.</span> <span class="nav-text">bang</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#tmin"><span class="nav-number">3.4.</span> <span class="nav-text">tmin</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#fitBits"><span class="nav-number">3.5.</span> <span class="nav-text">fitBits</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#divpwr2"><span class="nav-number">3.6.</span> <span class="nav-text">divpwr2</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#negate"><span class="nav-number">3.7.</span> <span class="nav-text">negate</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#isPositive"><span class="nav-number">3.8.</span> <span class="nav-text">isPositive</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#isLessOrEqual"><span class="nav-number">3.9.</span> <span class="nav-text">isLessOrEqual</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#浮点型"><span class="nav-number">4.</span> <span class="nav-text">浮点型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#float-neg"><span class="nav-number">4.1.</span> <span class="nav-text">float_neg</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#float-i2f"><span class="nav-number">4.2.</span> <span class="nav-text">float_i2f</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#float-twice"><span class="nav-number">4.3.</span> <span class="nav-text">float_twice</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#实验简介"><span class="nav-text">实验简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#文件说明"><span class="nav-text">文件说明</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#整形"><span class="nav-text">整形</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#logicalShift"><span class="nav-text">logicalShift</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#bitCount"><span class="nav-text">bitCount</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#bang"><span class="nav-text">bang</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#tmin"><span class="nav-text">tmin</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#fitBits"><span class="nav-text">fitBits</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#divpwr2"><span class="nav-text">divpwr2</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#negate"><span class="nav-text">negate</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#isPositive"><span class="nav-text">isPositive</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#isLessOrEqual"><span class="nav-text">isLessOrEqual</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ilog2"><span class="nav-text">ilog2</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#浮点型"><span class="nav-text">浮点型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#float-neg"><span class="nav-text">float_neg</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#float-i2f"><span class="nav-text">float_i2f</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#float-twice"><span class="nav-text">float_twice</span></a></li></ol></li></ol></div>
             
 
           </div>
@@ -686,6 +721,26 @@
 
 
         
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
 
 
 
@@ -835,6 +890,323 @@
 
   
 
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
 
 
 
@@ -849,6 +1221,28 @@
   
 
   
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
 
   
 
