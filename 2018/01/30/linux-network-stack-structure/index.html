@@ -1,0 +1,1225 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="vgySegkHZnkBq4KFJxOasP7GKRlLD1Rgcp76tZ7tC1I" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Linux,Kernel,网络协议栈," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="网络栈层次结构如下图：   应用层  由应用程序提供。它通常是一个语义层，能够理解要传输的数据。例如，超文本传输协议（HTTP）就负责传输服务器和客户机之间对 Web 内容的请求与响应 传输层  负责端到端的通信（一台机子内部）-TCP、UDP 网络层  负责管理主机之间的通信 -IP 链路层  对物理层访问的设备驱动程序，如网卡驱动 物理层  主要提供各种连接的物理设备，如各种网卡，串口卡等">
+<meta name="keywords" content="Linux,Kernel,网络协议栈">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux网络协议栈结构">
+<meta property="og:url" content="http://yoursite.com/2018/01/30/linux-network-stack-structure/index.html">
+<meta property="og:site_name" content="zjwreal">
+<meta property="og:description" content="网络栈层次结构如下图：   应用层  由应用程序提供。它通常是一个语义层，能够理解要传输的数据。例如，超文本传输协议（HTTP）就负责传输服务器和客户机之间对 Web 内容的请求与响应 传输层  负责端到端的通信（一台机子内部）-TCP、UDP 网络层  负责管理主机之间的通信 -IP 链路层  对物理层访问的设备驱动程序，如网卡驱动 物理层  主要提供各种连接的物理设备，如各种网卡，串口卡等">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://my.csdn.net/uploads/201204/25/1335324208_7578.png">
+<meta property="og:image" content="http://7xir15.com1.z0.glb.clouddn.com/ANS-figure2.gif">
+<meta property="og:image" content="http://my.csdn.net/uploads/201205/19/1337417897_6792.jpg">
+<meta property="og:image" content="http://7xir15.com1.z0.glb.clouddn.com/ANS-figure3.gif">
+<meta property="og:image" content="http://7xir15.com1.z0.glb.clouddn.com/ANS-figure4.gif">
+<meta property="og:updated_time" content="2018-01-30T14:24:28.939Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Linux网络协议栈结构">
+<meta name="twitter:description" content="网络栈层次结构如下图：   应用层  由应用程序提供。它通常是一个语义层，能够理解要传输的数据。例如，超文本传输协议（HTTP）就负责传输服务器和客户机之间对 Web 内容的请求与响应 传输层  负责端到端的通信（一台机子内部）-TCP、UDP 网络层  负责管理主机之间的通信 -IP 链路层  对物理层访问的设备驱动程序，如网卡驱动 物理层  主要提供各种连接的物理设备，如各种网卡，串口卡等">
+<meta name="twitter:image" content="http://my.csdn.net/uploads/201204/25/1335324208_7578.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/01/30/linux-network-stack-structure/"/>
+
+
+
+
+
+  <title>Linux网络协议栈结构 | zjwreal</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zjwreal</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />
+            
+            站点地图
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/30/linux-network-stack-structure/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jingwei Zheng">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://oq8u5pr4b.bkt.clouddn.com/blog/180126/AkjAJ78i9J.jpg?imageslim">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zjwreal">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Linux网络协议栈结构</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-30T22:22:53+08:00">
+                2018-01-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/网络协议栈/" itemprop="url" rel="index">
+                    <span itemprop="name">网络协议栈</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>网络栈层次结构如下图：</p>
+<p><img src="http://my.csdn.net/uploads/201204/25/1335324208_7578.png" alt="img"></p>
+<ul>
+<li><strong>应用层</strong>  由应用程序提供。它通常是一个语义层，能够理解要传输的数据。例如，超文本传输协议（HTTP）就负责传输服务器和客户机之间对 Web 内容的请求与响应</li>
+<li><strong>传输层</strong>  负责端到端的通信（一台机子内部）-TCP、UDP</li>
+<li><strong>网络层 </strong> 负责管理主机之间的通信 -IP</li>
+<li><strong>链路层 </strong> 对物理层访问的设备驱动程序，如网卡驱动</li>
+<li><strong>物理层</strong>  主要提供各种连接的物理设备，如各种网卡，串口卡等</li>
+</ul>
+<h1 id="Linux网络协议栈结构"><a href="#Linux网络协议栈结构" class="headerlink" title="Linux网络协议栈结构"></a>Linux网络协议栈结构</h1><ol>
+<li><strong>系统调用接口层</strong>  实质是一个面向用户空间应用程序的接口调用库，向用户空间应用程序提供使用网络服务的接口。</li>
+<li><strong>协议无关的接口层</strong>，就是<strong>SOCKET层</strong>，这一层的目的是屏蔽底层的不同协议（更准确的来说主要是TCP与UDP，当然还包括RAW IP， SCTP等），以便与系统调用层之间的接口可以简单，统一。简单的说，不管我们应用层使用什么协议，都要通过系统调用接口来建立一个SOCKET，这个SOCKET其实是一个巨大的<code>sock</code>结构，它和下面一层的网络协议层联系起来，屏蔽了不同的网络协议的不同，只把数据部分呈现给应用层（通过系统调用接口来呈现）。</li>
+<li><strong>网络协议实现层</strong>，毫无疑问，这是整个协议栈的核心。这一层主要实现各种网络协议，最主要的当然是IP，ICMP，ARP，RARP，TCP，UDP等。这一层包含了很多设计的技巧与算法，相当的不错。</li>
+<li><strong>与具体设备无关的驱动接口层</strong>，这一层的目的主要是为了统一不同的接口卡的驱动程序与网络协议层的接口，它将各种不同的驱动程序的功能统一抽象为几个特殊的动作，如open，close，init等，这一层可以屏蔽底层不同的驱动程序。</li>
+<li><strong>驱动程序层</strong>，这一层的目的就很简单了，就是建立与硬件的接口层。</li>
+</ol>
+<p><img src="http://7xir15.com1.z0.glb.clouddn.com/ANS-figure2.gif" alt="图2"></p>
+<p><img src="http://my.csdn.net/uploads/201205/19/1337417897_6792.jpg" alt="img"></p>
+<h2 id="1-系统调用接口层"><a href="#1-系统调用接口层" class="headerlink" title="1 系统调用接口层"></a>1 系统调用接口层</h2><p>系统调用接口层实质是一个面向用户空间应用程序的接口调用库，向用户空间应用程序提供使用网络服务的接口。系统调用接口可以从两个角度进行描述：<strong>当用户进行网络调用时</strong>，通过系统调用接口多路复用到内核中。这最终作为 <code>sys_socketcall</code>(<code>./net/socket.c</code>)中的调用，然后进一步解复用到其预期目标的调用。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">SYSCALL_DEFINE3(socket, <span class="keyword">int</span>, family, <span class="keyword">int</span>, type, <span class="keyword">int</span>, protocol)</span><br><span class="line">SYSCALL_DEFINE3(bind, <span class="keyword">int</span>, fd, struct sockaddr __user *, umyaddr, <span class="keyword">int</span>, addrlen)</span><br><span class="line">SYSCALL_DEFINE2(listen, <span class="keyword">int</span>, fd, <span class="keyword">int</span>, backlog)</span><br><span class="line">SYSCALL_DEFINE3(accept, <span class="keyword">int</span>, fd, struct sockaddr __user *, upeer_sockaddr,</span><br><span class="line">		<span class="keyword">int</span> __user *, upeer_addrlen)</span><br><span class="line">        SYSCALL_DEFINE3(connect, <span class="keyword">int</span>, fd, struct sockaddr __user *, uservaddr,</span><br><span class="line">        		<span class="keyword">int</span>, addrlen)</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>系统调用接口的另一个角度是<strong>使用正常的文件操作进行网络I/O</strong>。例如，典型的读写操作可以在网络socket（由文件描述符表示，就像普通文件）一样执行。因此，虽然存在一些特定于网络的操作（调用<code>socket</code>创建socket，调用<code>connect</code>将socket连接到目的地等等），但还是有一些适用于网络对象的标准文件操作，就像常规文件一样。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">const</span> <span class="class"><span class="keyword">struct</span> <span class="title">file_operations</span> <span class="title">socket_file_ops</span> = &#123;</span></span><br><span class="line">	.owner =	THIS_MODULE,</span><br><span class="line">	.llseek =	no_llseek,</span><br><span class="line">	.read_iter =	sock_read_iter,</span><br><span class="line">	.write_iter =	sock_write_iter,</span><br><span class="line">struct file *sock_alloc_file(struct socket *sock, <span class="keyword">int</span> flags, <span class="keyword">const</span> <span class="keyword">char</span> *dname)</span><br><span class="line">&#123;</span><br><span class="line">    file = alloc_file(&amp;path, FMODE_READ | FMODE_WRITE,</span><br><span class="line">		  &amp;socket_file_ops);</span><br></pre></td></tr></table></figure>
+<p>最后，系统调用接口提供了在用户空间应用程序和内核之间传输控制的手段。</p>
+<h2 id="2-协议无关接口层-Socket层"><a href="#2-协议无关接口层-Socket层" class="headerlink" title="2 协议无关接口层(Socket层)"></a>2 协议无关接口层(Socket层)</h2><p>socket层是协议无关接口，其<strong>提供一组通用功能，以支持各种不同的协议</strong>。socket层不仅支持典型的TCP和UDP协议，还支持原始以太网和其他传输协议，如流控制传输协议（SCTP）。</p>
+<p>网络栈使用socket通信。Linux中的socket结构<code>struct sock</code>是在<code>include/net/sock.h</code>中定义的。该大型结构包含特定socket的所有必需状态，包括socket使用的特定协议以及可能在其上执行的操作。它屏蔽了不同网络协议的区别，只把数据部分呈现给应用层（通过系统调用接口）。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">sock</span> &#123;</span></span><br><span class="line">	<span class="comment">/*</span></span><br><span class="line"><span class="comment">	 * Now struct inet_timewait_sock also uses sock_common, so please just</span></span><br><span class="line"><span class="comment">	 * don't add nothing before this first member (__sk_common) --acme</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">sock_common</span>	__<span class="title">sk_common</span>;</span></span><br><span class="line">    <span class="meta">#<span class="meta-keyword">define</span> sk_prot			__sk_common.skc_prot</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">proto</span>		*<span class="title">sk_prot_creator</span>;</span></span><br></pre></td></tr></table></figure>
+<p>网络子系统通过定义了其功能的特殊结构（即<code>proto</code>）来了解各个可用协议。每个协议维护一个名为<code>proto</code>（在<code>linux/include/net/sock.h</code>中找到）的结构。<u>该结构定义了可以从socket层到传输层执行的特定socket操作</u>（例如，如何创建socket，如何与socket建立连接，如何关闭socket等，由各自协议决定如何实现）。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">proto</span> <span class="title">tcp_prot</span> = &#123;</span></span><br><span class="line">	.name			= <span class="string">"TCP"</span>,</span><br><span class="line">	.owner			= THIS_MODULE,</span><br><span class="line">	.close			= tcp_close,</span><br><span class="line">	.connect		= tcp_v4_connect,</span><br><span class="line">	.disconnect		= tcp_disconnect,</span><br><span class="line">	.accept			= inet_csk_accept,</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<h2 id="3-网络协议层"><a href="#3-网络协议层" class="headerlink" title="3 网络协议层"></a>3 网络协议层</h2><p>网络协议部分定义了可用的特定网络协议（如TCP，UDP等的具体实现）。这些是在<code>linux/net/ipv4/af_inet.c</code>中的<code>inet_init</code>函数的开头进行初始化的（因为TCP和UDP是协议inet族的一部分）。<code>inet_init</code>函数调用<code>proto_register</code>注册每个内置协议。<code>proto_register</code>在<code>linux/net/core/sock.c</code>中定义，除了将协议添加到活动协议列表之外，还可以根据需要分配一个或多个slab缓存。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">proto_register</span><span class="params">(struct proto *prot, <span class="keyword">int</span> alloc_slab)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (alloc_slab) &#123;</span><br><span class="line">      ...</span><br><span class="line">    &#125;</span><br><span class="line">	  ...</span><br><span class="line">	mutex_lock(&amp;proto_list_mutex);</span><br><span class="line">	list_add(&amp;prot-&gt;node, &amp;proto_list);</span><br><span class="line">	assign_proto_idx(prot);</span><br><span class="line">	mutex_unlock(&amp;proto_list_mutex);</span><br><span class="line">...  </span><br><span class="line"><span class="keyword">static</span> <span class="keyword">int</span> __<span class="function">init <span class="title">inet_init</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">inet_protosw</span> *<span class="title">q</span>;</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">list_head</span> *<span class="title">r</span>;</span></span><br><span class="line">	<span class="keyword">int</span> rc = -EINVAL;</span><br><span class="line"></span><br><span class="line">	sock_skb_cb_check_size(<span class="keyword">sizeof</span>(struct inet_skb_parm));</span><br><span class="line"></span><br><span class="line">	rc = proto_register(&amp;tcp_prot, <span class="number">1</span>);</span><br><span class="line">	<span class="keyword">if</span> (rc)</span><br><span class="line">		<span class="keyword">goto</span> out;</span><br><span class="line"></span><br><span class="line">	rc = proto_register(&amp;udp_prot, <span class="number">1</span>);</span><br><span class="line">	<span class="keyword">if</span> (rc)</span><br><span class="line">		<span class="keyword">goto</span> out_unregister_tcp_proto;</span><br><span class="line">..</span><br><span class="line">	<span class="keyword">for</span> (q = inetsw_array; q &lt; &amp;inetsw_array[INETSW_ARRAY_LEN]; ++q)</span><br><span class="line">		inet_register_protosw(q);</span><br><span class="line"></span><br><span class="line">		arp_init();</span><br><span class="line">		ip_init();</span><br><span class="line">		tcp_init();</span><br><span class="line">		udp_init();</span><br><span class="line">...</span><br><span class="line"><span class="keyword">static</span> <span class="class"><span class="keyword">struct</span> <span class="title">inet_protosw</span> <span class="title">inetsw_array</span>[] =</span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	&#123;</span><br><span class="line">		.type =       SOCK_STREAM,</span><br><span class="line">		.protocol =   IPPROTO_TCP,</span><br><span class="line">		.prot =       &amp;tcp_prot,</span><br><span class="line">		.ops =        &amp;inet_stream_ops,</span><br><span class="line">		.flags =      INET_PROTOSW_PERMANENT |</span><br><span class="line">			      INET_PROTOSW_ICSK,</span><br><span class="line">	&#125;,</span><br></pre></td></tr></table></figure>
+<p>您可以通过<code>linux/net/ipv4/</code>中的文件<code>tcp_ipv4.c</code>，<code>udp.c</code>和<code>raw.c</code>中的proto结构来了解各自的协议。这些协议的proto结构体都按照类型和协议映射到<code>inetsw_array</code>，将内部协议映射到对应的操作(which maps the built-in protocols to their operations.)。结构体<code>inetsw_array</code>及其关系如图3所示。该数组中的每个协议都在初始化<code>inetsw</code>时，通过在<code>inet_init</code>调用<code>inet_register_protosw</code>来初始化。函数<code>inet_init</code>还初始化各种inet模块，如ARP，ICMP，IP模块，TCP和UDP模块。</p>
+<p>图3. Internet协议数组的结构</p>
+<p><img src="http://7xir15.com1.z0.glb.clouddn.com/ANS-figure3.gif" alt="图3. Internet协议数组的结构"></p>
+<p><strong>Socket协议关联</strong></p>
+<p>回想下，当创建一个socket时，它定义了类型和协议，如 <code>my_sock = socket( AF_INET, SOCK_STREAM, 0 )</code>。其中AF_INET表示基于Internet地址族，SOCK_STREAM表示其为流式socket（如上所示<code>inetsw_array</code>）。</p>
+<p>从图3可以看出， <u><code>proto</code>结构定义了特定传输协议的方法，而<code>proto_ops</code>结构定义了一般的socket方法</u>。其他额外的协议可以通过调用<code>inet_register_protosw</code>将自己加入到<code>inetsw</code>协议开关机(protocol switch) 。例如，SCTP通过在<code>linux/net/sctp/protocol.c</code>中调用<code>sctp_init</code>来添加自己。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">proto_ops</span> &#123;</span></span><br><span class="line">	<span class="keyword">int</span>		family;</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">module</span>	*<span class="title">owner</span>;</span></span><br><span class="line">	<span class="keyword">int</span>		(*release)   (struct socket *sock);</span><br><span class="line">	<span class="keyword">int</span>		(*bind)	     (struct socket *sock,</span><br><span class="line">				      struct sockaddr *myaddr,</span><br><span class="line">				      <span class="keyword">int</span> sockaddr_len);</span><br><span class="line">	<span class="keyword">int</span>		(*connect)   (struct socket *sock,</span><br><span class="line">				      struct sockaddr *vaddr,</span><br><span class="line">				      <span class="keyword">int</span> sockaddr_len, <span class="keyword">int</span> flags);</span><br><span class="line">	<span class="keyword">int</span>		(*socketpair)(struct socket *sock1,</span><br><span class="line">				      struct socket *sock2);</span><br><span class="line">	<span class="keyword">int</span>		(*accept)    (struct socket *sock,</span><br><span class="line">				      struct socket *newsock, <span class="keyword">int</span> flags);</span><br><span class="line">  ...</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>补充：<code>prot</code>/<code>prot_ops</code>二者有点相似，这里特意说明下：<u>kernel的调用顺序是先inet(即prot_ops)，后protocal（即prot）</u>，inet层处于socket和具体protocol之间。下面以connect为例，<code>ops</code>即为prot_ops，它调用的connect是<code>inet_listen</code>，然后才是具体protocol的<code>tcp_v4_connect</code>。这一关系主要记录在<code>inetsw_array</code>中。</p>
+</blockquote>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">SYSCALL_DEFINE3(connect, <span class="keyword">int</span>, fd, struct sockaddr __user *, uservaddr,</span><br><span class="line">		<span class="keyword">int</span>, addrlen)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">socket</span> *<span class="title">sock</span>;</span></span><br><span class="line">...</span><br><span class="line">	err = sock-&gt;ops-&gt;connect(sock, (struct sockaddr *)&amp;address, addrlen,</span><br><span class="line">				 sock-&gt;file-&gt;f_flags);</span><br><span class="line"> <span class="keyword">int</span> __inet_stream_connect(struct socket *sock, struct sockaddr *uaddr,</span><br><span class="line"> 			  <span class="keyword">int</span> addr_len, <span class="keyword">int</span> flags, <span class="keyword">int</span> is_sendmsg)</span><br><span class="line"> &#123;</span><br><span class="line"> 	<span class="class"><span class="keyword">struct</span> <span class="title">sock</span> *<span class="title">sk</span> = <span class="title">sock</span>-&gt;<span class="title">sk</span>;</span></span><br><span class="line">	<span class="keyword">switch</span> (sock-&gt;state) &#123;</span><br><span class="line">	<span class="keyword">case</span> SS_UNCONNECTED:</span><br><span class="line">		err = -EISCONN;</span><br><span class="line">		<span class="keyword">if</span> (sk-&gt;sk_state != TCP_CLOSE)</span><br><span class="line">			<span class="keyword">goto</span> out;</span><br><span class="line"></span><br><span class="line">		err = sk-&gt;sk_prot-&gt;connect(sk, uaddr, addr_len);</span><br><span class="line">		<span class="keyword">if</span> (err &lt; <span class="number">0</span>)</span><br><span class="line">			<span class="keyword">goto</span> out;</span><br></pre></td></tr></table></figure>
+<p>socket的数据移动使用核心结构socket缓冲区（<code>sk_buff</code>）来进行。一个<code>sk_buff</code> 包含包数据(package data)，和状态数据（state data, 覆盖协议栈的多个层）。每个发送或接收的数据包都用一个<code>sk_buff</code>来表示。该<code>sk_buff</code> 结构是在<code>linux/include/linux/skbuff.h</code>中定义的，并在图4中示出。</p>
+<p>图4. Socket缓冲区及其与其他结构的关系</p>
+<p><img src="http://7xir15.com1.z0.glb.clouddn.com/ANS-figure4.gif" alt="图4. Socket缓冲区及其与其他结构的关系"></p>
+<p>如图所示，一个给定连接的多个sk_buff可以串联在一起。每个sk_buff标识了要发送数据包或从其接收数据包的设备结构（<code>net_device *dev</code>）。由于每个包都表示为一个<code>sk_buff</code>，数据包报头可方便地通过一组指针来寻址（<code>th</code>，<code>iph</code>以及<code>mac</code>（MAC报头）），内核会保证这块内存是连续的。由于<code>sk_buff</code> 是socket数据管理的核心，因此kernel已经创建了许多支撑函数来管理它们，包括sk_buff的创建和销毁，克隆和队列管理等函数。</p>
+<p>总的来说，<strong>内核socket缓冲器设计思路是，某一的socket的sk_buff串链接在一起，并且sk_buff包括许多信息，包括到协议头的指针，时间戳（发送或接收数据包的时间）以及与数据包相关的网络设备。</strong></p>
+<h2 id="4-设备无关接口层"><a href="#4-设备无关接口层" class="headerlink" title="4 设备无关接口层"></a>4 设备无关接口层</h2><p>协议层下面是另一个无关的接口层，<strong>将协议连接到具有不同功能的各种硬件设备的驱动程序</strong>。该层提供了一组通用的功能，由较低级别的网络设备驱动程序使用，以允许它们使用较高级协议栈进行操作。</p>
+<p>首先，设备驱动程序可以通过调用<code>register_netdevice</code>/<code>unregister_netdevice</code>将自己注册/去注册到内核。调用者首先填写<code>net_device</code>结构，然后将其传入<code>register_netdevice</code>进行注册。内核调用其init功能（如果有定义），执行许多健全检查，创建一个 sysfs条目，然后将新设备添加到设备列表（在内核中Active设备的链表）。你可以 在<code>linux/include/linux/netdevice.h</code>中找到<code>net_device</code>结构。各个函数在<code>linux/net/core/dev.c</code>中实现。</p>
+<p>使用<code>dev_queue_xmit</code>函数将<code>sk_buff</code>从协议层发送到网络设备。<code>dev_queue_xmit</code>函数会将<code>sk_buff</code>添加到底层网络设备驱动程序最终要传输的队列中（网络设备在<code>net_device</code>或者<code>sk_buff-&gt;dev</code>中定义）。<code>dev</code>结构包含函数<code>hard_start_xmit</code>，保存用于启动sk_buff传输的驱动程序功能的方法。</p>
+<p>通常使用<code>netif_rx</code>接收报文数据。当下级设备驱动程序接收到一个包（包含在新分配的<code>sk_buff</code>）时，内核通过调用<code>netif_rx</code>将<code>sk_buff</code>传递给网络层。然后，<code>netif_rx</code>通过调用<code>netif_rx_schedule</code>将<code>sk_buff</code>排队到上层协议的队列以进行进一步处理。您可以在<code>linux/net/core/dev.c</code> 中找到<code>dev_queue_xmit</code>和<code>netif_rx</code>函数。</p>
+<p>最近，在内核中引入了一个新的应用程序接口（NAPI），以允许驱动程序与设备无关层（dev）进行交互。一些驱动程序使用NAPI，但绝大多数仍然使用较旧的帧接收接口（by a rough factor of six to one）。NAPI可以通过避免每个传入帧的中断，在高负载下得到更好的性能。</p>
+<h2 id="5-设备驱动程序"><a href="#5-设备驱动程序" class="headerlink" title="5 设备驱动程序"></a>5 设备驱动程序</h2><p>网络栈的底部是管理物理网络设备的设备驱动程序。该层的设备示例包括串行接口上的SLIP驱动程序或以太网设备上的以太网驱动程序。</p>
+<p>在初始化时，设备驱动程序分配一个<code>net_device</code>结构，然后用其必需的例程进行初始化。<code>dev-&gt;hard_start_xmit</code>就是其中一个例程，它定义了上层如何排队<code>sk_buff</code>用以传输。这个程序需要一个<code>sk_buff</code>。此功能的操作取决于底层硬件，但通常将<code>sk_buff</code>中的数据包移动到硬件环或队列。如设备无关层所述，帧接收使用该<code>netif_rx</code>接口或符合NAPI的网络驱动程序的<code>netif_receive_skb</code>。NAPI驱动程序对底层硬件的功能提出了约束。</p>
+<p>在设备驱动程序配置其结构中的<code>dev</code>接口后，调用<code>register_netdevice</code>以后驱动就可以使用了。您可以在<code>linux/drivers/net</code>中找到网络设备专用的驱动程序。</p>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p><a href="https://ieevee.com/tech/2017/06/12/kernel-network-stack.html" target="_blank" rel="noopener">Linux网络栈解剖</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Linux/" rel="tag"># Linux</a>
+          
+            <a href="/tags/Kernel/" rel="tag"># Kernel</a>
+          
+            <a href="/tags/网络协议栈/" rel="tag"># 网络协议栈</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/01/27/Soft-RoCE-setup/" rel="next" title="Soft-RoCE环境搭建">
+                <i class="fa fa-chevron-left"></i> Soft-RoCE环境搭建
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="http://oq8u5pr4b.bkt.clouddn.com/blog/180126/AkjAJ78i9J.jpg?imageslim"
+                alt="Jingwei Zheng" />
+            
+              <p class="site-author-name" itemprop="name">Jingwei Zheng</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/zhengjingwei" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:zjwreal@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Linux网络协议栈结构"><span class="nav-text">Linux网络协议栈结构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-系统调用接口层"><span class="nav-text">1 系统调用接口层</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-协议无关接口层-Socket层"><span class="nav-text">2 协议无关接口层(Socket层)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-网络协议层"><span class="nav-text">3 网络协议层</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-设备无关接口层"><span class="nav-text">4 设备无关接口层</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-设备驱动程序"><span class="nav-text">5 设备驱动程序</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Reference"><span class="nav-text">Reference</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jingwei Zheng</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
