@@ -2,9 +2,30 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2018/01/31/CSAPP-lab3-cachelab/</loc>
+    
+    <lastmod>2018-01-31T05:59:49.481Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2018/01/31/CSAPP-lab2-bomblab/</loc>
+    
+    <lastmod>2018-01-31T05:47:26.102Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2018/01/27/CSAPP-lab1-datalab/</loc>
+    
+    <lastmod>2018-01-31T05:45:44.711Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2018/01/30/linux-network-stack-structure/</loc>
     
-    <lastmod>2018-01-30T14:24:28.939Z</lastmod>
+    <lastmod>2018-01-30T14:27:34.780Z</lastmod>
     
   </url>
   
@@ -12,13 +33,6 @@
     <loc>http://yoursite.com/2018/01/27/Soft-RoCE-setup/</loc>
     
     <lastmod>2018-01-27T13:40:18.487Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2018/01/27/CSAPP-lab1-datalab/</loc>
-    
-    <lastmod>2018-01-27T13:34:54.129Z</lastmod>
     
   </url>
   

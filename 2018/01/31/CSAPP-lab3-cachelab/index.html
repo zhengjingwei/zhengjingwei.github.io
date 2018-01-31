@@ -1,0 +1,1327 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="vgySegkHZnkBq4KFJxOasP7GKRlLD1Rgcp76tZ7tC1I" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="CSAPP,操作系统,学习笔记," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="实验简介​    Cache LAB分为Part A和B两部分，这次实验的任务很明确，就是制作自己的缓存系统，具体来说是  实现一个缓存模拟器，根据给定的 trace 文件来输出对应的操作 利用缓存机制加速矩阵运算  我们需要修改的是 csim.c（Part A） 和 trans.c（Part B）。编译的时候只需要简单 make clean 和 make，然后就可以进行测试了。 文件说明Gith">
+<meta name="keywords" content="CSAPP,操作系统,学习笔记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CSAPP实验3:CacheLab">
+<meta property="og:url" content="http://yoursite.com/2018/01/31/CSAPP-lab3-cachelab/index.html">
+<meta property="og:site_name" content="zjwreal">
+<meta property="og:description" content="实验简介​    Cache LAB分为Part A和B两部分，这次实验的任务很明确，就是制作自己的缓存系统，具体来说是  实现一个缓存模拟器，根据给定的 trace 文件来输出对应的操作 利用缓存机制加速矩阵运算  我们需要修改的是 csim.c（Part A） 和 trans.c（Part B）。编译的时候只需要简单 make clean 和 make，然后就可以进行测试了。 文件说明Gith">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://oq8u5pr4b.bkt.clouddn.com/blog/180125/EEhaBD13iF.jpg?imageslim">
+<meta property="og:image" content="http://oq8u5pr4b.bkt.clouddn.com/blog/180125/bhkkm837CH.png?imageslim">
+<meta property="og:image" content="http://oq8u5pr4b.bkt.clouddn.com/blog/180125/GJkm8I2hd3.png?imageslim">
+<meta property="og:image" content="http://oq8u5pr4b.bkt.clouddn.com/blog/180125/igHA04Lg15.png?imageslim">
+<meta property="og:image" content="http://oq8u5pr4b.bkt.clouddn.com/blog/180125/bEfJH10E8a.jpg?imageslim">
+<meta property="og:image" content="http://oq8u5pr4b.bkt.clouddn.com/blog/180125/j8hHgF5K80.jpg?imageslim">
+<meta property="og:image" content="http://oq8u5pr4b.bkt.clouddn.com/blog/180125/E5ec7Cb7Dj.jpg?imageslim">
+<meta property="og:image" content="http://oq8u5pr4b.bkt.clouddn.com/blog/180125/mIdL8B1Hl3.jpg?imageslim">
+<meta property="og:image" content="http://oq8u5pr4b.bkt.clouddn.com/blog/180125/jbfAdE5iA2.jpg?imageslim">
+<meta property="og:image" content="http://oq8u5pr4b.bkt.clouddn.com/blog/180125/2ja1lD75JF.jpg?imageslim">
+<meta property="og:image" content="http://oq8u5pr4b.bkt.clouddn.com/blog/180125/CC18K27db0.jpg?imageslim">
+<meta property="og:updated_time" content="2018-01-31T05:59:49.481Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CSAPP实验3:CacheLab">
+<meta name="twitter:description" content="实验简介​    Cache LAB分为Part A和B两部分，这次实验的任务很明确，就是制作自己的缓存系统，具体来说是  实现一个缓存模拟器，根据给定的 trace 文件来输出对应的操作 利用缓存机制加速矩阵运算  我们需要修改的是 csim.c（Part A） 和 trans.c（Part B）。编译的时候只需要简单 make clean 和 make，然后就可以进行测试了。 文件说明Gith">
+<meta name="twitter:image" content="http://oq8u5pr4b.bkt.clouddn.com/blog/180125/EEhaBD13iF.jpg?imageslim">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/01/31/CSAPP-lab3-cachelab/"/>
+
+
+
+
+
+  <title>CSAPP实验3:CacheLab | zjwreal</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zjwreal</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />
+            
+            站点地图
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/31/CSAPP-lab3-cachelab/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jingwei Zheng">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://oq8u5pr4b.bkt.clouddn.com/blog/180126/AkjAJ78i9J.jpg?imageslim">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zjwreal">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">CSAPP实验3:CacheLab</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-31T13:50:55+08:00">
+                2018-01-31
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/体系结构/" itemprop="url" rel="index">
+                    <span itemprop="name">体系结构</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="实验简介"><a href="#实验简介" class="headerlink" title="实验简介"></a>实验简介</h1><p>​    Cache LAB分为Part A和B两部分，这次实验的任务很明确，就是制作自己的缓存系统，具体来说是</p>
+<ul>
+<li>实现一个缓存模拟器，根据给定的 trace 文件来输出对应的操作</li>
+<li>利用缓存机制加速矩阵运算</li>
+</ul>
+<p>我们需要修改的是 <code>csim.c</code>（Part A） 和 <code>trans.c</code>（Part B）。编译的时候只需要简单 <code>make clean</code> 和 <code>make</code>，然后就可以进行测试了。</p>
+<h1 id="文件说明"><a href="#文件说明" class="headerlink" title="文件说明"></a>文件说明</h1><p>Github地址：<a href="">Cache Lab</a></p>
+<ul>
+<li>csim.c：实现缓存模拟器的文件</li>
+<li>trans.c：实现矩阵转置的文件</li>
+<li>csim-ref：标准的缓存模拟器</li>
+<li>csim：由你实现的模拟器可执行程序</li>
+<li>tracegen：测试你的矩阵转置是否正确，并给出错误信息</li>
+<li>test-trans：测试你的矩阵转置优化的如何，并给出评分</li>
+<li>driver.py：自动进行测试评分</li>
+</ul>
+<p>在每一次更新之后，首先用<code>make</code>生成文件，之后用相应的test跑分即可。</p>
+<h1 id="Part-A：-Writing-a-Cache-Simulator-实现一个缓存模拟器"><a href="#Part-A：-Writing-a-Cache-Simulator-实现一个缓存模拟器" class="headerlink" title="Part A： Writing a Cache Simulator 实现一个缓存模拟器"></a>Part A： Writing a Cache Simulator 实现一个缓存模拟器</h1><p>讲义上首先给我们提供了一个程序示例</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">linux&gt; valgrind --log-fd=1 --tool=lackey -v --trace-mem=yes ls -l</span><br></pre></td></tr></table></figure>
+<p>执行，我们可以看到如下面这样的输出：（输入的trace文件的内容）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">I  04ead900,3</span><br><span class="line">I  04ead903,3</span><br><span class="line">I  04ead906,5</span><br><span class="line">I  04ead838,3</span><br><span class="line">I  04ead83b,3</span><br><span class="line">I  04ead83e,5</span><br><span class="line"> L 1ffefff968,8</span><br><span class="line">I  04ead843,3</span><br><span class="line">I  04ead846,3</span><br><span class="line">I  04ead849,5</span><br><span class="line"> L 1ffefff960,8</span><br><span class="line">I  04ead84e,3</span><br><span class="line">I  04ead851,3</span><br><span class="line">......</span><br></pre></td></tr></table></figure>
+<p>这样的trace文件中记载着每一次对内存的操作，前面的字母代表操作类型，统一的格式是:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[空格][操作类型][空格][内存地址][逗号][大小]</span><br></pre></td></tr></table></figure>
+<p>其中如果第一个不是空格而是I，则代表加载，没有实际意义。</p>
+<p>操作类型有以下三种：</p>
+<ul>
+<li>L：读取，从内存中读取</li>
+<li>S：存储，向内存中存储</li>
+<li>M：修改，这涉及一次读取，一次存储操作</li>
+<li>地址指的是一个 64 位的 16 进制内存地址；大小表示该操作内存访问的字节数</li>
+<li>其中I指令无空格，M/S/L指令前有1个空格（解析指令时注意）</li>
+</ul>
+<p>然后实验给我们提供了一个程序<code>csim-ref</code>，我们要做的就是写出一个和它功能一样的程序。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Usage: ./csim-ref [-hv] -s &lt;num&gt; -E &lt;num&gt; -b &lt;num&gt; -t &lt;file&gt;</span><br><span class="line">Options:</span><br><span class="line">  -h         Print this help message.</span><br><span class="line">  -v         Optional verbose flag.</span><br><span class="line">  -s &lt;num&gt;   Number of set index bits.</span><br><span class="line">  -E &lt;num&gt;   Number of lines per set.</span><br><span class="line">  -b &lt;num&gt;   Number of block offset bits.</span><br><span class="line">  -t &lt;file&gt;  Trace file.</span><br><span class="line"></span><br><span class="line">Examples:</span><br><span class="line"><span class="meta">  linux&gt;</span>  ./csim-ref -s 4 -E 1 -b 4 -t traces/yi.trace</span><br><span class="line"><span class="meta">  linux&gt;</span>  ./csim-ref -v -s 8 -E 2 -b 4 -t traces/yi.trace</span><br></pre></td></tr></table></figure>
+<p>样例输出：</p>
+<p><img src="http://oq8u5pr4b.bkt.clouddn.com/blog/180125/EEhaBD13iF.jpg?imageslim" alt="mark"></p>
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p><code>getopt</code>    获取命令行参数</p>
+<p><code>fscanf</code>    读入trace文件内容</p>
+<p><code>malloc</code>    分配空间给cache</p>
+<p>数据访问带来的miss：</p>
+<ul>
+<li>L：Load，数据载入，可能发生1次miss</li>
+<li>S：Store，可能发生1次miss</li>
+<li>M：store后再load，两次访存。1 miss &amp; 1 hit + 可能eviction</li>
+</ul>
+<p>所以L/S指令结果是miss或者hit或者miss+eviction；而M指令结果是hit+hit或者miss+hit 或者 miss+eviction+hit</p>
+<p><img src="http://oq8u5pr4b.bkt.clouddn.com/blog/180125/bhkkm837CH.png?imageslim" alt="mark"></p>
+<h3 id="1-Cache结构"><a href="#1-Cache结构" class="headerlink" title="1 Cache结构"></a>1 Cache结构</h3><p>设计Cache基本单元为 <code>block</code>，cache由cacheblock组成</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> </span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	<span class="keyword">unsigned</span> tag;</span><br><span class="line">	<span class="keyword">unsigned</span> usedtime;</span><br><span class="line">&#125; block;</span><br><span class="line">block *cache;</span><br></pre></td></tr></table></figure>
+<p>其中<code>usedtime</code>是判断LRU cache行。初始值为0表示没有用过，相当于invalid。非零值越小代表越少使用，<code>usedtime</code>最大代表刚使用。</p>
+<h3 id="2-命令行参数解析"><a href="#2-命令行参数解析" class="headerlink" title="2 命令行参数解析"></a>2 命令行参数解析</h3><p>首先对命令行参数进行解析</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">getOpt</span><span class="params">(<span class="keyword">int</span> argc,<span class="keyword">char</span> **argv,<span class="keyword">int</span> *s,<span class="keyword">int</span> *E,<span class="keyword">int</span> *b,<span class="keyword">int</span> *verbose,<span class="keyword">char</span> *tracefile)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> oc;</span><br><span class="line">	<span class="keyword">while</span>((oc=getopt(argc,argv,<span class="string">"hvs:E:b:t:"</span>))!=<span class="number">-1</span>)&#123;</span><br><span class="line">		<span class="keyword">switch</span>(oc)&#123;</span><br><span class="line">			<span class="keyword">case</span> <span class="string">'h'</span>: printHelpMenu();<span class="keyword">break</span>; <span class="comment">// print usage</span></span><br><span class="line">			<span class="keyword">case</span> <span class="string">'v'</span>: *verbose=<span class="number">1</span>;<span class="keyword">break</span>; 	</span><br><span class="line">			<span class="keyword">case</span> <span class="string">'s'</span>: *s = atoi(optarg);<span class="keyword">break</span>;</span><br><span class="line">			<span class="keyword">case</span> <span class="string">'E'</span>: *E = atoi(optarg);<span class="keyword">break</span>;</span><br><span class="line">			<span class="keyword">case</span> <span class="string">'b'</span>: *b = atoi(optarg);<span class="keyword">break</span>;</span><br><span class="line">			<span class="keyword">case</span> <span class="string">'t'</span>: <span class="built_in">strcpy</span>(tracefile,optarg);<span class="keyword">break</span>;</span><br><span class="line">			<span class="keyword">default</span> : <span class="built_in">printf</span>(<span class="string">"input error\n"</span>);<span class="keyword">break</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="3-初始化cache"><a href="#3-初始化cache" class="headerlink" title="3 初始化cache"></a>3 初始化cache</h3><p>然后初始化cache：    E&lt;&lt;s 是cache行数也就是E*2^s</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cache = (block *)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(block)* E&lt;&lt;s);</span><br><span class="line"><span class="built_in">memset</span>(cache,<span class="number">0</span>,<span class="keyword">sizeof</span>(block)* E&lt;&lt;s);</span><br></pre></td></tr></table></figure>
+<h3 id="4-读取文件参数"><a href="#4-读取文件参数" class="headerlink" title="4 读取文件参数"></a>4 读取文件参数</h3><p><code>fscanf</code>读取trace文件中的指令、地址</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">fp = fopen (tracefile,<span class="string">"r"</span>);</span><br><span class="line"><span class="keyword">while</span>(<span class="built_in">fscanf</span>(fp,<span class="string">"%s%x,%d\n"</span>,op,&amp;addr,&amp;size) &gt; <span class="number">0</span>)&#123;</span><br><span class="line">  <span class="keyword">if</span>(verbose)</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%s %x,%d "</span>,op,addr,size);</span><br><span class="line">  <span class="keyword">switch</span>(op[<span class="number">0</span>])&#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">'M'</span>: hit++;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">'L'</span>:</span><br><span class="line">    <span class="keyword">case</span> <span class="string">'S'</span>: find(op[<span class="number">0</span>],addr,size,++t);     </span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="5-数据访问"><a href="#5-数据访问" class="headerlink" title="5 数据访问"></a>5 数据访问</h3><p>获取<code>tag</code>和 <code>set index</code></p>
+<p><img src="http://oq8u5pr4b.bkt.clouddn.com/blog/180125/GJkm8I2hd3.png?imageslim" alt="mark"></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">unsigned</span> tag = addr &gt;&gt;b &gt;&gt;s ;</span><br><span class="line"><span class="keyword">unsigned</span> set_index = addr &gt;&gt; b &amp;((<span class="number">1</span>&lt;&lt;s) <span class="number">-1</span>);</span><br></pre></td></tr></table></figure>
+<p>找到对应的set</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">block *cache_set = cache + E * set_index ;  <span class="comment">// set address</span></span><br><span class="line">block *eviction_block = cache_set;            <span class="comment">// LRU cacheline</span></span><br></pre></td></tr></table></figure>
+<p>进行数据查找，其中eviction_block表示查询过程中LRU的cache行，也就是<code>usedtime</code>最小的（但是非0）在一个set里面遍历cache行</p>
+<ul>
+<li>如果<code>usedtime</code>！=0且tag匹配：hit</li>
+<li>如果<code>usedtime</code>=0，是个空block，使用这个block：miss</li>
+<li>如果<code>usedtime</code>！=0，tag不匹配，跟<code>eviction_block.usedtime</code>比较，如果时间更小，更新<code>eviction_block</code>=该cacheblock</li>
+</ul>
+<p>如果循环结束，也就证明这个set的所有cache行都满了，就替换LRU cache行。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">find</span><span class="params">(<span class="keyword">char</span> op, <span class="keyword">unsigned</span> addr,<span class="keyword">unsigned</span> size,<span class="keyword">int</span> time)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line">    <span class="keyword">unsigned</span> tag = addr &gt;&gt;b &gt;&gt;s ;</span><br><span class="line">    <span class="keyword">unsigned</span> set_index = addr &gt;&gt; b &amp;((<span class="number">1</span>&lt;&lt;s) <span class="number">-1</span>);</span><br><span class="line">    block *cache_set = cache + E * set_index ;  <span class="comment">// set address</span></span><br><span class="line">    block *eviction_block = cache_set;            <span class="comment">// LRU cacheline</span></span><br><span class="line">    <span class="keyword">for</span>(i = <span class="number">0</span>;i&lt;E;i++)&#123;</span><br><span class="line">        <span class="keyword">if</span>(cache_set[i].usedtime&gt;<span class="number">0</span> &amp;&amp; cache_set[i].tag ==tag)&#123; <span class="comment">//hit</span></span><br><span class="line">            cache_set[i].usedtime = time;</span><br><span class="line">            hit++;</span><br><span class="line">            <span class="keyword">if</span>(verbose) cacheStateOut(op,<span class="number">0</span>);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">            </span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(!cache_set[i].usedtime)&#123; <span class="comment">// empty block</span></span><br><span class="line">            miss++;</span><br><span class="line">            cache_set[i].tag = tag;</span><br><span class="line">            cache_set[i].usedtime = time;</span><br><span class="line">            <span class="keyword">if</span>(verbose) cacheStateOut(op,<span class="number">1</span>);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(cache_set[i].usedtime &lt; eviction_block-&gt;usedtime) <span class="comment">// !=tag , current block is older</span></span><br><span class="line">            eviction_block = cache_set+i;                          </span><br><span class="line">    &#125;</span><br><span class="line">    miss ++;</span><br><span class="line">    eviction ++;</span><br><span class="line">    eviction_block-&gt;tag = tag; <span class="comment">// replace sacrifice cacheline</span></span><br><span class="line">    eviction_block-&gt;usedtime = time;</span><br><span class="line">    <span class="keyword">if</span>(verbose) cacheStateOut(op,<span class="number">2</span>);</span><br><span class="line">    <span class="keyword">return</span> ;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><p><img src="http://oq8u5pr4b.bkt.clouddn.com/blog/180125/igHA04Lg15.png?imageslim" alt="mark"></p>
+<p>结果正确</p>
+<h1 id="Part-B：Optimizing-Matrix-Transpose-优化矩阵转置"><a href="#Part-B：Optimizing-Matrix-Transpose-优化矩阵转置" class="headerlink" title="Part B：Optimizing Matrix Transpose 优化矩阵转置"></a>Part B：Optimizing Matrix Transpose 优化矩阵转置</h1><p>要求优化对不同规格的矩阵的转置操作。 这里有三个矩阵，他们的miss次数要求分别如下：</p>
+<ul>
+<li>32 * 32: 8 points if m &lt; 300, 0 points if m &gt; 600</li>
+<li>64 × 64: 8 points if m &lt; 1300, 0 points if m &gt; 2000</li>
+<li>61 × 67: 10 points if m &lt; 2000, 0 points if m &gt; 3000</li>
+</ul>
+<p>要求</p>
+<ul>
+<li>在tranc.c里进行完成 transpose_submit函数</li>
+<li>最多使用12个int型变量，不能使用数组和malloc函数，不能使用位运算，不能改变矩阵A</li>
+</ul>
+<p>Tips</p>
+<p>题目的cache参数如下：s=5，E=1，b=5</p>
+<ul>
+<li>是一个直接映射高速缓存</li>
+<li>32字节的Block size</li>
+<li>有32个set</li>
+</ul>
+<h2 id="分析-1"><a href="#分析-1" class="headerlink" title="分析"></a>分析</h2><p>首先要明确，尽管矩阵的转置本身导致对于A矩阵（原始矩阵）的读和B矩阵（转置矩阵）的写不可能同时为连续的（即<u>不可能同时存在连续读和连续写——对A矩阵行的连续读必然导致对B矩阵列的非连续写</u>）。 但只要矩阵的大小小于缓存的总大小，那么在理想的情况下，在最初的强制不命中（即缓存为空导致的不命中）后，整个矩阵都会被加载进入缓存。在这之后的所有对于B矩阵的不连续写的引用都会命中。</p>
+<p>在该实验中，缓存采用的是直接映射高速缓存，<code>s = 5，b = 5，E = 1</code>。对于该缓存，总共存在32个组，每个组共32个字节，可以装入8个int型变量，是非常有限的缓存，矩阵大小&gt;cache大小。主要需要解决以下两个问题：</p>
+<ol>
+<li>直接映射缓存所带来的冲突不命中。观察程序中矩阵存储的位置即可以发现，<strong>矩阵A和矩阵B的同一行实际上被映射到了同一个缓存组</strong>。当进行<strong>对角线的引用</strong>时，一定会发生缓存的冲突不命中。需要仔细地处理对角线上的元素。 </li>
+<li>所需优化的矩阵的总大小超出了缓存的总大小。必然导致程序的访存效率低下。</li>
+</ol>
+<p>为了解决第一个问题，我们需要仔细地考虑对于矩阵访问顺序；第二个问题，采用矩阵的分块（Blocking）方法降低miss</p>
+<blockquote>
+<p>矩阵分块的目的在于将大的、不能完全加载进入缓存的大矩阵分块成小的、可以完全加载进入缓存的小矩阵块来处理。小矩阵块具有良好的局部性，性能显著增加。 但同时也要注意，分块使得程序的可阅读性大大降低，因此一般只在常用的库函数中采用分块优化。</p>
+</blockquote>
+<h2 id="32-32"><a href="#32-32" class="headerlink" title="32 * 32"></a>32 * 32</h2><p>对于<code>32 * 32</code>的矩阵，一次可以装下8行的值。于是我们用<code>8 * 8</code>的分块来处理，增加缓存命中。</p>
+<p>在<code>32*32</code>的情况中，一行是32个int，也就是4个block，所以cache可以存8行，由此可以推出映射冲突的情况：<strong>只要两个int之间相差8行的整数倍，那么读取这两个元素所在的block就会发生替换</strong></p>
+<p>但是转置的过程中这样的情况会发生吗？不会。<strong>图中的BCD三点对于A来说仅仅是行差了8K，这在转置中是不可能发生的！</strong>因为转置是将<code>A[i][j]</code>送到<code>B[j][i]</code>，不会有<code>B[i+8k][j]</code>的情况出现（不会在行相差8整数倍的块中，除非对角线上的块）。所以B在写入时miss概率也是1/8（强制失效）。</p>
+<p><img src="http://oq8u5pr4b.bkt.clouddn.com/blog/180125/bEfJH10E8a.jpg?imageslim" alt="mark"></p>
+<p>一个cache block只有32个Byte，可以装下8个int。这个cache可以容纳矩阵的前8行。所以分块采用8 * 8合适。先读取A的一行，然后放入B的一列。12个int变量，4个用来循环，其余8个用来存A中块的一行。</p>
+<p>简单<code>8 * 8</code>分块：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(M == <span class="number">32</span>)&#123;</span><br><span class="line">   <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; N; i+=<span class="number">8</span>) &#123;</span><br><span class="line">        <span class="keyword">for</span> (j = <span class="number">0</span>; j &lt; M; j+=<span class="number">8</span>) &#123;</span><br><span class="line">            <span class="keyword">for</span>(k = i ;k &lt; i + <span class="number">8</span> &amp;&amp; k&lt;N;k++)&#123;</span><br><span class="line">                    <span class="keyword">for</span>(l = j ; l &lt; j + <span class="number">8</span> &amp;&amp; l &lt; M;l++)</span><br><span class="line">                    &#123;                            </span><br><span class="line">                        a0 = A[k][l];</span><br><span class="line">                        B[l][k] = a0;</span><br><span class="line">                    &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>测试结果如下：超过了300miss，原因是<strong>对角线访问问题</strong></p>
+<p><img src="http://oq8u5pr4b.bkt.clouddn.com/blog/180125/j8hHgF5K80.jpg?imageslim" alt="mark"></p>
+<blockquote>
+<p>对角线上的block访问miss问题：</p>
+</blockquote>
+<p><strong>矩阵A和矩阵B的同一行实际上被映射到了同一个cache block</strong>。当进行<strong>对角线的引用</strong>时，一定会发生缓存的冲突不命中。并且，由于A和B的元素时一个一个处理的，必定会造成反复多次的冲突不命中。（如下图A第一个元素读miss，B第一个元素存miss，A读第二个元素miss）</p>
+<p>解决方法：通过变量一次性读出A的一整行，再存入B</p>
+<p><strong>cache miss分析</strong></p>
+<p>（经过对角线块优化后）对于32 × 32的矩阵，总共存在1024次读(32*32)和1024次写。</p>
+<p>对于非对角线的分块（总共12个），其缓存不命中率是1/8（仅强制不命中）；</p>
+<p>对于对角线的分块（总共4个），A读缓冲不命中率1/8（仅强制不命中），B写不命中率1/4（强制失效 1/8 + 冲突不命中 1/8（A刚读的那行B写的时候会miss））</p>
+<p><img src="http://oq8u5pr4b.bkt.clouddn.com/blog/180125/E5ec7Cb7Dj.jpg?imageslim" alt="mark"></p>
+<p>因此，理论上优化之后的总缓存不命中数为2048 × 0.75 × 0.125 + 1024 × 0.25 × 0.125 + 1024 × 0.25 × 0.25 = 288次。最后跑出来的答案是287，非常接近。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; N; i+=<span class="number">8</span>) &#123;</span><br><span class="line">            <span class="keyword">for</span> (j = <span class="number">0</span>; j &lt; M; j+=<span class="number">8</span>) &#123;</span><br><span class="line">                <span class="keyword">if</span>(i == j)&#123;</span><br><span class="line">                    <span class="keyword">for</span>(k = i ;k &lt; i + <span class="number">8</span> &amp;&amp; k&lt;N;k++)&#123; </span><br><span class="line">                        a0 = A[k][j];   </span><br><span class="line">                        a1 = A[k][j+<span class="number">1</span>];</span><br><span class="line">                        a2 = A[k][j+<span class="number">2</span>];</span><br><span class="line">                        a3 = A[k][j+<span class="number">3</span>];</span><br><span class="line">                        a4 = A[k][j+<span class="number">4</span>]; </span><br><span class="line">                        a5 = A[k][j+<span class="number">5</span>];</span><br><span class="line">                        a6 = A[k][j+<span class="number">6</span>];</span><br><span class="line">                        a7 = A[k][j+<span class="number">7</span>];</span><br><span class="line">                        B[j][k]   = a0;</span><br><span class="line">                        B[j+<span class="number">1</span>][k] = a1;</span><br><span class="line">                        B[j+<span class="number">2</span>][k] = a2;</span><br><span class="line">                        B[j+<span class="number">3</span>][k] = a3;</span><br><span class="line">                        B[j+<span class="number">4</span>][k] = a4;</span><br><span class="line">                        B[j+<span class="number">5</span>][k] = a5;</span><br><span class="line">                        B[j+<span class="number">6</span>][k] = a6;</span><br><span class="line">                        B[j+<span class="number">7</span>][k] = a7;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span>&#123;</span><br><span class="line">                    <span class="keyword">for</span>(k = i ;k &lt; i + <span class="number">8</span> &amp;&amp; k&lt;N;k++)&#123;</span><br><span class="line">                        <span class="keyword">for</span>(l = j ; l &lt; j + <span class="number">8</span> &amp;&amp; l &lt; M;l++)</span><br><span class="line">                            B[l][k] = A[k][l];</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+<p>测试结果：287miss</p>
+<p><img src="http://oq8u5pr4b.bkt.clouddn.com/blog/180125/mIdL8B1Hl3.jpg?imageslim" alt="mark"></p>
+<h2 id="64-64"><a href="#64-64" class="headerlink" title="64 * 64"></a>64 * 64</h2><p>这题难度是最大的，miss必须1300以下</p>
+<p>首先考虑Cache中只能放4行A中的行，如果再用8×8的块，前面4行可以填入，后面4行会在Cache中发生冲突，导致miss次数增加。</p>
+<p>如果只用<code>4×4</code>的块呢？那么每次Cache中放入8个int，我们却只用4个，浪费严重，这个方法最少也只能做到1677次miss。</p>
+<p>题目说不能对A进行操作，但是可以<strong>对B进行操作</strong>！将B作为缓存使用</p>
+<p><strong>改进方法</strong>：将<code>8 * 8</code> 块再分成4个<code>4 * 4</code>的块进一步处理，经过改进，达到1171miss</p>
+<p>首先对左上角和右上角进行处理：</p>
+<ol>
+<li>B左上角 = A左上角转置。B右上角=A右上角转置。</li>
+<li>我们最后只需要把这部分平移到B的左下角就好。</li>
+</ol>
+<p>现在B左上角完成</p>
+<ol>
+<li>首先用四个变量存储A的左下角的一列。</li>
+<li>再用四个变量存储B的右上角的一行。</li>
+<li>把四个变量存储的A的左下角的一列移动到B右上角的一行</li>
+<li>把四个变量存储的B的右上角的一行平移到B左下角的一列</li>
+<li>B的右下角=A的右下角转置</li>
+</ol>
+<p><img src="http://oq8u5pr4b.bkt.clouddn.com/blog/180125/jbfAdE5iA2.jpg?imageslim" alt="mark"></p>
+<p>关键的操作在第二步</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; N; i += <span class="number">8</span>) &#123;</span><br><span class="line">       <span class="keyword">for</span> (j = <span class="number">0</span>; j &lt; M; j += <span class="number">8</span>) &#123;</span><br><span class="line">           <span class="keyword">for</span> (k = i; k &lt; i + <span class="number">4</span>; k++) &#123;</span><br><span class="line">               a0 = A[k][j];</span><br><span class="line">               a1 = A[k][j + <span class="number">1</span>];</span><br><span class="line">               a2 = A[k][j + <span class="number">2</span>];</span><br><span class="line">               a3 = A[k][j + <span class="number">3</span>];</span><br><span class="line">               a4 = A[k][j + <span class="number">4</span>];</span><br><span class="line">               a5 = A[k][j + <span class="number">5</span>];</span><br><span class="line">               a6 = A[k][j + <span class="number">6</span>];</span><br><span class="line">               a7 = A[k][j + <span class="number">7</span>];</span><br><span class="line"></span><br><span class="line">               B[j][k] = a0;</span><br><span class="line">               B[j + <span class="number">1</span>][k] = a1;</span><br><span class="line">               B[j + <span class="number">2</span>][k] = a2;</span><br><span class="line">               B[j + <span class="number">3</span>][k] = a3;</span><br><span class="line"></span><br><span class="line">               B[j][k + <span class="number">4</span>] = a4;</span><br><span class="line">               B[j + <span class="number">1</span>][k + <span class="number">4</span>] = a5;</span><br><span class="line">               B[j + <span class="number">2</span>][k + <span class="number">4</span>] = a6;</span><br><span class="line">               B[j + <span class="number">3</span>][k + <span class="number">4</span>] = a7;</span><br><span class="line">           &#125;</span><br><span class="line">           <span class="keyword">for</span> (l = j + <span class="number">4</span>; l &lt; j + <span class="number">8</span>; l++) &#123;</span><br><span class="line"></span><br><span class="line">               a4 = A[i + <span class="number">4</span>][l - <span class="number">4</span>]; <span class="comment">// A left-down col</span></span><br><span class="line">               a5 = A[i + <span class="number">5</span>][l - <span class="number">4</span>];</span><br><span class="line">               a6 = A[i + <span class="number">6</span>][l - <span class="number">4</span>];</span><br><span class="line">               a7 = A[i + <span class="number">7</span>][l - <span class="number">4</span>];</span><br><span class="line"></span><br><span class="line">               a0 = B[l - <span class="number">4</span>][i + <span class="number">4</span>]; <span class="comment">// B right-above line</span></span><br><span class="line">               a1 = B[l - <span class="number">4</span>][i + <span class="number">5</span>];</span><br><span class="line">               a2 = B[l - <span class="number">4</span>][i + <span class="number">6</span>];</span><br><span class="line">               a3 = B[l - <span class="number">4</span>][i + <span class="number">7</span>];</span><br><span class="line"></span><br><span class="line">               B[l - <span class="number">4</span>][i + <span class="number">4</span>] = a4; <span class="comment">// set B right-above line </span></span><br><span class="line">               B[l - <span class="number">4</span>][i + <span class="number">5</span>] = a5;</span><br><span class="line">               B[l - <span class="number">4</span>][i + <span class="number">6</span>] = a6;</span><br><span class="line">               B[l - <span class="number">4</span>][i + <span class="number">7</span>] = a7;</span><br><span class="line"></span><br><span class="line">               B[l][i] = a0;         <span class="comment">// set B left-down col</span></span><br><span class="line">               B[l][i + <span class="number">1</span>] = a1;</span><br><span class="line">               B[l][i + <span class="number">2</span>] = a2;</span><br><span class="line">               B[l][i + <span class="number">3</span>] = a3;</span><br><span class="line"></span><br><span class="line">               B[l][i + <span class="number">4</span>] = A[i + <span class="number">4</span>][l];</span><br><span class="line">               B[l][i + <span class="number">5</span>] = A[i + <span class="number">5</span>][l];</span><br><span class="line">               B[l][i + <span class="number">6</span>] = A[i + <span class="number">6</span>][l];</span><br><span class="line">               B[l][i + <span class="number">7</span>] = A[i + <span class="number">7</span>][l];</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<p>测试结果：1171miss 通过</p>
+<p><img src="http://oq8u5pr4b.bkt.clouddn.com/blog/180125/2ja1lD75JF.jpg?imageslim" alt="mark"></p>
+<h2 id="61-67"><a href="#61-67" class="headerlink" title="61 * 67"></a>61 * 67</h2><p>不规则的matrix，本质也是用分块来优化Cache的读写，但是不能找到比较显然的规律看出来间隔多少可以填满一个Cache。但是由于要求比较松，因此无需考虑处理对角线，直接进行转置操作，仅尝试换用不同的边长分块即可。16 × 16的分块已可以保证满分。</p>
+<p>测试：1992miss &lt;2000</p>
+<p><img src="http://oq8u5pr4b.bkt.clouddn.com/blog/180125/CC18K27db0.jpg?imageslim" alt="mark"></p>
+<p>自动评分脚本输出：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">zjw@ubuntu:~/Desktop/cachelab-handout$ ./driver.py </span><br><span class="line">Part A: Testing cache simulator</span><br><span class="line">Running ./test-csim</span><br><span class="line">                        Your simulator     Reference simulator</span><br><span class="line">Points (s,E,b)    Hits  Misses  Evicts    Hits  Misses  Evicts</span><br><span class="line">     <span class="number">3</span> (<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>)       <span class="number">9</span>       <span class="number">8</span>       <span class="number">6</span>       <span class="number">9</span>       <span class="number">8</span>       <span class="number">6</span>  traces/yi2.trace</span><br><span class="line">     <span class="number">3</span> (<span class="number">4</span>,<span class="number">2</span>,<span class="number">4</span>)       <span class="number">4</span>       <span class="number">5</span>       <span class="number">2</span>       <span class="number">4</span>       <span class="number">5</span>       <span class="number">2</span>  traces/yi.trace</span><br><span class="line">     <span class="number">3</span> (<span class="number">2</span>,<span class="number">1</span>,<span class="number">4</span>)       <span class="number">2</span>       <span class="number">3</span>       <span class="number">1</span>       <span class="number">2</span>       <span class="number">3</span>       <span class="number">1</span>  traces/dave.trace</span><br><span class="line">     <span class="number">3</span> (<span class="number">2</span>,<span class="number">1</span>,<span class="number">3</span>)     <span class="number">167</span>      <span class="number">71</span>      <span class="number">67</span>     <span class="number">167</span>      <span class="number">71</span>      <span class="number">67</span>  traces/trans.trace</span><br><span class="line">     <span class="number">3</span> (<span class="number">2</span>,<span class="number">2</span>,<span class="number">3</span>)     <span class="number">201</span>      <span class="number">37</span>      <span class="number">29</span>     <span class="number">201</span>      <span class="number">37</span>      <span class="number">29</span>  traces/trans.trace</span><br><span class="line">     <span class="number">3</span> (<span class="number">2</span>,<span class="number">4</span>,<span class="number">3</span>)     <span class="number">212</span>      <span class="number">26</span>      <span class="number">10</span>     <span class="number">212</span>      <span class="number">26</span>      <span class="number">10</span>  traces/trans.trace</span><br><span class="line">     <span class="number">3</span> (<span class="number">5</span>,<span class="number">1</span>,<span class="number">5</span>)     <span class="number">231</span>       <span class="number">7</span>       <span class="number">0</span>     <span class="number">231</span>       <span class="number">7</span>       <span class="number">0</span>  traces/trans.trace</span><br><span class="line">     <span class="number">6</span> (<span class="number">5</span>,<span class="number">1</span>,<span class="number">5</span>)  <span class="number">265189</span>   <span class="number">21775</span>   <span class="number">21743</span>  <span class="number">265189</span>   <span class="number">21775</span>   <span class="number">21743</span>  traces/<span class="keyword">long</span>.trace</span><br><span class="line">    <span class="number">27</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Part B: Testing transpose function</span><br><span class="line">Running ./test-trans -M <span class="number">32</span> -N <span class="number">32</span></span><br><span class="line">Running ./test-trans -M <span class="number">64</span> -N <span class="number">64</span></span><br><span class="line">Running ./test-trans -M <span class="number">61</span> -N <span class="number">67</span></span><br><span class="line"></span><br><span class="line">Cache Lab summary:</span><br><span class="line">                        Points   Max pts      Misses</span><br><span class="line">Csim correctness          <span class="number">27.0</span>        <span class="number">27</span></span><br><span class="line">Trans perf <span class="number">32</span>x32           <span class="number">8.0</span>         <span class="number">8</span>         <span class="number">287</span></span><br><span class="line">Trans perf <span class="number">64</span>x64           <span class="number">8.0</span>         <span class="number">8</span>        <span class="number">1171</span></span><br><span class="line">Trans perf <span class="number">61</span>x67          <span class="number">10.0</span>        <span class="number">10</span>        <span class="number">1992</span></span><br><span class="line">          Total points    <span class="number">53.0</span>        <span class="number">53</span></span><br></pre></td></tr></table></figure>
+<h1 id="Referrence"><a href="#Referrence" class="headerlink" title="Referrence"></a>Referrence</h1><p><a href="http://zxcpyp.com/csapp/2017/11/20/Cache-Lab#part-awriting-a-cache-simulator-%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E7%BC%93%E5%AD%98%E6%A8%A1%E6%8B%9F%E5%99%A8" target="_blank" rel="noopener">http://zxcpyp.com/csapp/2017/11/20/Cache-Lab#part-awriting-a-cache-simulator-%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E7%BC%93%E5%AD%98%E6%A8%A1%E6%8B%9F%E5%99%A8</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CSAPP/" rel="tag"># CSAPP</a>
+          
+            <a href="/tags/操作系统/" rel="tag"># 操作系统</a>
+          
+            <a href="/tags/学习笔记/" rel="tag"># 学习笔记</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/01/31/CSAPP-lab2-bomblab/" rel="next" title="CSAPP实验2:BombLab">
+                <i class="fa fa-chevron-left"></i> CSAPP实验2:BombLab
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="http://oq8u5pr4b.bkt.clouddn.com/blog/180126/AkjAJ78i9J.jpg?imageslim"
+                alt="Jingwei Zheng" />
+            
+              <p class="site-author-name" itemprop="name">Jingwei Zheng</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/zhengjingwei" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:zjwreal@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#实验简介"><span class="nav-text">实验简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#文件说明"><span class="nav-text">文件说明</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Part-A：-Writing-a-Cache-Simulator-实现一个缓存模拟器"><span class="nav-text">Part A： Writing a Cache Simulator 实现一个缓存模拟器</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#分析"><span class="nav-text">分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-Cache结构"><span class="nav-text">1 Cache结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-命令行参数解析"><span class="nav-text">2 命令行参数解析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-初始化cache"><span class="nav-text">3 初始化cache</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-读取文件参数"><span class="nav-text">4 读取文件参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-数据访问"><span class="nav-text">5 数据访问</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#测试"><span class="nav-text">测试</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Part-B：Optimizing-Matrix-Transpose-优化矩阵转置"><span class="nav-text">Part B：Optimizing Matrix Transpose 优化矩阵转置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#分析-1"><span class="nav-text">分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#32-32"><span class="nav-text">32 * 32</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#64-64"><span class="nav-text">64 * 64</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#61-67"><span class="nav-text">61 * 67</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Referrence"><span class="nav-text">Referrence</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jingwei Zheng</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
