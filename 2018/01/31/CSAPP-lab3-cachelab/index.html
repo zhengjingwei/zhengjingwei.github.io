@@ -100,7 +100,7 @@
 <meta property="og:image" content="http://oq8u5pr4b.bkt.clouddn.com/blog/180125/jbfAdE5iA2.jpg?imageslim">
 <meta property="og:image" content="http://oq8u5pr4b.bkt.clouddn.com/blog/180125/2ja1lD75JF.jpg?imageslim">
 <meta property="og:image" content="http://oq8u5pr4b.bkt.clouddn.com/blog/180125/CC18K27db0.jpg?imageslim">
-<meta property="og:updated_time" content="2018-01-31T05:59:49.481Z">
+<meta property="og:updated_time" content="2018-02-15T08:48:09.920Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CSAPP实验3:CacheLab">
 <meta name="twitter:description" content="实验简介​    Cache LAB分为Part A和B两部分，这次实验的任务很明确，就是制作自己的缓存系统，具体来说是  实现一个缓存模拟器，根据给定的 trace 文件来输出对应的操作 利用缓存机制加速矩阵运算  我们需要修改的是 csim.c（Part A） 和 trans.c（Part B）。编译的时候只需要简单 make clean 和 make，然后就可以进行测试了。 文件说明Gith">
@@ -342,7 +342,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-31T13:50:55+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-31T13:00:00+08:00">
                 2018-01-31
               </time>
             
@@ -424,7 +424,7 @@
 <li>driver.py：自动进行测试评分</li>
 </ul>
 <p>在每一次更新之后，首先用<code>make</code>生成文件，之后用相应的test跑分即可。</p>
-<h1 id="Part-A：-Writing-a-Cache-Simulator-实现一个缓存模拟器"><a href="#Part-A：-Writing-a-Cache-Simulator-实现一个缓存模拟器" class="headerlink" title="Part A： Writing a Cache Simulator 实现一个缓存模拟器"></a>Part A： Writing a Cache Simulator 实现一个缓存模拟器</h1><p>讲义上首先给我们提供了一个程序示例</p>
+<h1 id="Part-A：Writing-a-Cache-Simulator-实现一个缓存模拟器"><a href="#Part-A：Writing-a-Cache-Simulator-实现一个缓存模拟器" class="headerlink" title="Part A：Writing a Cache Simulator 实现一个缓存模拟器"></a>Part A：Writing a Cache Simulator 实现一个缓存模拟器</h1><p>讲义上首先给我们提供了一个程序示例</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">linux&gt; valgrind --log-fd=1 --tool=lackey -v --trace-mem=yes ls -l</span><br></pre></td></tr></table></figure>
 <p>执行，我们可以看到如下面这样的输出：（输入的trace文件的内容）</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">I  04ead900,3</span><br><span class="line">I  04ead903,3</span><br><span class="line">I  04ead906,5</span><br><span class="line">I  04ead838,3</span><br><span class="line">I  04ead83b,3</span><br><span class="line">I  04ead83e,5</span><br><span class="line"> L 1ffefff968,8</span><br><span class="line">I  04ead843,3</span><br><span class="line">I  04ead846,3</span><br><span class="line">I  04ead849,5</span><br><span class="line"> L 1ffefff960,8</span><br><span class="line">I  04ead84e,3</span><br><span class="line">I  04ead851,3</span><br><span class="line">......</span><br></pre></td></tr></table></figure>
@@ -592,8 +592,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/01/31/CSAPP-lab2-bomblab/" rel="next" title="CSAPP实验2:BombLab">
-                <i class="fa fa-chevron-left"></i> CSAPP实验2:BombLab
+              <a href="/2018/01/30/linux-network-stack-structure/" rel="next" title="Linux网络协议栈结构">
+                <i class="fa fa-chevron-left"></i> Linux网络协议栈结构
               </a>
             
           </div>
@@ -601,6 +601,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/02/01/leetcode-3/" rel="prev" title="LeetCode 3. Longest Substring Without Repeating Characters">
+                LeetCode 3. Longest Substring Without Repeating Characters <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -681,7 +685,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-count">15</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -692,7 +696,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">3</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -703,7 +707,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-count">9</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -752,7 +756,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#实验简介"><span class="nav-text">实验简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#文件说明"><span class="nav-text">文件说明</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Part-A：-Writing-a-Cache-Simulator-实现一个缓存模拟器"><span class="nav-text">Part A： Writing a Cache Simulator 实现一个缓存模拟器</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#分析"><span class="nav-text">分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-Cache结构"><span class="nav-text">1 Cache结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-命令行参数解析"><span class="nav-text">2 命令行参数解析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-初始化cache"><span class="nav-text">3 初始化cache</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-读取文件参数"><span class="nav-text">4 读取文件参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-数据访问"><span class="nav-text">5 数据访问</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#测试"><span class="nav-text">测试</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Part-B：Optimizing-Matrix-Transpose-优化矩阵转置"><span class="nav-text">Part B：Optimizing Matrix Transpose 优化矩阵转置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#分析-1"><span class="nav-text">分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#32-32"><span class="nav-text">32 * 32</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#64-64"><span class="nav-text">64 * 64</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#61-67"><span class="nav-text">61 * 67</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Referrence"><span class="nav-text">Referrence</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#实验简介"><span class="nav-text">实验简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#文件说明"><span class="nav-text">文件说明</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Part-A：Writing-a-Cache-Simulator-实现一个缓存模拟器"><span class="nav-text">Part A：Writing a Cache Simulator 实现一个缓存模拟器</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#分析"><span class="nav-text">分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-Cache结构"><span class="nav-text">1 Cache结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-命令行参数解析"><span class="nav-text">2 命令行参数解析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-初始化cache"><span class="nav-text">3 初始化cache</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-读取文件参数"><span class="nav-text">4 读取文件参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-数据访问"><span class="nav-text">5 数据访问</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#测试"><span class="nav-text">测试</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Part-B：Optimizing-Matrix-Transpose-优化矩阵转置"><span class="nav-text">Part B：Optimizing Matrix Transpose 优化矩阵转置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#分析-1"><span class="nav-text">分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#32-32"><span class="nav-text">32 * 32</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#64-64"><span class="nav-text">64 * 64</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#61-67"><span class="nav-text">61 * 67</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Referrence"><span class="nav-text">Referrence</span></a></li></ol></div>
             
 
           </div>

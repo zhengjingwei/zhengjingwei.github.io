@@ -1,0 +1,1290 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="vgySegkHZnkBq4KFJxOasP7GKRlLD1Rgcp76tZ7tC1I" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="LeetCode," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="4. Median of Two Sorted ArraysThere are two sorted arrays nums1 and nums2 of size m and n respectively. Find the median of the two sorted arrays. The overall run time complexity should be O(log (m+n))">
+<meta name="keywords" content="LeetCode">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LeetCode 4. Median of Two Sorted Arrays">
+<meta property="og:url" content="http://yoursite.com/2018/02/02/leetcode-4/index.html">
+<meta property="og:site_name" content="zjwreal">
+<meta property="og:description" content="4. Median of Two Sorted ArraysThere are two sorted arrays nums1 and nums2 of size m and n respectively. Find the median of the two sorted arrays. The overall run time complexity should be O(log (m+n))">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://img.blog.csdn.net/20160409212629209">
+<meta property="og:image" content="http://img.blog.csdn.net/20160409212649178">
+<meta property="og:updated_time" content="2018-02-15T09:03:22.724Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="LeetCode 4. Median of Two Sorted Arrays">
+<meta name="twitter:description" content="4. Median of Two Sorted ArraysThere are two sorted arrays nums1 and nums2 of size m and n respectively. Find the median of the two sorted arrays. The overall run time complexity should be O(log (m+n))">
+<meta name="twitter:image" content="http://img.blog.csdn.net/20160409212629209">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/02/02/leetcode-4/"/>
+
+
+
+
+
+  <title>LeetCode 4. Median of Two Sorted Arrays | zjwreal</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zjwreal</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />
+            
+            站点地图
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/02/leetcode-4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jingwei Zheng">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://oq8u5pr4b.bkt.clouddn.com/blog/180126/AkjAJ78i9J.jpg?imageslim">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zjwreal">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">LeetCode 4. Median of Two Sorted Arrays</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-02T19:00:00+08:00">
+                2018-02-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/LeetCode/" itemprop="url" rel="index">
+                    <span itemprop="name">LeetCode</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="4-Median-of-Two-Sorted-Arrays"><a href="#4-Median-of-Two-Sorted-Arrays" class="headerlink" title="4. Median of Two Sorted Arrays"></a><a href="https://leetcode.com/problems/median-of-two-sorted-arrays/description/" target="_blank" rel="noopener">4. Median of Two Sorted Arrays</a></h1><p>There are two sorted arrays <strong>nums1</strong> and <strong>nums2</strong> of size m and n respectively.</p>
+<p>Find the median of the two sorted arrays. The overall run time complexity should be O(log (m+n)).</p>
+<p><strong>Example 1:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">nums1 = [1, 3]</span><br><span class="line">nums2 = [2]</span><br><span class="line"></span><br><span class="line">The median is 2.0</span><br></pre></td></tr></table></figure>
+<p><strong>Example 2:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">nums1 = [1, 2]</span><br><span class="line">nums2 = [3, 4]</span><br><span class="line"></span><br><span class="line">The median is (2 + 3)/2 = 2.5</span><br></pre></td></tr></table></figure>
+<h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><p>要求在给定的两个有序数组中里面找其中的中位数，硬性要求时间复杂度为$O(log(m+n))$</p>
+<p>问题可以转化为两个有序序列找第num大的数，由于时间复杂度被限制死，所以不能采用排序后再找中位数的方法（时间复杂度高）。以下参考 <a href="http://blog.csdn.net/hk2291976/article/details/51107778" target="_blank" rel="noopener">两个有序数组中的中位数和Top K问题</a></p>
+<h1 id="预备知识"><a href="#预备知识" class="headerlink" title="预备知识"></a><strong>预备知识</strong></h1><h2 id="先解释下“割”"><a href="#先解释下“割”" class="headerlink" title="先解释下“割”"></a><strong>先解释下“割”</strong></h2><blockquote>
+<p>我们通过切一刀，能够把<strong>有序</strong>数组分成左右两个部分，切的那一刀就被称为割(Cut)，割的左右会有两个元素，分别是左边最大值和右边最小值。</p>
+<p>我们定义L = Max(LeftPart)，R = Min(RightPart)</p>
+</blockquote>
+<p>Ps. 割可以割在两个数中间，也可以割在1个数上，如果割在一个数上，那么这个数即属于左边，也属于右边。（后面讲单数组中值问题的时候会说）</p>
+<p>比如说[2 3 5 7]这个序列，割就在3和5之间<br>[2 3 / 5 7]<br>中值就是（3+5）/2 = 4</p>
+<p>如果[2 3 4 5 6]这个序列，割在4上，我们可以把4分成2个<br>[2 3 (4/4) 5 7]<br>中值就是（4+4）/2 = 4</p>
+<p>这样可以保证不管中值是1个数还是2个数都能统一运算。</p>
+<h2 id="割和第k个元素"><a href="#割和第k个元素" class="headerlink" title="割和第k个元素"></a><strong>割和第k个元素</strong></h2><p>对于单数组，<strong>找其中的第k个元素特别好做</strong>，我们用割的思想就是：如果在k的位置割一下，A[k]属于左边部分的最大值。</p>
+<h1 id="双数组"><a href="#双数组" class="headerlink" title="双数组"></a><strong>双数组</strong></h1><p>我们设:<br><strong>Ci</strong>为第i个数组的割。<br><strong>Li</strong>为第i个数组割后的左元素.<br><strong>Ri</strong>为第i个数组割后的右元素。</p>
+<p><img src="http://img.blog.csdn.net/20160409212629209" alt="这里写图片描述"></p>
+<h2 id="如何从双数组里取出第k个元素"><a href="#如何从双数组里取出第k个元素" class="headerlink" title="如何从双数组里取出第k个元素"></a><strong>如何从双数组里取出第k个元素</strong></h2><ol>
+<li>首先Li&lt;=Ri是肯定的（因为数组有序，左边肯定小于右边）</li>
+<li>如果我们让L1&lt;=R2 &amp;&amp; L2&lt;=R1</li>
+</ol>
+<p><img src="http://img.blog.csdn.net/20160409212649178" alt="这里写图片描述"></p>
+<ol>
+<li>那么左半边 全小于右半边，如果左边的元素个数相加刚好等于k，那么第k个元素就是Max(L1,L2)，参考上面常识1。</li>
+<li>如果 L1&gt;R2，说明数组1的左边元素太大（多），我们把C1减小，把C2增大。L2&gt;R1同理，把C1增大，C2减小。</li>
+</ol>
+<h3 id="假设k-3"><a href="#假设k-3" class="headerlink" title="假设k=3"></a><strong>假设k=3</strong></h3><p>对于<br>[1 4 7 9]<br>[2 3 5]</p>
+<p>设C1 = 2，那么C2 = k-C1 = 1<br>[1 4/7 9]<br>[2/3 5]</p>
+<p>这时候，L1(4)&gt;R2(3)，说明C1要减小，C2要增大，C1 = 1，C2=k-C1 = 2<br>[1/4 7 9]<br>[2 3/5]</p>
+<p>这时候，满足了L1&lt;=R2 &amp;&amp; L2&lt;=R1，第3个元素就是Max(1,3) = 3。</p>
+<p>如果对于上面的例子，把k改成4就恰好是中值。</p>
+<p>下面具体来看特殊情况的中值问题。</p>
+<h2 id="双数组的奇偶"><a href="#双数组的奇偶" class="headerlink" title="双数组的奇偶"></a><strong>双数组的奇偶</strong></h2><p>中值的关键在于，如何处理奇偶性，单数组的情况，我们已经讨论过了，那双数组的奇偶问题怎么办，m+n为奇偶处理方案都不同，</p>
+<h2 id="让数组恒为奇数"><a href="#让数组恒为奇数" class="headerlink" title="让数组恒为奇数"></a><strong>让数组恒为奇数</strong></h2><p>有没有办法让两个数组长度相加一定为奇数或偶数呢？</p>
+<p>其实有的，<strong>虚拟</strong>加入‘#’(这个trick在<a href="http://blog.csdn.net/hk2291976/article/details/51107886" target="_blank" rel="noopener">manacher算法</a>中也有应用)，让数组长度恒为奇数（2n+1恒为奇数）。<br>Ps.注意是虚拟加，其实根本没这一步，因为通过下面的转换，我们可以保证虚拟加后每个元素跟原来的元素一一对应</p>
+<table>
+<thead>
+<tr>
+<th>之前</th>
+<th>len</th>
+<th>之后</th>
+<th>len</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>[1 4 7 9]</td>
+<td>4</td>
+<td>[# 1 # 4 # 7 # 9 #]</td>
+<td>9</td>
+</tr>
+<tr>
+<td>[2 3 5]</td>
+<td>3</td>
+<td>[# 2 # 3 # 5 #]</td>
+<td>7</td>
+</tr>
+</tbody>
+</table>
+<h2 id="映射关系"><a href="#映射关系" class="headerlink" title="映射关系"></a><strong>映射关系</strong></h2><p>这有什么好处呢，为什么这么加?因为这么加完之后，<strong>每个位置可以通过/2得到原来元素的位置。</strong></p>
+<table>
+<thead>
+<tr>
+<th>/</th>
+<th>原位置</th>
+<th>新位置</th>
+<th>除2后</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>5</td>
+<td>2</td>
+<td>5</td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+<h2 id="在虚拟数组里表示“割”"><a href="#在虚拟数组里表示“割”" class="headerlink" title="在虚拟数组里表示“割”"></a><strong>在虚拟数组里表示“割”</strong></h2><p>不仅如此，割更容易，如果割在‘#’上等于割在2个元素之间，割在数字上等于把数字划到2个部分。</p>
+<p>奇妙的是不管哪种情况：</p>
+<blockquote>
+<p>Li = (Ci-1)/2<br>Ri = Ci/2</p>
+</blockquote>
+<p>例： </p>
+<ol>
+<li>割在4/7之间‘#’，C = 4，L=(4-1)/2=1 ，R=4/2=2 </li>
+</ol>
+<p>刚好是4和7的原来位置！ </p>
+<ol>
+<li>割在3上，C = 3，L=(3-1)/2=1，R=3/2 =1，刚好都是3的位置！</li>
+</ol>
+<hr>
+<p>剩下的事情就好办了，把2个数组看做一个虚拟的数组A，目前有2m+2n+2个元素，割在m+n+1处，所以我们只需找到m+n+1位置的元素和m+n+2位置的元素就行了。<br>左边：A[m+n+1] = Max(L1+L2)<br>右边：A[m+n+2] = Min(R1+R2)</p>
+<blockquote>
+<p>Mid = (A[m+n+1]+A[m+n+2])/2<br>= (Max(L1+L2) + Min(R1+R2) )/2</p>
+</blockquote>
+<p>至于在两个数组里找割的方案，就是上面的方案。</p>
+<h1 id="分治的思路"><a href="#分治的思路" class="headerlink" title="分治的思路"></a><strong>分治的思路</strong></h1><p>有了上面的知识后，现在的问题就是如何利用分治的思想。</p>
+<h2 id="怎么分？"><a href="#怎么分？" class="headerlink" title="怎么分？"></a><strong>怎么分？</strong></h2><p>最快的分的方案是二分，有2个数组，我们对哪个做二分呢？<br>根据之前的分析，我们知道了，只要C1或C2确定，另外一个也就确定了。这里，<strong>为了效率，我们肯定是选长度较短的做二分，假设为C1</strong>。</p>
+<h2 id="怎么治？"><a href="#怎么治？" class="headerlink" title="怎么治？"></a><strong>怎么治？</strong></h2><p>也比较简单，我们之前分析了：就是比较L1,L2和R1,R2。 </p>
+<ul>
+<li>L1&gt;R2，把C1减小，C2增大。—&gt; C1向左二分</li>
+<li>L2&gt;R1，把C1增大，C2减小。—&gt; C1向右二分</li>
+</ul>
+<h2 id="越界问题"><a href="#越界问题" class="headerlink" title="越界问题"></a><strong>越界问题</strong></h2><p><strong>如果C1或C2已经到头了怎么办？</strong><br>这种情况出现在：<strong>如果有个数组完全小于或大于中值</strong>。可能有4种情况：<br>C1 == 0 —— 数组1整体都比中值大</p>
+<p>C1 == 2 x n —— 数组1整体比中值小</p>
+<p>C2 == 0 —— 数组1整体都比中值小</p>
+<p>C2 == 2 x m —— 数组1整体比中值大</p>
+<h2 id="具体实现"><a href="#具体实现" class="headerlink" title="具体实现"></a>具体实现</h2><p><code>nums1</code>大小为n，<code>nums2</code>大小为m。默认在长度小的数组上进行二分查找。如果n&gt;m，交换。</p>
+<p>根据“虚拟数组”，两个虚拟数组包含<code>#</code>一共<code>有2m+2n+2</code>个元素。若<code>nums1</code>割<code>c1</code>，则表示<code>nums1</code>左边有<code>c1</code>个数字，而总共数字有<code>m+n</code>个，为了两个数组在割的左右边总数相等，所以<code>c2= m+n-c1</code></p>
+<p><code>low</code>和<code>high</code>是二分查找的区间头和尾。<code>low</code>初始值为0（<code>[# 1 # 4 # 7 # 9 #]最左边的#</code>），<code>high</code>初始值为<code>2*n</code> （<code>[# 1 # 4 # 7 # 9 #]最右边的#</code>），割<code>c1=(low+high)/2</code>，表示<code>c1</code>从<code>nums1</code>数组正中间位置开始，<code>c2=m+n-c1</code>，nums1左边和nums2左边元素数量 = nums1右边和nums2右边元素数量。</p>
+<p>当越界时，巧妙设置<code>INT_MIN</code>和<code>INT_MAX</code>，使其中一个割无效。</p>
+<p>如<code>nums1 = [1 2]</code>    <code>nums2 = [3 4 5 6 7 8]</code>，因为nums1整体小于nums2，则经过几次循环后，c1 = 4，l1 = 2，r1 = INT_MAX。c2 = 4，l2 = 4，r2 = 5。low = high =4，此时因为满足了左边整体&lt;=右边，所以会break跳出循环，然后<code>return (max(l1,l2) + min(r1,r2))/2.0</code>，此时其实返回的就是nums2中割左右两端的中位数。</p>
+<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">double</span> <span class="title">findMedianSortedArrays</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums1, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums2)</span> </span>&#123;</span><br><span class="line">    	<span class="keyword">int</span> n = nums1.size();</span><br><span class="line">		<span class="keyword">int</span> m = nums2.size();</span><br><span class="line">		<span class="keyword">if</span>(n &gt; m) </span><br><span class="line">			<span class="keyword">return</span> findMedianSortedArrays(nums2,nums1); </span><br><span class="line">		<span class="keyword">int</span> c1,c2,l1,l2,r1,r2,low =<span class="number">0</span>,high = <span class="number">2</span>*n; </span><br><span class="line">		<span class="keyword">while</span>(low &lt;= high)&#123;</span><br><span class="line">			c1 = (low + high)/<span class="number">2</span>;</span><br><span class="line">			c2 = m + n - c1;</span><br><span class="line">			l1 = (c1==<span class="number">0</span>)?INT_MIN:nums1[(c1<span class="number">-1</span>)/<span class="number">2</span>];  </span><br><span class="line">			r1 = (c1==<span class="number">2</span>*n)?INT_MAX:nums1[c1/<span class="number">2</span>];</span><br><span class="line">			l2 = (c2==<span class="number">0</span>)?INT_MIN:nums2[(c2<span class="number">-1</span>)/<span class="number">2</span>];</span><br><span class="line">			r2 = (c2==<span class="number">2</span>*m)?INT_MAX:nums2[c2/<span class="number">2</span>];</span><br><span class="line">			<span class="keyword">if</span>(l1 &gt; r2)&#123;</span><br><span class="line">				high = c1 - <span class="number">1</span>;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">else</span> <span class="keyword">if</span> (l2 &gt; r1)&#123;</span><br><span class="line">				low = c1 + <span class="number">1</span>;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">else</span> <span class="keyword">break</span> ;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> (max(l1,l2) + min(r1,r2))/<span class="number">2.0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p><strong>LeetCode具体实现代码和详细解题报告</strong>：<a href="https://github.com/zhengjingwei/LeetCode" target="_blank" rel="noopener">https://github.com/zhengjingwei/LeetCode</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/LeetCode/" rel="tag"># LeetCode</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/02/01/leetcode-3/" rel="next" title="LeetCode 3. Longest Substring Without Repeating Characters">
+                <i class="fa fa-chevron-left"></i> LeetCode 3. Longest Substring Without Repeating Characters
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/02/03/leetcode-5/" rel="prev" title="LeetCode 5. Longest Palindromic Substring">
+                LeetCode 5. Longest Palindromic Substring <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="http://oq8u5pr4b.bkt.clouddn.com/blog/180126/AkjAJ78i9J.jpg?imageslim"
+                alt="Jingwei Zheng" />
+            
+              <p class="site-author-name" itemprop="name">Jingwei Zheng</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/zhengjingwei" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:zjwreal@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#4-Median-of-Two-Sorted-Arrays"><span class="nav-text">4. Median of Two Sorted Arrays</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#思路"><span class="nav-text">思路</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#预备知识"><span class="nav-text">预备知识</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#先解释下“割”"><span class="nav-text">先解释下“割”</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#割和第k个元素"><span class="nav-text">割和第k个元素</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#双数组"><span class="nav-text">双数组</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#如何从双数组里取出第k个元素"><span class="nav-text">如何从双数组里取出第k个元素</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#假设k-3"><span class="nav-text">假设k=3</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#双数组的奇偶"><span class="nav-text">双数组的奇偶</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#让数组恒为奇数"><span class="nav-text">让数组恒为奇数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#映射关系"><span class="nav-text">映射关系</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在虚拟数组里表示“割”"><span class="nav-text">在虚拟数组里表示“割”</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#分治的思路"><span class="nav-text">分治的思路</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#怎么分？"><span class="nav-text">怎么分？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#怎么治？"><span class="nav-text">怎么治？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#越界问题"><span class="nav-text">越界问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#具体实现"><span class="nav-text">具体实现</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#代码"><span class="nav-text">代码</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jingwei Zheng</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
