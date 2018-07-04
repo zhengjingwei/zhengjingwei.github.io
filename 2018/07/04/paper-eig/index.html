@@ -94,7 +94,7 @@
 <meta property="og:image" content="http://oq8u5pr4b.bkt.clouddn.com/blog/180704/aI4J8H8Kl4.jpg?imageslim">
 <meta property="og:image" content="http://oq8u5pr4b.bkt.clouddn.com/blog/180704/Lh4K243ikj.jpg?imageslim">
 <meta property="og:image" content="http://oq8u5pr4b.bkt.clouddn.com/blog/180704/CmGKf8l28i.jpg?imageslim">
-<meta property="og:updated_time" content="2018-07-04T13:49:23.404Z">
+<meta property="og:updated_time" content="2018-07-04T13:56:15.865Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【论文笔记】Reaching agreement in the presence of faults (EIG)">
 <meta name="twitter:description" content="这篇论文在1980年发表，是1982年著名的拜占庭将军问题论文的前身。作者Leslie Lamport是2013图灵奖得主，两篇论文引用次数分别为5000+和2000+。该论文提出的算法现在被称为EIG算法（EIG全称指数信息收集），因为消息的数量是和节点数量呈指数关系。   “Reaching Aggrement in the Presence of Faults ”  M. PEASE, R,">
@@ -467,9 +467,9 @@
 </ul>
 <h2 id="m-2-n-7"><a href="#m-2-n-7" class="headerlink" title="m=2 n=7"></a>m=2 n=7</h2><p>下面以m=2,n=7为例介绍多点故障下的算法流程。如图所示一共有7个节点，其中节点4和节点6是故障节点，其余为非故障节点。第一轮信息交换，节点之间互相传递各自的私有值，可以看到节点4和节点6伪造各自的私有值进行传递。</p>
 <p><img src="http://oq8u5pr4b.bkt.clouddn.com/blog/180704/99i91Bk6j6.jpg?imageslim" alt="mark"></p>
-<p>以节点1为例，列出所有满足的$σ_p (pωq)$的情况进行判断，最后可以得到节点1的向量为{V1,V2,V3,NIL,V5,NIL,V7}。最后所谓非故障节点将得到的向量也是{V1,V2,V3,NIL,V5,NIL,V7}，满足交互一致性，达成协定。 </p>
+<p>以节点1为例，列出所有满足的$σ_p (pωq)​$的情况进行判断，最后可以得到节点1的向量为{V1,V2,V3,NIL,V5,NIL,V7}。最后所谓非故障节点将得到的向量也是{V1,V2,V3,NIL,V5,NIL,V7}，满足交互一致性，达成协定。 </p>
 <p><img src="http://oq8u5pr4b.bkt.clouddn.com/blog/180704/aI4J8H8Kl4.jpg?imageslim" alt="mark"></p>
-<h1 id="5-n-lt-3m-1不能达成协定"><a href="#5-n-lt-3m-1不能达成协定" class="headerlink" title="5 n&lt;3m+1不能达成协定"></a>5 n&lt;3m+1不能达成协定</h1><p>下面以m=1，n=3为例说明n&lt;3M+1时不能达成共识。如图所示，节点3是故障节点，节点1和节点2是非故障节点；我们可以看到节点1和节点2的向量中元素没有一个大多数值，例如节点1向量关于第2个元素值有一个B和一个V2，没有一个数占大多数，也就无法达成共识。</p>
+<h1 id="5-n-lt-3m-1不能达成协定"><a href="#5-n-lt-3m-1不能达成协定" class="headerlink" title="5 n&lt;3m+1不能达成协定"></a>5 n&lt;3m+1不能达成协定</h1><p>下面以m=1，n=3为例说明 $n&lt;3m+1$时不能达成共识。如图所示，节点3是故障节点，节点1和节点2是非故障节点；我们可以看到节点1和节点2的向量中元素没有一个大多数值，例如节点1向量关于第2个元素值有一个B和一个V2，没有一个数占大多数，也就无法达成共识。</p>
 <p><img src="http://oq8u5pr4b.bkt.clouddn.com/blog/180704/Lh4K243ikj.jpg?imageslim" alt="mark"></p>
 <h1 id="6-带认证的算法"><a href="#6-带认证的算法" class="headerlink" title="6 带认证的算法"></a>6 带认证的算法</h1><p>n&lt;3m+1情况下无法达成协定是基于<strong>故障节点可能拒绝传递</strong>或者<strong>伪造从其他节点那收到的值</strong>。</p>
 <p>而使用认证可以保证故障节点虽然可能在传递自己私有值时撒谎或者拒绝发送自己的私有值，但是不能错误转发从其他节点收到的值。</p>
