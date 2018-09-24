@@ -1,0 +1,1300 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="vgySegkHZnkBq4KFJxOasP7GKRlLD1Rgcp76tZ7tC1I" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Linux," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="硬件配置 主机：Dell T620塔式服务器 显卡：Nvidia Tesla K20c 系统&amp;amp;驱动配置 Ubuntu Server 16.04 Nvidia driver：375.26 CUDA 8.0 cuDNN 7.0.3 tensorflow1.3 1 ubuntu server系统安装系统：Ubuntu Server 16.04 安装方式：光盘安装（使用U盘安装会出现ISO文件无法">
+<meta name="keywords" content="Linux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="深度学习服务器配置 Ubuntu server 16.04+CUDA8.0+cuDNN7+tensorflow1.3">
+<meta property="og:url" content="http://yoursite.com/2018/09/24/linux-server-gpu-setup/index.html">
+<meta property="og:site_name" content="zjwreal">
+<meta property="og:description" content="硬件配置 主机：Dell T620塔式服务器 显卡：Nvidia Tesla K20c 系统&amp;amp;驱动配置 Ubuntu Server 16.04 Nvidia driver：375.26 CUDA 8.0 cuDNN 7.0.3 tensorflow1.3 1 ubuntu server系统安装系统：Ubuntu Server 16.04 安装方式：光盘安装（使用U盘安装会出现ISO文件无法">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://oq8u5pr4b.bkt.clouddn.com/blog/180922/0ECEDGhbK0.png?imageslim">
+<meta property="og:image" content="http://oq8u5pr4b.bkt.clouddn.com/blog/180923/GadFJk64Ag.png?imageslim">
+<meta property="og:image" content="http://oq8u5pr4b.bkt.clouddn.com/blog/180923/ieAkkkJ0Dg.png?imageslim">
+<meta property="og:image" content="http://oq8u5pr4b.bkt.clouddn.com/blog/180923/hCHBlie5h9.png?imageslim">
+<meta property="og:updated_time" content="2018-09-24T07:29:55.152Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="深度学习服务器配置 Ubuntu server 16.04+CUDA8.0+cuDNN7+tensorflow1.3">
+<meta name="twitter:description" content="硬件配置 主机：Dell T620塔式服务器 显卡：Nvidia Tesla K20c 系统&amp;amp;驱动配置 Ubuntu Server 16.04 Nvidia driver：375.26 CUDA 8.0 cuDNN 7.0.3 tensorflow1.3 1 ubuntu server系统安装系统：Ubuntu Server 16.04 安装方式：光盘安装（使用U盘安装会出现ISO文件无法">
+<meta name="twitter:image" content="http://oq8u5pr4b.bkt.clouddn.com/blog/180922/0ECEDGhbK0.png?imageslim">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/09/24/linux-server-gpu-setup/"/>
+
+
+
+
+
+  <title>深度学习服务器配置 Ubuntu server 16.04+CUDA8.0+cuDNN7+tensorflow1.3 | zjwreal</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zjwreal</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />
+            
+            站点地图
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/24/linux-server-gpu-setup/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jingwei Zheng">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://oq8u5pr4b.bkt.clouddn.com/blog/180126/AkjAJ78i9J.jpg?imageslim">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zjwreal">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">深度学习服务器配置 Ubuntu server 16.04+CUDA8.0+cuDNN7+tensorflow1.3</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-24T15:00:00+08:00">
+                2018-09-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><strong>硬件配置</strong></p>
+<p>主机：Dell T620塔式服务器</p>
+<p>显卡：Nvidia Tesla K20c</p>
+<p><strong>系统&amp;驱动配置</strong></p>
+<p>Ubuntu Server 16.04</p>
+<p>Nvidia driver：375.26</p>
+<p>CUDA 8.0</p>
+<p>cuDNN 7.0.3</p>
+<p>tensorflow1.3</p>
+<h1 id="1-ubuntu-server系统安装"><a href="#1-ubuntu-server系统安装" class="headerlink" title="1 ubuntu server系统安装"></a>1 ubuntu server系统安装</h1><p>系统：Ubuntu Server 16.04</p>
+<p>安装方式：光盘安装（使用U盘安装会出现ISO文件无法挂载的问题）</p>
+<p>光盘刻录系统步骤：</p>
+<ol>
+<li>ISO文件打开方式选择Windows光盘映像刻录机</li>
+<li>点击刻录</li>
+</ol>
+<h2 id="1-1-网络"><a href="#1-1-网络" class="headerlink" title="1.1 网络"></a>1.1 网络</h2><p>安装后可能DHCP服务没有启动，需要手动启动使用<code>dhclient</code>命令</p>
+<p>使用<code>ifconfig</code>可以看到网卡信息</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">zjw@t620:~$ ifconfig</span><br><span class="line">eno1      Link encap:Ethernet  HWaddr f0:1f:af:e8:79:0e</span><br><span class="line">          UP BROADCAST MULTICAST  MTU:1500  Metric:1</span><br><span class="line">          RX packets:0 errors:0 dropped:0 overruns:0 frame:0</span><br><span class="line">          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0</span><br><span class="line">          collisions:0 txqueuelen:1000</span><br><span class="line">          RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)</span><br><span class="line">          Memory:dad00000-dadfffff</span><br><span class="line"></span><br><span class="line">eno2      Link encap:Ethernet  HWaddr f0:1f:af:e8:79:0f</span><br><span class="line">          inet addr:219.223.196.65  Bcast:219.223.199.255  Mask:255.255.248.0</span><br><span class="line">          inet6 addr: 2001:250:3c02:200:760:ae61:106:5168/128 Scope:Global</span><br><span class="line">          inet6 addr: fe80::306f:6961:652b:a64b/64 Scope:Link</span><br><span class="line">          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1</span><br><span class="line">          RX packets:16373 errors:0 dropped:0 overruns:0 frame:0</span><br><span class="line">          TX packets:6720 errors:0 dropped:0 overruns:0 carrier:0</span><br><span class="line">          collisions:0 txqueuelen:1000</span><br><span class="line">          RX bytes:15745390 (15.7 MB)  TX bytes:971604 (971.6 KB)</span><br><span class="line">          Memory:dae00000-daefffff</span><br><span class="line"></span><br><span class="line">idrac     Link encap:Ethernet  HWaddr f0:1f:af:e8:79:11</span><br><span class="line">          inet addr:169.254.0.2  Bcast:169.254.0.255  Mask:255.255.255.0</span><br><span class="line">          inet6 addr: fe80::b5f1:8170:e317:6c31/64 Scope:Link</span><br><span class="line">          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1</span><br><span class="line">          RX packets:2 errors:0 dropped:0 overruns:0 frame:0</span><br><span class="line">          TX packets:33 errors:0 dropped:0 overruns:0 carrier:0</span><br><span class="line">          collisions:0 txqueuelen:1000</span><br><span class="line">          RX bytes:594 (594.0 B)  TX bytes:4752 (4.7 KB)</span><br><span class="line"></span><br><span class="line">lo        Link encap:Local Loopback</span><br><span class="line">          inet addr:127.0.0.1  Mask:255.0.0.0</span><br><span class="line">          inet6 addr: ::1/128 Scope:Host</span><br><span class="line">          UP LOOPBACK RUNNING  MTU:65536  Metric:1</span><br><span class="line">          RX packets:232 errors:0 dropped:0 overruns:0 frame:0</span><br><span class="line">          TX packets:232 errors:0 dropped:0 overruns:0 carrier:0</span><br><span class="line">          collisions:0 txqueuelen:1</span><br><span class="line">          RX bytes:25105 (25.1 KB)  TX bytes:25105 (25.1 KB)</span><br></pre></td></tr></table></figure>
+<p>本服务器的地址就是eno2网卡的地址</p>
+<p>在校园网需要通过浏览器图形界面登陆账号密码才能上网，使用以下命令代替</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -X POST -F 'action=login' -F 'username=账户' -F 'password=密码' -F 'ac_id=1' -F 'ajax=1' 1' http://10.0.10.66/include/auth_action.php</span><br></pre></td></tr></table></figure>
+<p>在使用前需要先能ping通<code>10.0.10.66</code>这个地址，在登陆后测试是否已经联网</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">zjw@t620:~$ curl www.baidu.com</span><br><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;!--STATUS OK--&gt;&lt;html&gt; &lt;head&gt;&lt;meta http-equiv=content-type content=text/html;charset=utf-8&gt;&lt;meta http-equiv=X-UA-Compatible content=IE=Edge&gt;&lt;meta content=always name=referrer&gt;&lt;link rel=stylesheet type=text/css href=http://s1.bdstatic.com/r/www/cache/bdorz/baidu.min.css&gt;&lt;title&gt;百度一下，你就知道&lt;/title&gt;&lt;/head&gt; &lt;body link=#0000cc&gt; &lt;div id=wrapper&gt; &lt;div id=head&gt; &lt;div class=head_wrapper&gt; &lt;div class=s_form&gt; &lt;div class=s_form_wrapper&gt; &lt;div id=lg&gt; &lt;img hidefocus=true src=//www.baidu.com/img/bd_logo1.png width=270 height=129&gt; &lt;/div&gt; &lt;form id=form name=f action=//www.baidu.com/s class=fm&gt; &lt;input type=hidden name=bdorz_come value=1&gt; &lt;input type=hidden name=ie value=utf-8&gt; &lt;input type=hidden name=f value=8&gt; &lt;input type=hidden name=rsv_bp value=1&gt; &lt;input type=hidden name=rsv_idx value=1&gt; &lt;input type=hidden name=tn value=baidu&gt;&lt;span class="bg s_ipt_wr"&gt;&lt;input id=kw name=wd class=s_ipt value maxlength=255 autocomplete=off autofocus&gt;&lt;/span&gt;&lt;span class="bg s_btn_wr"&gt;&lt;input type=submit id=su value=百度一下 class="bg s_btn"&gt;&lt;/span&gt; &lt;/form&gt; &lt;/div&gt; &lt;/div&gt; &lt;div id=u1&gt; &lt;a href=http://news.baidu.com name=tj_trnews class=mnav&gt;新闻&lt;/a&gt; &lt;a href=http://www.hao123.com name=tj_trhao123 class=mnav&gt;hao123&lt;/a&gt; &lt;a href=http://map.baidu.com name=tj_trmap class=mnav&gt;地图&lt;/a&gt; &lt;a href=http://v.baidu.com name=tj_trvideo class=mnav&gt;视频&lt;/a&gt; &lt;a href=http://tieba.baidu.com name=tj_trtieba class=mnav&gt;贴吧&lt;/a&gt; &lt;noscript&gt; &lt;a href=http://www.baidu.com/bdorz/login.gif?login&amp;amp;tpl=mn&amp;amp;u=http%3A%2F%2Fwww.baidu.com%2f%3fbdorz_come%3d1 name=tj_login class=lb&gt;登录&lt;/a&gt; &lt;/noscript&gt; &lt;script&gt;document.write('&lt;a href="http://www.baidu.com/bdorz/login.gif?login&amp;tpl=mn&amp;u='+ encodeURIComponent(window.location.href+ (window.location.search === "" ? "?" : "&amp;")+ "bdorz_come=1")+ '" name="tj_login" class="lb"&gt;登录&lt;/a&gt;');&lt;/script&gt; &lt;a href=//www.baidu.com/more/ name=tj_briicon class=bri style="display: block;"&gt;更多产品&lt;/a&gt; &lt;/div&gt; &lt;/div&gt; &lt;/div&gt; &lt;div id=ftCon&gt; &lt;div id=ftConw&gt; &lt;p id=lh&gt; &lt;a href=http://home.baidu.com&gt;关于百度&lt;/a&gt; &lt;a href=http://ir.baidu.com&gt;About Baidu&lt;/a&gt; &lt;/p&gt; &lt;p id=cp&gt;&amp;copy;2017&amp;nbsp;Baidu&amp;nbsp;&lt;a href=http://www.baidu.com/duty/&gt;使用百度前必读&lt;/a&gt;&amp;nbsp; &lt;a href=http://jianyi.baidu.com/ class=cp-feedback&gt;意见反馈&lt;/a&gt;&amp;nbsp;京ICP证030173号&amp;nbsp; &lt;img src=//www.baidu.com/img/gs.gif&gt; &lt;/p&gt; &lt;/div&gt; &lt;/div&gt; &lt;/div&gt; &lt;/body&gt; &lt;/html&gt;</span><br></pre></td></tr></table></figure>
+<p>抓取了网站的内容，已经联网</p>
+<h2 id="1-2-更换软件源为清华大学"><a href="#1-2-更换软件源为清华大学" class="headerlink" title="1.2 更换软件源为清华大学"></a>1.2 更换软件源为清华大学</h2><p>Ubuntu 的软件源配置文件是 /etc/apt/sources.list。将系统自带的该文件做个备份，将该文件替换为下面内容，即可使用 TUNA 的软件源镜像。 </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> sudo gedit /etc/apt/sources.list</span></span><br></pre></td></tr></table></figure>
+<p>修改如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"># 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释</span><br><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial main restricted universe multiverse</span><br><span class="line"># deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial main restricted universe multiverse</span><br><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-updates main restricted universe multiverse</span><br><span class="line"># deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-updates main restricted universe multiverse</span><br><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-backports main restricted universe multiverse</span><br><span class="line"># deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-backports main restricted universe multiverse</span><br><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-security main restricted universe multiverse</span><br><span class="line"># deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-security main restricted universe multiverse</span><br><span class="line"></span><br><span class="line"># 预发布软件源，不建议启用</span><br><span class="line"># deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-proposed main restricted universe multiverse</span><br><span class="line"># deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-proposed main restricted universe multiverse</span><br></pre></td></tr></table></figure>
+<p>修改后 sudo apt-get update 使修改生效</p>
+<h2 id="1-3-远程登陆"><a href="#1-3-远程登陆" class="headerlink" title="1.3 远程登陆"></a>1.3 远程登陆</h2><p>安装openssh：    sudo apt-get install openssh-server</p>
+<p>==================================================</p>
+<p>查看GPU使用情况：    nvidia-smi</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">zjw@t620:~$ nvidia-smi</span><br><span class="line">Sat Sep 22 15:22:55 2018</span><br><span class="line">+-----------------------------------------------------------------------------+</span><br><span class="line">| NVIDIA-SMI 384.130                Driver Version: 384.130                   |</span><br><span class="line">|-------------------------------+----------------------+----------------------+</span><br><span class="line">| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |</span><br><span class="line">| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |</span><br><span class="line">|===============================+======================+======================|</span><br><span class="line">|   0  Tesla K20c          Off  | 00000000:02:00.0 Off |                    0 |</span><br><span class="line">| 30%   33C    P0    52W / 225W |      0MiB /  4742MiB |     98%      Default |</span><br><span class="line">+-------------------------------+----------------------+----------------------+</span><br><span class="line"></span><br><span class="line">+-----------------------------------------------------------------------------+</span><br><span class="line">| Processes:                                                       GPU Memory |</span><br><span class="line">|  GPU       PID   Type   Process name                             Usage      |</span><br><span class="line">|=============================================================================|</span><br><span class="line">|  No running processes found                                                 |</span><br><span class="line">+-----------------------------------------------------------------------------+</span><br></pre></td></tr></table></figure>
+<p>下载驱动 : <a href="https://www.nvidia.cn/Download/index.aspx?lang=cn" target="_blank" rel="noopener">https://www.nvidia.cn/Download/index.aspx?lang=cn</a></p>
+<p>Ubuntu16.04 系统下K20c CUDA只能装8.0以上版本</p>
+<p><img src="http://oq8u5pr4b.bkt.clouddn.com/blog/180922/0ECEDGhbK0.png?imageslim" alt="mark"></p>
+<p>查找结果</p>
+<p><img src="http://oq8u5pr4b.bkt.clouddn.com/blog/180923/GadFJk64Ag.png?imageslim" alt="mark"></p>
+<h1 id="2-Pre-Installation-Actions"><a href="#2-Pre-Installation-Actions" class="headerlink" title="2 Pre-Installation Actions"></a>2 Pre-Installation Actions</h1><h2 id="2-1-Verify-You-Have-a-CUDA-Capable-GPU"><a href="#2-1-Verify-You-Have-a-CUDA-Capable-GPU" class="headerlink" title="2.1. Verify You Have a CUDA-Capable GPU"></a><a href="https://docs.nvidia.com/cuda/archive/8.0/cuda-installation-guide-linux/index.html#verify-you-have-cuda-enabled-system" target="_blank" rel="noopener">2.1. Verify You Have a CUDA-Capable GPU</a></h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">zjw@t620:~$ lspci | grep -i nvidia</span><br><span class="line">02:00.0 3D controller: NVIDIA Corporation GK110GL [Tesla K20c] (rev a1)</span><br></pre></td></tr></table></figure>
+<h2 id="2-2-Verify-You-Have-a-Supported-Version-of-Linux"><a href="#2-2-Verify-You-Have-a-Supported-Version-of-Linux" class="headerlink" title="2.2. Verify You Have a Supported Version of Linux"></a><a href="https://docs.nvidia.com/cuda/archive/8.0/cuda-installation-guide-linux/index.html#verify-you-have-supported-version-of-linux" target="_blank" rel="noopener">2.2. Verify You Have a Supported Version of Linux</a></h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">zjw@t620:~$  uname -m &amp;&amp; cat /etc/*release</span><br><span class="line">x86_64</span><br><span class="line">DISTRIB_ID=Ubuntu</span><br><span class="line">DISTRIB_RELEASE=16.04</span><br><span class="line">DISTRIB_CODENAME=xenial</span><br><span class="line">DISTRIB_DESCRIPTION="Ubuntu 16.04.3 LTS"</span><br><span class="line">NAME="Ubuntu"</span><br><span class="line">VERSION="16.04.3 LTS (Xenial Xerus)"</span><br><span class="line">ID=ubuntu</span><br><span class="line">ID_LIKE=debian</span><br><span class="line">PRETTY_NAME="Ubuntu 16.04.3 LTS"</span><br><span class="line">VERSION_ID="16.04"</span><br><span class="line">HOME_URL="http://www.ubuntu.com/"</span><br><span class="line">SUPPORT_URL="http://help.ubuntu.com/"</span><br><span class="line">BUG_REPORT_URL="http://bugs.launchpad.net/ubuntu/"</span><br><span class="line">VERSION_CODENAME=xenial</span><br><span class="line">UBUNTU_CODENAME=xenial</span><br></pre></td></tr></table></figure>
+<h2 id="2-3-Verify-the-System-Has-gcc-Installed"><a href="#2-3-Verify-the-System-Has-gcc-Installed" class="headerlink" title="2.3. Verify the System Has gcc Installed"></a><a href="https://docs.nvidia.com/cuda/archive/8.0/cuda-installation-guide-linux/index.html#verify-that-gcc-is-installed" target="_blank" rel="noopener">2.3. Verify the System Has gcc Installed</a></h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">zjw@t620:~$ gcc --version</span><br><span class="line">gcc (Ubuntu 5.4.0-6ubuntu1~16.04.10) 5.4.0 20160609</span><br><span class="line">Copyright (C) 2015 Free Software Foundation, Inc.</span><br><span class="line">This is free software; see the <span class="built_in">source</span> <span class="keyword">for</span> copying conditions.  There is NO</span><br><span class="line">warranty; not even <span class="keyword">for</span> MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.</span><br></pre></td></tr></table></figure>
+<h2 id="2-4-Verify-the-System-has-the-Correct-Kernel-Headers-and-Development-Packages-Installed"><a href="#2-4-Verify-the-System-has-the-Correct-Kernel-Headers-and-Development-Packages-Installed" class="headerlink" title="2.4. Verify the System has the Correct Kernel Headers and Development Packages Installed"></a><a href="https://docs.nvidia.com/cuda/archive/8.0/cuda-installation-guide-linux/index.html#verify-kernel-packages" target="_blank" rel="noopener">2.4. Verify the System has the Correct Kernel Headers and Development Packages Installed</a></h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">zjw@t620:~$ uname -r</span><br><span class="line">4.4.0-87-generic</span><br></pre></td></tr></table></figure>
+<p>安装对应的kernels header和开发包： </p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get install linux-headers-$(uname -r)</span><br></pre></td></tr></table></figure>
+<h2 id="2-5-Choose-an-Installation-Method"><a href="#2-5-Choose-an-Installation-Method" class="headerlink" title="2.5. Choose an Installation Method"></a><a href="https://docs.nvidia.com/cuda/archive/8.0/cuda-installation-guide-linux/index.html#choose-installation-method" target="_blank" rel="noopener">2.5. Choose an Installation Method</a></h2><p>runfile 推荐 / deb / </p>
+<h2 id="2-6-Download-the-NVIDIA-CUDA-Toolkit"><a href="#2-6-Download-the-NVIDIA-CUDA-Toolkit" class="headerlink" title="2.6. Download the NVIDIA CUDA Toolkit"></a><a href="https://docs.nvidia.com/cuda/archive/8.0/cuda-installation-guide-linux/index.html#download-nvidia-driver-and-cuda-software" target="_blank" rel="noopener">2.6. Download the NVIDIA CUDA Toolkit</a></h2><p>CUDA toolkit 8.0 下载地址：<a href="https://developer.nvidia.com/cuda-80-ga2-download-archive" target="_blank" rel="noopener">https://developer.nvidia.com/cuda-80-ga2-download-archive</a></p>
+<p>CUDA toolkit 8.0 安装过程文档（照做基本不出问题）：<a href="https://docs.nvidia.com/cuda/archive/8.0/" target="_blank" rel="noopener">https://docs.nvidia.com/cuda/archive/8.0/</a></p>
+<h1 id="3-CUDA-8-0-安装"><a href="#3-CUDA-8-0-安装" class="headerlink" title="3 CUDA 8.0 安装"></a>3 CUDA 8.0 安装</h1><p>卸载CUDA相关包：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get remove cuda  </span><br><span class="line">sudo apt-get autoclean </span><br><span class="line">sudo apt-get --purge remove nvidia*	<span class="comment"># 卸载Nvidia相关包</span></span><br></pre></td></tr></table></figure>
+<p>然后在目录切换到<code>/esr/local/下 cd /usr/local/</code> </p>
+<p><code>sudo rm -r cuda-*</code></p>
+<h2 id="3-1-runfile安装"><a href="#3-1-runfile安装" class="headerlink" title="3.1 runfile安装"></a>3.1 runfile安装</h2><p><strong>推荐使用<code>runfile</code> 方式安装</strong>（deb方式卸载的时候麻烦）</p>
+<p>runfile 下载地址：<a href="https://developer.nvidia.com/cuda-80-ga2-download-archive" target="_blank" rel="noopener">https://developer.nvidia.com/cuda-80-ga2-download-archive</a></p>
+<p>可以用<code>wget</code></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https://developer.nvidia.com/compute/cuda/8.0/Prod2/local_installers/cuda_8.0.61_375.26_linux-run</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo sh cuda_8.0.61_375.26_linux.run.26_linux-run</span><br></pre></td></tr></table></figure>
+<p>会出现一大堆选项，OPENGL安装选no，其余按照yes或者default选。如果已经安装了新的驱动，不要选择安装驱动。 </p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">-------------------------------------------------------------</span><br><span class="line">Do you accept the previously <span class="built_in">read</span> EULA?</span><br><span class="line">accept/decline/quit: accept</span><br><span class="line"></span><br><span class="line">Install NVIDIA Accelerated Graphics Driver <span class="keyword">for</span> Linux-x86_64 375.26?</span><br><span class="line">(y)es/(n)o/(q)uit: n</span><br><span class="line"></span><br><span class="line">Install the CUDA 8.0 Toolkit?</span><br><span class="line">(y)es/(n)o/(q)uit: y</span><br><span class="line"></span><br><span class="line">Enter Toolkit Location</span><br><span class="line"> [ default is /usr/<span class="built_in">local</span>/cuda-8.0 ]: </span><br><span class="line"></span><br><span class="line">Do you want to install a symbolic link at /usr/<span class="built_in">local</span>/cuda?</span><br><span class="line">(y)es/(n)o/(q)uit: y</span><br><span class="line"></span><br><span class="line">Install the CUDA 8.0 Samples?</span><br><span class="line">(y)es/(n)o/(q)uit: y</span><br><span class="line"></span><br><span class="line">Enter CUDA Samples Location</span><br><span class="line"> [ default is /home/cmfchina ]: </span><br><span class="line"></span><br><span class="line">Installing the CUDA Toolkit <span class="keyword">in</span> /usr/<span class="built_in">local</span>/cuda-8.0 ...</span><br><span class="line">Missing recommended library: libGLU.so</span><br><span class="line">Missing recommended library: libX11.so</span><br><span class="line">Missing recommended library: libXi.so</span><br><span class="line">Missing recommended library: libXmu.so</span><br><span class="line"></span><br><span class="line">Installing the CUDA Samples <span class="keyword">in</span> /home/cmfchina ...</span><br><span class="line">Copying samples to /home/cmfchina/NVIDIA_CUDA-8.0_Samples now...</span><br><span class="line">Finished copying samples.</span><br><span class="line"></span><br><span class="line">===========</span><br><span class="line">= Summary =</span><br><span class="line">===========</span><br><span class="line"></span><br><span class="line">Driver:   Not Selected</span><br><span class="line">Toolkit:  Installed <span class="keyword">in</span> /usr/<span class="built_in">local</span>/cuda-8.0</span><br><span class="line">Samples:  Installed <span class="keyword">in</span> /home/cmfchina, but missing recommended libraries</span><br><span class="line"></span><br><span class="line">Please make sure that</span><br><span class="line"> -   PATH includes /usr/<span class="built_in">local</span>/cuda-8.0/bin</span><br><span class="line"> -   LD_LIBRARY_PATH includes /usr/<span class="built_in">local</span>/cuda-8.0/lib64, or, add /usr/<span class="built_in">local</span>/cuda-8.0/lib64 to /etc/ld.so.conf and run ldconfig as root</span><br><span class="line"></span><br><span class="line">To uninstall the CUDA Toolkit, run the uninstall script <span class="keyword">in</span> /usr/<span class="built_in">local</span>/cuda-8.0/bin</span><br><span class="line"></span><br><span class="line">Please see CUDA_Installation_Guide_Linux.pdf <span class="keyword">in</span> /usr/<span class="built_in">local</span>/cuda-8.0/doc/pdf <span class="keyword">for</span> detailed information on setting up CUDA.</span><br><span class="line"></span><br><span class="line">***WARNING: Incomplete installation! This installation did not install the CUDA Driver. A driver of version at least 361.00 is required <span class="keyword">for</span> CUDA 8.0 functionality to work.</span><br><span class="line">To install the driver using this installer, run the following <span class="built_in">command</span>, replacing &lt;CudaInstaller&gt; with the name of this run file:</span><br><span class="line">    sudo &lt;CudaInstaller&gt;.run -silent -driver</span><br></pre></td></tr></table></figure>
+<h2 id="3-2-设置环境变量"><a href="#3-2-设置环境变量" class="headerlink" title="3.2 设置环境变量"></a>3.2 设置环境变量</h2><p>输入命令，编辑环境变量配置文件 </p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim ~/.bashrc</span><br></pre></td></tr></table></figure>
+<p>在文本末端追加以下两行代码（按键“i”进行编辑操作） </p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> PATH=/usr/<span class="built_in">local</span>/cuda-8.0/bin:<span class="variable">$PATH</span>  </span><br><span class="line"><span class="built_in">export</span> LD_LIBRARY_PATH=/usr/<span class="built_in">local</span>/cuda-8.0/lib64:<span class="variable">$LD_LIBRARY_PATH</span></span><br><span class="line"><span class="built_in">export</span> CUDA_HOME=/usr/<span class="built_in">local</span>/cuda</span><br></pre></td></tr></table></figure>
+<p>保存退出，执行下面命令，使环境变量立刻生效 </p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo <span class="built_in">source</span> ~/.bashrc  </span><br><span class="line">sudo ldconfig</span><br></pre></td></tr></table></figure>
+<p>安装完成后后重启</p>
+<h2 id="3-3-检查CUDA配置"><a href="#3-3-检查CUDA配置" class="headerlink" title="3.3 检查CUDA配置"></a>3.3 检查CUDA配置</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">root@t620:/home/zjw<span class="comment"># nvidia-smi</span></span><br><span class="line">Sun Sep 23 17:31:45 2018</span><br><span class="line">+-----------------------------------------------------------------------------+</span><br><span class="line">| NVIDIA-SMI 375.26                 Driver Version: 375.26                    |</span><br><span class="line">|-------------------------------+----------------------+----------------------+</span><br><span class="line">| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |</span><br><span class="line">| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |</span><br><span class="line">|===============================+======================+======================|</span><br><span class="line">|   0  Tesla K20c          Off  | 0000:02:00.0     Off |                    0 |</span><br><span class="line">| 30%   32C    P0    52W / 225W |      0MiB /  4742MiB |     98%      Default |</span><br><span class="line">+-------------------------------+----------------------+----------------------+</span><br><span class="line"></span><br><span class="line">+-----------------------------------------------------------------------------+</span><br><span class="line">| Processes:                                                       GPU Memory |</span><br><span class="line">|  GPU       PID  Type  Process name                               Usage      |</span><br><span class="line">|=============================================================================|</span><br><span class="line">|  No running processes found                                                 |</span><br><span class="line">+-----------------------------------------------------------------------------+</span><br></pre></td></tr></table></figure>
+<p>检查cuda是否配置正确</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">zjw@t620:~$ nvcc --version</span><br><span class="line">nvcc: NVIDIA (R) Cuda compiler driver</span><br><span class="line">Copyright (c) 2005-2016 NVIDIA Corporation</span><br><span class="line">Built on Tue_Jan_10_13:22:03_CST_2017</span><br><span class="line">Cuda compilation tools, release 8.0, V8.0.61</span><br></pre></td></tr></table></figure>
+<h2 id="3-4-测试CUDA的sammples"><a href="#3-4-测试CUDA的sammples" class="headerlink" title="3.4 测试CUDA的sammples"></a>3.4 测试CUDA的sammples</h2><p>进入cude sample code目录，<code>make</code> 编译所有demo。注意：因为这里的make操作是将sample文件夹下所有的demo都编译了一遍，所以比较好使，如果仅仅想测试某个例子，可以进入相应的文件夹去编译即可。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 切换到cuda-samples所在目录</span></span><br><span class="line"><span class="built_in">cd</span> /usr/<span class="built_in">local</span>/cuda-8.0/samples 或者 <span class="built_in">cd</span> /home/NVIDIA_CUDA-8.0_Samples </span><br><span class="line"></span><br><span class="line"><span class="comment"># 没有make，先安装命令 sudo apt-get install cmake，-j是最大限度的使用cpu编译，加快编译的速度</span></span><br><span class="line">make –j</span><br><span class="line"></span><br><span class="line"><span class="comment"># 编译完毕，切换release目录（/usr/local/cuda-8.0/samples/bin/x86_64/linux/release完整目录）</span></span><br><span class="line"><span class="built_in">cd</span> ./bin/x86_64/linux/release</span><br><span class="line"></span><br><span class="line"><span class="comment"># 检验是否成功，运行实例</span></span><br><span class="line">./deviceQuery </span><br><span class="line"></span><br><span class="line"><span class="comment"># 可以认真看看自行结果，它显示了你的NVIDIA显卡的相关信息，最后能看到Result = PASS就算成功。</span></span><br></pre></td></tr></table></figure>
+<p>编译完成后切换到 <code>bin</code> 目录</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">./deviceQuery</span><br><span class="line">root@t620:/home/zjw/CUDA_Samples/NVIDIA_CUDA-8.0_Samples/bin/x86_64/linux/releas                        e<span class="comment"># ./deviceQuery</span></span><br><span class="line">./deviceQuery Starting...</span><br><span class="line"></span><br><span class="line"> CUDA Device Query (Runtime API) version (CUDART static linking)</span><br><span class="line"></span><br><span class="line">Detected 1 CUDA Capable device(s)</span><br><span class="line"></span><br><span class="line">Device 0: <span class="string">"Tesla K20c"</span></span><br><span class="line">  CUDA Driver Version / Runtime Version          8.0 / 8.0</span><br><span class="line">  CUDA Capability Major/Minor version number:    3.5</span><br><span class="line">  Total amount of global memory:                 4742 MBytes (4972412928 bytes)</span><br><span class="line">  (13) Multiprocessors, (192) CUDA Cores/MP:     2496 CUDA Cores</span><br><span class="line">  GPU Max Clock rate:                            706 MHz (0.71 GHz)</span><br><span class="line">  Memory Clock rate:                             2600 Mhz</span><br><span class="line">  Memory Bus Width:                              320-bit</span><br><span class="line">  L2 Cache Size:                                 1310720 bytes</span><br><span class="line">  Maximum Texture Dimension Size (x,y,z)         1D=(65536), 2D=(65536, 65536),                         3D=(4096, 4096, 4096)</span><br><span class="line">  Maximum Layered 1D Texture Size, (num) layers  1D=(16384), 2048 layers</span><br><span class="line">  Maximum Layered 2D Texture Size, (num) layers  2D=(16384, 16384), 2048 layers</span><br><span class="line">  Total amount of constant memory:               65536 bytes</span><br><span class="line">  Total amount of shared memory per block:       49152 bytes</span><br><span class="line">  Total number of registers available per block: 65536</span><br><span class="line">  Warp size:                                     32</span><br><span class="line">  Maximum number of threads per multiprocessor:  2048</span><br><span class="line">  Maximum number of threads per block:           1024</span><br><span class="line">  Max dimension size of a thread block (x,y,z): (1024, 1024, 64)</span><br><span class="line">  Max dimension size of a grid size    (x,y,z): (2147483647, 65535, 65535)</span><br><span class="line">  Maximum memory pitch:                          2147483647 bytes</span><br><span class="line">  Texture alignment:                             512 bytes</span><br><span class="line">  Concurrent copy and kernel execution:          Yes with 2 copy engine(s)</span><br><span class="line">  Run time <span class="built_in">limit</span> on kernels:                     No</span><br><span class="line">  Integrated GPU sharing Host Memory:            No</span><br><span class="line">  Support host page-locked memory mapping:       Yes</span><br><span class="line">  Alignment requirement <span class="keyword">for</span> Surfaces:            Yes</span><br><span class="line">  Device has ECC support:                        Enabled</span><br><span class="line">  Device supports Unified Addressing (UVA):      Yes</span><br><span class="line">  Device PCI Domain ID / Bus ID / location ID:   0 / 2 / 0</span><br><span class="line">  Compute Mode:</span><br><span class="line">     &lt; Default (multiple host threads can use ::cudaSetDevice() with device simu                        ltaneously) &gt;</span><br><span class="line"></span><br><span class="line">deviceQuery, CUDA Driver = CUDART, CUDA Driver Version = 8.0, CUDA Runtime Versi                        on = 8.0, NumDevs = 1, Device0 = Tesla K20c</span><br><span class="line">Result = PASS</span><br></pre></td></tr></table></figure>
+<p>输出结果看到显卡相关信息，并且最后Result = PASS ，这说明CUDA才真正完全安装成功了 </p>
+<p>再检查一下系统和CUDA-Capable device的连接情况</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">root@t620:/home/zjw/CUDA_Samples/NVIDIA_CUDA-8.0_Samples/bin/x86_64/linux/release<span class="comment"># ./bandwidthTest      [CUDA Bandwidth Test] - Starting...</span></span><br><span class="line">Running on...</span><br><span class="line"></span><br><span class="line"> Device 0: Tesla K20c</span><br><span class="line"> Quick Mode</span><br><span class="line"></span><br><span class="line"> Host to Device Bandwidth, 1 Device(s)</span><br><span class="line"> PINNED Memory Transfers</span><br><span class="line">   Transfer Size (Bytes)        Bandwidth(MB/s)</span><br><span class="line">   33554432                     6160.9</span><br><span class="line"></span><br><span class="line"> Device to Host Bandwidth, 1 Device(s)</span><br><span class="line"> PINNED Memory Transfers</span><br><span class="line">   Transfer Size (Bytes)        Bandwidth(MB/s)</span><br><span class="line">   33554432                     6550.6</span><br><span class="line"></span><br><span class="line"> Device to Device Bandwidth, 1 Device(s)</span><br><span class="line"> PINNED Memory Transfers</span><br><span class="line">   Transfer Size (Bytes)        Bandwidth(MB/s)</span><br><span class="line">   33554432                     146967.3</span><br><span class="line"></span><br><span class="line">Result = PASS</span><br><span class="line"></span><br><span class="line">NOTE: The CUDA Samples are not meant <span class="keyword">for</span> performance measurements. Results may vary when GPU Boost is enabled.</span><br></pre></td></tr></table></figure>
+<h1 id="4-cuDNN"><a href="#4-cuDNN" class="headerlink" title="4 cuDNN"></a>4 cuDNN</h1><p><a href="https://developer.download.nvidia.com/compute/machine-learning/cudnn/secure/v7.0.5/prod/Doc/cuDNN-Installation-Guide.pdf?cUpmec_8fogxODWD1Y4XWb9s3fMn0hU5J24LGYsxVNUJ7SV1XIrxG942kFt1lgZAOPw5euQr678ZdFOPbN0Qm0pgdxxRjugJoWCYttdClEtQ48Z1Gs2Yr5gH5W9CdDfJNvV_CanBJyyJHfHDmCZMfptF1N669v_e71TA9DjdL721ZWcIXVMP51cUUvxUmSmx4A" target="_blank" rel="noopener">官方安装文档</a>（照做基本不出问题）</p>
+<h2 id="4-1-下载cuDNN"><a href="#4-1-下载cuDNN" class="headerlink" title="4.1 下载cuDNN"></a>4.1 下载cuDNN</h2><p>cuDNN是GPU加速计算深层神经网络的库。首先去官网(<a href="https://developer.nvidia.com/rdp/cudnn-download" target="_blank" rel="noopener">https://developer.nvidia.com/rdp/cudnn-download</a>)下载cuDNN，需要注册一个账号才能下载，没有的话自己注册一个。由于本人的显卡是K20c，CUDA 8.0，最新的版本是v7：  </p>
+<p><img src="http://oq8u5pr4b.bkt.clouddn.com/blog/180923/ieAkkkJ0Dg.png?imageslim" alt="mark"></p>
+<p>下载速度几KB。Nvidia把国内IP屏蔽了，建议代理换全局模式，用国外IP就可以下载了，亲测。  </p>
+<h2 id="4-2-安装cuDNN"><a href="#4-2-安装cuDNN" class="headerlink" title="4.2 安装cuDNN"></a>4.2 安装cuDNN</h2><p>安装cudnn比较简单，简单地说，就是复制几个文件：库文件和头文件。将cudnn的头文件复制到cuda安装路径的include路径下，将cudnn的库文件复制到cuda安装路径的lib64路径下。具体操作如下  </p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 解压文件</span></span><br><span class="line">zjw@t620:~$ cp cudnn-8.0-linux-x64-v7.solitairetheme8 cudnn-8.0-linux-x64-v7.tgz</span><br><span class="line">zjw@t620:~$ tar -zxvf cudnn-8.0-linux-x64-v7.tgz</span><br><span class="line"></span><br><span class="line"><span class="comment">#切换到刚刚解压出来的文件夹路径</span></span><br><span class="line"><span class="built_in">cd</span> cuda </span><br><span class="line"><span class="comment">#复制include里的头文件（记得转到include文件里执行下面命令）</span></span><br><span class="line">sudo cp include/cudnn.h  /usr/<span class="built_in">local</span>/cuda/include/</span><br><span class="line"></span><br><span class="line"><span class="comment">#复制lib64下的lib文件到cuda安装路径下的lib64（记得转到lib64文件里执行下面命令）</span></span><br><span class="line">sudo cp lib*  /usr/<span class="built_in">local</span>/cuda/lib64/</span><br><span class="line"></span><br><span class="line"><span class="comment">#设置权限</span></span><br><span class="line">sudo chmod a+r /usr/<span class="built_in">local</span>/cuda/include/cudnn.h </span><br><span class="line">sudo chmod a+r /usr/<span class="built_in">local</span>/cuda/lib64/libcudnn*</span><br><span class="line"></span><br><span class="line"><span class="comment">#======更新软连接======</span></span><br><span class="line"><span class="built_in">cd</span> /usr/<span class="built_in">local</span>/cuda/lib64/ </span><br><span class="line">sudo rm -rf libcudnn.so libcudnn.so.7   <span class="comment">#删除原有动态文件，版本号注意变化，可在cudnn的lib64文件夹中查看   </span></span><br><span class="line">sudo ln -s libcudnn.so.7.0.5 libcudnn.so.7  <span class="comment">#生成软衔接（注意这里要和自己下载的cudnn版本对应，可以在/usr/local/cuda/lib64下查看自己libcudnn的版本）</span></span><br><span class="line">sudo ln -s libcudnn.so.7 libcudnn.so <span class="comment">#生成软链接</span></span><br><span class="line">sudo ldconfig -v <span class="comment">#立刻生效</span></span><br></pre></td></tr></table></figure>
+<p><strong>备注：上面的软连接的版本号要根据自己实际下载的cudnn的lib版本号</strong></p>
+<p>最后我们看看验证安装cudnn后cuda是否依旧可用  </p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">zjw@t620:/usr/<span class="built_in">local</span>/cuda/lib64$ nvcc --version	<span class="comment"># or nvcc -V </span></span><br><span class="line">nvcc: NVIDIA (R) Cuda compiler driver</span><br><span class="line">Copyright (c) 2005-2016 NVIDIA Corporation</span><br><span class="line">Built on Tue_Jan_10_13:22:03_CST_2017</span><br><span class="line">Cuda compilation tools, release 8.0, V8.0.61</span><br></pre></td></tr></table></figure>
+<h2 id="4-3-检验cuDNN是否安装成功"><a href="#4-3-检验cuDNN是否安装成功" class="headerlink" title="4.3 检验cuDNN是否安装成功"></a>4.3 检验cuDNN是否安装成功</h2><p>　　到目前为止，cuDNN已经安装完了，但是，是否成功安装，我们可以通过cuDNN sample测试一下(<a href="https://developer.nvidia.com/rdp/cudnn-archive" target="_blank" rel="noopener">https://developer.nvidia.com/rdp/cudnn-archive</a> 页面中找到对应的cudnn版本，里面有 cuDNN v5 Code Samples，点击该链接下载即可，版本可能不一样，下载最新的就行)</p>
+<p>　　下载完，转到解压出的目录下的mnistCUDNN</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Copy the cuDNN sample to a writable path. </span></span><br><span class="line"><span class="variable">$cp</span> -r /usr/src/cudnn_samples_v7/ <span class="variable">$HOME</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Go to the writable path</span></span><br><span class="line">$ <span class="built_in">cd</span> <span class="variable">$HOME</span>/cudnn_samples_v7/mnistCUDNN</span><br><span class="line"></span><br><span class="line"><span class="comment"># Compile the mnistCUDNN sample</span></span><br><span class="line"><span class="variable">$make</span> clean </span><br><span class="line"><span class="variable">$make</span></span><br></pre></td></tr></table></figure>
+<p>Run the mnistCUDNN sample </p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line">zjw@t620:~/cudnn_samples_v7/mnistCUDNN$ ./mnistCUDNN</span><br><span class="line">cudnnGetVersion() : 7005 , CUDNN_VERSION from cudnn.h : 7005 (7.0.5)</span><br><span class="line">Host compiler version : GCC 5.4.0</span><br><span class="line">There are 1 CUDA capable devices on your machine :</span><br><span class="line">device 0 : sms 13  Capabilities 3.5, SmClock 705.5 Mhz, MemSize (Mb) 4742, MemClock 2600.0 Mhz, Ecc=1, boardGroupID=0</span><br><span class="line">Using device 0</span><br><span class="line"></span><br><span class="line">Testing single precision</span><br><span class="line">Loading image data/one_28x28.pgm</span><br><span class="line">Performing forward propagation ...</span><br><span class="line">Testing cudnnGetConvolutionForwardAlgorithm ...</span><br><span class="line">Fastest algorithm is Algo 2</span><br><span class="line">Testing cudnnFindConvolutionForwardAlgorithm ...</span><br><span class="line">^^^^ CUDNN_STATUS_SUCCESS <span class="keyword">for</span> Algo 0: 0.041376 time requiring 0 memory</span><br><span class="line">^^^^ CUDNN_STATUS_SUCCESS <span class="keyword">for</span> Algo 2: 0.079680 time requiring 57600 memory</span><br><span class="line">^^^^ CUDNN_STATUS_SUCCESS <span class="keyword">for</span> Algo 1: 0.092288 time requiring 100 memory</span><br><span class="line">^^^^ CUDNN_STATUS_SUCCESS <span class="keyword">for</span> Algo 5: 0.153120 time requiring 203008 memory</span><br><span class="line">^^^^ CUDNN_STATUS_SUCCESS <span class="keyword">for</span> Algo 4: 0.172800 time requiring 207360 memory</span><br><span class="line">Resulting weights from Softmax:</span><br><span class="line">0.0000000 0.9999399 0.0000000 0.0000000 0.0000561 0.0000000 0.0000012 0.0000017 0.0000010 0.0000000</span><br><span class="line">Loading image data/three_28x28.pgm</span><br><span class="line">Performing forward propagation ...</span><br><span class="line">Resulting weights from Softmax:</span><br><span class="line">0.0000000 0.0000000 0.0000000 0.9999288 0.0000000 0.0000711 0.0000000 0.0000000 0.0000000 0.0000000</span><br><span class="line">Loading image data/five_28x28.pgm</span><br><span class="line">Performing forward propagation ...</span><br><span class="line">Resulting weights from Softmax:</span><br><span class="line">0.0000000 0.0000008 0.0000000 0.0000002 0.0000000 0.9999820 0.0000154 0.0000000 0.0000012 0.0000006</span><br><span class="line"></span><br><span class="line">Result of classification: 1 3 5</span><br><span class="line"></span><br><span class="line">Test passed!</span><br><span class="line"></span><br><span class="line">Testing half precision (math <span class="keyword">in</span> single precision)</span><br><span class="line">Loading image data/one_28x28.pgm</span><br><span class="line">Performing forward propagation ...</span><br><span class="line">Testing cudnnGetConvolutionForwardAlgorithm ...</span><br><span class="line">Fastest algorithm is Algo 2</span><br><span class="line">Testing cudnnFindConvolutionForwardAlgorithm ...</span><br><span class="line">^^^^ CUDNN_STATUS_SUCCESS <span class="keyword">for</span> Algo 0: 0.061024 time requiring 0 memory</span><br><span class="line">^^^^ CUDNN_STATUS_SUCCESS <span class="keyword">for</span> Algo 1: 0.061312 time requiring 100 memory</span><br><span class="line">^^^^ CUDNN_STATUS_SUCCESS <span class="keyword">for</span> Algo 2: 0.086560 time requiring 28800 memory</span><br><span class="line">^^^^ CUDNN_STATUS_SUCCESS <span class="keyword">for</span> Algo 5: 0.172704 time requiring 203008 memory</span><br><span class="line">^^^^ CUDNN_STATUS_SUCCESS <span class="keyword">for</span> Algo 4: 0.186944 time requiring 207360 memory</span><br><span class="line">Resulting weights from Softmax:</span><br><span class="line">0.0000001 1.0000000 0.0000001 0.0000000 0.0000563 0.0000001 0.0000012 0.0000017 0.0000010 0.0000001</span><br><span class="line">Loading image data/three_28x28.pgm</span><br><span class="line">Performing forward propagation ...</span><br><span class="line">Resulting weights from Softmax:</span><br><span class="line">0.0000000 0.0000000 0.0000000 1.0000000 0.0000000 0.0000714 0.0000000 0.0000000 0.0000000 0.0000000</span><br><span class="line">Loading image data/five_28x28.pgm</span><br><span class="line">Performing forward propagation ...</span><br><span class="line">Resulting weights from Softmax:</span><br><span class="line">0.0000000 0.0000008 0.0000000 0.0000002 0.0000000 1.0000000 0.0000154 0.0000000 0.0000012 0.0000006</span><br><span class="line"></span><br><span class="line">Result of classification: 1 3 5</span><br><span class="line"></span><br><span class="line">Test passed!</span><br></pre></td></tr></table></figure>
+<p>Test passed!  至此，cuDNN已经成功安装了</p>
+<h1 id="5-Anaconda3"><a href="#5-Anaconda3" class="headerlink" title="5 Anaconda3"></a>5 Anaconda3</h1><p>Anaconda是python的一个科学计算发行版，内置了数百个python经常会使用的库，很多是TensorFlow的依赖库。安装好Anaconda可以提供一个好的环境直接安装TensorFlow。 </p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bash Anaconda3-4.2.0-Linux-x86_64.sh</span><br></pre></td></tr></table></figure>
+<p>　安装anaconda，回车后，是许可文件，接收许可。直接回车即可。最后会询问是否把anaconda的bin添加到用户的环境变量中，选择yes。在终端输入python发现依然是系统自带的python版本，这是因为环境变量的更新还没有生效，命令行输入如下命令是安装的anaconda生效。如果<code>conda --version</code>没有找到任何信息，说明没有加入到环境变量没有，需要手动加入，如图所示： </p>
+<p><img src="http://oq8u5pr4b.bkt.clouddn.com/blog/180923/hCHBlie5h9.png?imageslim" alt="mark"></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root@t620:/home/zjw<span class="comment"># vim ~/.bashrc</span></span><br><span class="line">root@t620:/home/zjw<span class="comment"># source ~/.bashrc</span></span><br></pre></td></tr></table></figure>
+<p>检查环境变量是否生效</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">zjw@t620:~$ conda --version</span><br><span class="line">conda 4.4.10</span><br><span class="line"></span><br><span class="line">zjw@t620:~$ python</span><br><span class="line">Python 3.6.4 |Anaconda, Inc.| (default, Jan 16 2018, 18:10:19)</span><br><span class="line">[GCC 7.2.0] on linux</span><br><span class="line">Type <span class="string">"help"</span>, <span class="string">"copyright"</span>, <span class="string">"credits"</span> or <span class="string">"license"</span> <span class="keyword">for</span> more information.</span><br><span class="line">&gt;&gt;&gt;</span><br></pre></td></tr></table></figure>
+<p>python版本为 Anaconda版本而非系统自带，说明环境变量更新生效</p>
+<h1 id="6-Tensorflow"><a href="#6-Tensorflow" class="headerlink" title="6 Tensorflow"></a>6 Tensorflow</h1><p>　大家可以参考TensorFlow的官方安装教程（<a href="https://www.tensorflow.org/install/" target="_blank" rel="noopener">https://www.tensorflow.org/install/</a>），官网提供的了 Pip, Docker, Virtualenv, Anaconda 或 源码编译的方法安装 TensorFlow，我们这里主要介绍以Anaconda安装。其他安装方式，大家可以到官方安装教程查看。 </p>
+<h2 id="6-1-安装TensorFlow"><a href="#6-1-安装TensorFlow" class="headerlink" title="6.1 安装TensorFlow"></a>6.1 安装TensorFlow</h2><p>　　通过Anaconda安装TensorFlow CPU，TensorFlow 的官方下载源现在已经在GitHub上提供了（<a href="https://github.com/tensorflow/tensorflow" target="_blank" rel="noopener">https://github.com/tensorflow/tensorflow</a>），找到对应的版本号，如图所示：</p>
+<p>官方的文档：使用 Anaconda 进行安装tensorflow <a href="https://www.tensorflow.org/install/install_linux#InstallingAnaconda" target="_blank" rel="noopener">https://www.tensorflow.org/install/install_linux#InstallingAnaconda</a></p>
+<h2 id="6-2-创建一个名为tensorflow的conda环境Python-3-6"><a href="#6-2-创建一个名为tensorflow的conda环境Python-3-6" class="headerlink" title="6.2 创建一个名为tensorflow的conda环境Python 3.6"></a>6.2 创建一个名为tensorflow的conda环境Python 3.6</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#Python 2.7</span></span><br><span class="line">conda create -n tensorflow python=2.7</span><br><span class="line"></span><br><span class="line"><span class="comment">#Python 3.4</span></span><br><span class="line">conda create -n tensorflow python=3.4</span><br><span class="line"></span><br><span class="line"><span class="comment">#Python 3.5</span></span><br><span class="line">conda create -n tensorflow python=3.5</span><br><span class="line"></span><br><span class="line"><span class="comment">#Python 3.6</span></span><br><span class="line">conda create -n tensorflow python=3.6 　　<span class="comment">#我下的TensorFlow对应的Python是3.6版本，那么我就使用这行</span></span><br></pre></td></tr></table></figure>
+<p><strong>备注：(根据TensorFlow版本号，一定要设置Python版本号，切记切记切记！！！！！重要的事情说三遍！否则后面会报各种错的)</strong></p>
+<p>创建时出错</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">zjw@t620:~$ conda create -n tensorflow python=3.6</span><br><span class="line">Solving environment: failed</span><br><span class="line"></span><br><span class="line">CondaHTTPError: HTTP 000 CONNECTION FAILED <span class="keyword">for</span> url &lt;https://repo.continuum.io/pkgs/main/linux-64/repoa.json.bz2&gt;</span><br><span class="line">Elapsed: -</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>解决方法：<strong>（关闭VPN）</strong></p>
+<p>以下是辅助，不一定成功</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 首先添加清华的镜像源</span></span><br><span class="line">conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/msys2/</span><br><span class="line">conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/conda-forge/</span><br><span class="line">conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/</span><br><span class="line">conda config --<span class="built_in">set</span> show_channel_urls yes</span><br></pre></td></tr></table></figure>
+<h2 id="6-3-激活-conda-环境"><a href="#6-3-激活-conda-环境" class="headerlink" title="6.3 激活 conda 环境"></a>6.3 激活 conda 环境</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><span class="line">zjw@t620:~$ conda create -n tensorflow pip python=3.6</span><br><span class="line">Solving environment: <span class="keyword">done</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">==&gt; WARNING: A newer version of conda exists. &lt;==</span><br><span class="line">  current version: 4.4.10</span><br><span class="line">  latest version: 4.5.11</span><br><span class="line"></span><br><span class="line">Please update conda by running</span><br><span class="line"></span><br><span class="line">    $ conda update -n base conda</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">## Package Plan ##</span></span><br><span class="line"></span><br><span class="line">  environment location: /home/zjw/.conda/envs/tensorflow</span><br><span class="line"></span><br><span class="line">  added / updated specs:</span><br><span class="line">    - pip</span><br><span class="line">    - python=3.6</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">The following packages will be downloaded:</span><br><span class="line"></span><br><span class="line">    package                    |            build</span><br><span class="line">    ---------------------------|-----------------</span><br><span class="line">    xz-5.2.3                   |                0         667 KB  https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free</span><br><span class="line">    tk-8.5.18                  |                0         1.9 MB  https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free</span><br><span class="line">    wheel-0.29.0               |           py36_0          88 KB  https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free</span><br><span class="line">    openssl-1.0.2l             |                0         3.2 MB  https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free</span><br><span class="line">    readline-6.2               |                2         606 KB  https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free</span><br><span class="line">    python-3.6.2               |                0        16.5 MB  https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free</span><br><span class="line">    pip-9.0.1                  |           py36_1         1.7 MB  https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free</span><br><span class="line">    sqlite-3.13.0              |                0         4.0 MB  https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free</span><br><span class="line">    certifi-2016.2.28          |           py36_0         216 KB  https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free</span><br><span class="line">    setuptools-36.4.0          |           py36_1         563 KB  https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free</span><br><span class="line">    zlib-1.2.11                |                0         109 KB  https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free</span><br><span class="line">    ------------------------------------------------------------</span><br><span class="line">                                           Total:        29.3 MB</span><br><span class="line"></span><br><span class="line">The following NEW packages will be INSTALLED:</span><br><span class="line"></span><br><span class="line">    certifi:    2016.2.28-py36_0 https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free</span><br><span class="line">    openssl:    1.0.2l-0         https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free</span><br><span class="line">    pip:        9.0.1-py36_1     https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free</span><br><span class="line">    python:     3.6.2-0          https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free</span><br><span class="line">    readline:   6.2-2            https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free</span><br><span class="line">    setuptools: 36.4.0-py36_1    https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free</span><br><span class="line">    sqlite:     3.13.0-0         https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free</span><br><span class="line">    tk:         8.5.18-0         https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free</span><br><span class="line">    wheel:      0.29.0-py36_0    https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free</span><br><span class="line">    xz:         5.2.3-0          https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free</span><br><span class="line">    zlib:       1.2.11-0         https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free</span><br><span class="line"></span><br><span class="line">Proceed ([y]/n)? y</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Downloading and Extracting Packages</span><br><span class="line">xz 5.2.3: <span class="comment">################################################################################### | 100%</span></span><br><span class="line">tk 8.5.18: <span class="comment">################################################################################## | 100%</span></span><br><span class="line">wheel 0.29.0: <span class="comment">############################################################################### | 100%</span></span><br><span class="line">openssl 1.0.2l: <span class="comment">############################################################################# | 100%</span></span><br><span class="line">readline 6.2: <span class="comment">############################################################################### | 100%</span></span><br><span class="line">python 3.6.2: <span class="comment">############################################################################### | 100%</span></span><br><span class="line">pip 9.0.1: <span class="comment">################################################################################## | 100%</span></span><br><span class="line">sqlite 3.13.0: <span class="comment">############################################################################## | 100%</span></span><br><span class="line">certifi 2016.2.28: <span class="comment">########################################################################## | 100%</span></span><br><span class="line">setuptools 36.4.0: <span class="comment">########################################################################## | 100%</span></span><br><span class="line">zlib 1.2.11: <span class="comment">################################################################################ | 100%</span></span><br><span class="line">Preparing transaction: <span class="keyword">done</span></span><br><span class="line">Verifying transaction: <span class="keyword">done</span></span><br><span class="line">Executing transaction: <span class="keyword">done</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># To activate this environment, use</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#     $ conda activate tensorflow</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># To deactivate an active environment, use</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#     $ conda deactivate</span></span><br><span class="line"></span><br><span class="line">zjw@t620:~$ conda activate tensorflow</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">source</span> activate tensorflow</span><br></pre></td></tr></table></figure>
+<h2 id="6-4-在conda环境中安装TensorFlow-GPU版"><a href="#6-4-在conda环境中安装TensorFlow-GPU版" class="headerlink" title="6.4  在conda环境中安装TensorFlow GPU版"></a>6.4  在conda环境中安装TensorFlow GPU版</h2><p>因为我们前面选择了conda环境为Python3.6的，所以我们选择Python3.6版本的GPU链接地址，进行安装</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#如何进行安装，我们这里安装Python版本为3.6的TensorFlow</span></span><br><span class="line"></span><br><span class="line">sudo pip3 install --ignore-installed --upgrade https://storage.googleapis.com/tensorflow/linux/gpu/tensorflow_gpu-1.3.0-cp36-cp36m-linux_x86_64.whl</span><br><span class="line"></span><br><span class="line"><span class="comment"># 备注：连接里的cpxx和cpxxm的xx是对应Python的版本号#</span></span><br></pre></td></tr></table></figure>
+<p>失败，我们需要下载GPU版的安装包，在安装包下载之后，然后手动进入环境，安装TensorFlow whl安装包。 </p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(tensorflow) zjw@t620:~$ wget https://storage.googleapis.com/tensorflow/linux/gpu/tensorflow_gpu-1.3.0-cp36-cp36m-linux_x86_64.whl</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">source</span> activate tensorflow    <span class="comment">#激活tensorflow环境（这步操作了，就忽略）</span></span><br><span class="line">(tensorflow) zjw@t620:~$ pip install --ignore-installed --upgrade tensorflow_gpu-1.3.0-cp36-cp36m-linux_x86_64.whl</span><br><span class="line">Processing ./tensorflow_gpu-1.3.0-cp36-cp36m-linux_x86_64.whl</span><br><span class="line">Collecting wheel&gt;=0.26 (from tensorflow-gpu==1.3.0)</span><br><span class="line">  Downloading https://files.pythonhosted.org/packages/81/30/e935244ca6165187ae8be876b6316ae201b71485538ffac1d718843025a9/wheel-0.31.1-py2.py3-none-any.whl (41kB)</span><br><span class="line">    100% |████████████████████████████████| 51kB 96kB/s</span><br><span class="line">Collecting numpy&gt;=1.11.0 (from tensorflow-gpu==1.3.0)</span><br><span class="line">  Downloading https://files.pythonhosted.org/packages/22/02/bae88c4aaea4256d890adbf3f7cf33e59a443f9985cf91cd08a35656676a/numpy-1.15.2-cp36-cp36m-manylinux1_x86_64.whl (13.9MB)</span><br><span class="line">    100% |████████████████████████████████| 13.9MB 46kB/s</span><br><span class="line">Collecting protobuf&gt;=3.3.0 (from tensorflow-gpu==1.3.0)</span><br><span class="line">  Downloading https://files.pythonhosted.org/packages/c2/f9/28787754923612ca9bfdffc588daa05580ed70698add063a5629d1a4209d/protobuf-3.6.1-cp36-cp36m-manylinux1_x86_64.whl (1.1MB)</span><br><span class="line">    100% |████████████████████████████████| 1.1MB 110kB/s</span><br><span class="line">Collecting six&gt;=1.10.0 (from tensorflow-gpu==1.3.0)</span><br><span class="line">  Downloading https://files.pythonhosted.org/packages/67/4b/141a581104b1f6397bfa78ac9d43d8ad29a7ca43ea90a2d863fe3056e86a/six-1.11.0-py2.py3-none-any.whl</span><br><span class="line">Collecting tensorflow-tensorboard&lt;0.2.0,&gt;=0.1.0 (from tensorflow-gpu==1.3.0)</span><br><span class="line">  Retrying (Retry(total=4, connect=None, <span class="built_in">read</span>=None, redirect=None)) after connection broken by <span class="string">'ReadTimeoutError("HTTPSConnectionPool(host='</span>pypi.python.org<span class="string">', port=443): Read timed out. (read timeout=15)",)'</span>: /simple/tensorflow-tensorboard/</span><br><span class="line">  Downloading https://files.pythonhosted.org/packages/93/31/bb4111c3141d22bd7b2b553a26aa0c1863c86cb723919e5bd7847b3de4fc/tensorflow_tensorboard-0.1.8-py3-none-any.whl (1.6MB)</span><br><span class="line">    100% |████████████████████████████████| 1.6MB 531kB/s</span><br><span class="line">Collecting setuptools (from protobuf&gt;=3.3.0-&gt;tensorflow-gpu==1.3.0)</span><br><span class="line">  Downloading https://files.pythonhosted.org/packages/6e/9c/cc2eb661d85f4aa541910af1a72b834a0f5c9209079fcbd1438fa6da17c6/setuptools-40.4.2-py2.py3-none-any.whl (569kB)</span><br><span class="line">    100% |████████████████████████████████| 573kB 303kB/s</span><br><span class="line">Collecting werkzeug&gt;=0.11.10 (from tensorflow-tensorboard&lt;0.2.0,&gt;=0.1.0-&gt;tensorflow-gpu==1.3.0)</span><br><span class="line">  Downloading https://files.pythonhosted.org/packages/20/c4/12e3e56473e52375aa29c4764e70d1b8f3efa6682bef8d0aae04fe335243/Werkzeug-0.14.1-py2.py3-none-any.whl (322kB)</span><br><span class="line">    100% |████████████████████████████████| 327kB 329kB/s</span><br><span class="line">Collecting bleach==1.5.0 (from tensorflow-tensorboard&lt;0.2.0,&gt;=0.1.0-&gt;tensorflow-gpu==1.3.0)</span><br><span class="line">  Downloading https://files.pythonhosted.org/packages/33/70/86c5fec937ea4964184d4d6c4f0b9551564f821e1c3575907639036d9b90/bleach-1.5.0-py2.py3-none-any.whl</span><br><span class="line">Collecting html5lib==0.9999999 (from tensorflow-tensorboard&lt;0.2.0,&gt;=0.1.0-&gt;tensorflow-gpu==1.3.0)</span><br><span class="line">  Downloading https://files.pythonhosted.org/packages/ae/ae/bcb60402c60932b32dfaf19bb53870b29eda2cd17551ba5639219fb5ebf9/html5lib-0.9999999.tar.gz (889kB)</span><br><span class="line">    100% |████████████████████████████████| 890kB 274kB/s</span><br><span class="line">Collecting markdown&gt;=2.6.8 (from tensorflow-tensorboard&lt;0.2.0,&gt;=0.1.0-&gt;tensorflow-gpu==1.3.0)</span><br><span class="line">  Downloading https://files.pythonhosted.org/packages/7a/fd/e22357c299e93c0bc11ec8ba54e79f98dd568e09adfe9b39d6852c744938/Markdown-3.0-py2.py3-none-any.whl (89kB)</span><br><span class="line">    100% |████████████████████████████████| 92kB 331kB/s</span><br><span class="line">Building wheels <span class="keyword">for</span> collected packages: html5lib</span><br><span class="line">  Running setup.py bdist_wheel <span class="keyword">for</span> html5lib ... <span class="keyword">done</span></span><br><span class="line">  Stored <span class="keyword">in</span> directory: /home/zjw/.cache/pip/wheels/50/ae/f9/d2b189788efcf61d1ee0e36045476735c838898eef1cad6e29</span><br><span class="line">Successfully built html5lib</span><br><span class="line">Installing collected packages: wheel, numpy, six, setuptools, protobuf, werkzeug, html5lib, bleach, markdown, tensorflow-tensorboard, tensorflow-gpu</span><br><span class="line">Successfully installed bleach-1.5.0 html5lib-0.9999999 markdown-3.0 numpy-1.15.2 protobuf-3.6.1 setuptools-40.4.2 six-1.11.0 tensorflow-gpu-1.3.0 tensorflow-tensorboard-0.1.8 werkzeug-0.14.1 wheel-0.31.1</span><br><span class="line">You are using pip version 9.0.1, however version 18.0 is available.</span><br><span class="line">You should consider upgrading via the <span class="string">'pip install --upgrade pip'</span> <span class="built_in">command</span>.</span><br></pre></td></tr></table></figure>
+<h2 id="6-5-当你不用-TensorFlow-的时候，关闭环境"><a href="#6-5-当你不用-TensorFlow-的时候，关闭环境" class="headerlink" title="6.5 当你不用 TensorFlow 的时候，关闭环境"></a>6.5 当你不用 TensorFlow 的时候，关闭环境</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">source</span> deactivate tensorflow</span><br></pre></td></tr></table></figure>
+<h2 id="6-6-安装成功后-每次使用-TensorFlow-的时候需要激活-conda-环境（操作步骤2就可以了）"><a href="#6-6-安装成功后-每次使用-TensorFlow-的时候需要激活-conda-环境（操作步骤2就可以了）" class="headerlink" title="6.6 安装成功后,每次使用 TensorFlow 的时候需要激活 conda 环境（操作步骤2就可以了）"></a>6.6 安装成功后,每次使用 TensorFlow 的时候需要激活 conda 环境（操作步骤2就可以了）</h2><h2 id="6-7-常见问题"><a href="#6-7-常见问题" class="headerlink" title="6.7 常见问题"></a>6.7 常见问题</h2><p>出现“ImportError: libcudnn.so.6: cannot open shared object file: No such file or directory”错误信息 </p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">Python 3.6.2 |Continuum Analytics, Inc.| (default, Jul 20 2017, 13:51:32) </span><br><span class="line">[GCC 4.4.7 20120313 (Red Hat 4.4.7-1)] on linux</span><br><span class="line">Type <span class="string">"help"</span>, <span class="string">"copyright"</span>, <span class="string">"credits"</span> or <span class="string">"license"</span> <span class="keyword">for</span> more information.</span><br><span class="line">&gt;&gt;&gt; import tensorflow as tf</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File <span class="string">"/home/cmfchina/.conda/envs/tensorflow/lib/python3.6/site-packages/tensorflow/python/pywrap_tensorflow.py"</span>, line 41, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">    from tensorflow.python.pywrap_tensorflow_internal import *</span><br><span class="line">  File <span class="string">"/home/cmfchina/.conda/envs/tensorflow/lib/python3.6/site-packages/tensorflow/python/pywrap_tensorflow_internal.py"</span>, line 28, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">    _pywrap_tensorflow_internal = swig_import_helper()</span><br><span class="line">  File <span class="string">"/home/cmfchina/.conda/envs/tensorflow/lib/python3.6/site-packages/tensorflow/python/pywrap_tensorflow_internal.py"</span>, line 24, <span class="keyword">in</span> swig_import_helper</span><br><span class="line">    _mod = imp.load_module(<span class="string">'_pywrap_tensorflow_internal'</span>, fp, pathname, description)</span><br><span class="line">  File <span class="string">"/home/cmfchina/.conda/envs/tensorflow/lib/python3.6/imp.py"</span>, line 242, <span class="keyword">in</span> load_module</span><br><span class="line">    <span class="built_in">return</span> load_dynamic(name, filename, file)</span><br><span class="line">  File <span class="string">"/home/cmfchina/.conda/envs/tensorflow/lib/python3.6/imp.py"</span>, line 342, <span class="keyword">in</span> load_dynamic</span><br><span class="line">    <span class="built_in">return</span> _load(spec)</span><br><span class="line">ImportError: libcudnn.so.6: cannot open shared object file: No such file or directory</span><br><span class="line"></span><br><span class="line">During handling of the above exception, another exception occurred:</span><br><span class="line"></span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File <span class="string">"&lt;stdin&gt;"</span>, line 1, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">  File <span class="string">"/home/cmfchina/.conda/envs/tensorflow/lib/python3.6/site-packages/tensorflow/__init__.py"</span>, line 24, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">    from tensorflow.python import *</span><br><span class="line">  File <span class="string">"/home/cmfchina/.conda/envs/tensorflow/lib/python3.6/site-packages/tensorflow/python/__init__.py"</span>, line 49, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">    from tensorflow.python import pywrap_tensorflow</span><br><span class="line">  File <span class="string">"/home/cmfchina/.conda/envs/tensorflow/lib/python3.6/site-packages/tensorflow/python/pywrap_tensorflow.py"</span>, line 52, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">    raise ImportError(msg)</span><br><span class="line">ImportError: Traceback (most recent call last):</span><br><span class="line">  File <span class="string">"/home/cmfchina/.conda/envs/tensorflow/lib/python3.6/site-packages/tensorflow/python/pywrap_tensorflow.py"</span>, line 41, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">    from tensorflow.python.pywrap_tensorflow_internal import *</span><br><span class="line">  File <span class="string">"/home/cmfchina/.conda/envs/tensorflow/lib/python3.6/site-packages/tensorflow/python/pywrap_tensorflow_internal.py"</span>, line 28, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">    _pywrap_tensorflow_internal = swig_import_helper()</span><br><span class="line">  File <span class="string">"/home/cmfchina/.conda/envs/tensorflow/lib/python3.6/site-packages/tensorflow/python/pywrap_tensorflow_internal.py"</span>, line 24, <span class="keyword">in</span> swig_import_helper</span><br><span class="line">    _mod = imp.load_module(<span class="string">'_pywrap_tensorflow_internal'</span>, fp, pathname, description)</span><br><span class="line">  File <span class="string">"/home/cmfchina/.conda/envs/tensorflow/lib/python3.6/imp.py"</span>, line 242, <span class="keyword">in</span> load_module</span><br><span class="line">    <span class="built_in">return</span> load_dynamic(name, filename, file)</span><br><span class="line">  File <span class="string">"/home/cmfchina/.conda/envs/tensorflow/lib/python3.6/imp.py"</span>, line 342, <span class="keyword">in</span> load_dynamic</span><br><span class="line">    <span class="built_in">return</span> _load(spec)</span><br><span class="line">ImportError: libcudnn.so.6: cannot open shared object file: No such file or directory</span><br></pre></td></tr></table></figure>
+<p>解决方法：</p>
+<ul>
+<li><p><strong>首先检查是否存在libcundnn.so.*</strong></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find / -name libcudnn.so.*</span><br></pre></td></tr></table></figure>
+<p>找到文件就下一步，没找到，检查下cudnn的依赖库，就是前面的环境变量做对了没</p>
+</li>
+</ul>
+<ul>
+<li><p><strong>建立硬连接</strong></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo ln -s &lt;path&gt;libcudnn.so.7.*  &lt;path&gt;libcudnn.so.6　　<span class="comment">#path就是libcudnn.so.7的所在目录或者</span></span><br><span class="line"></span><br><span class="line">sudo ln -s  libcudnn.so.7.*  libcudnn.so.6　　<span class="comment">#cd 到 libcudnn.so.7的所在目录</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="6-8-卸载TensorFlow"><a href="#6-8-卸载TensorFlow" class="headerlink" title="6.8 卸载TensorFlow"></a>6.8 卸载TensorFlow</h2><p>　　如果我们需要卸载TensorFlow的话，使用下面命令</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo pip uninstall tensorflow 　　<span class="comment">#Python2.7</span></span><br><span class="line">sudo pip3 uninstall tensorflow 　　<span class="comment">#Python3.x</span></span><br></pre></td></tr></table></figure>
+<h2 id="6-9-测试Tensorflow"><a href="#6-9-测试Tensorflow" class="headerlink" title="6.9 测试Tensorflow"></a>6.9 测试Tensorflow</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">(tensorflow) zjw@t620:/usr/<span class="built_in">local</span>$ python</span><br><span class="line">Python 3.6.2 |Continuum Analytics, Inc.| (default, Jul 20 2017, 13:51:32)</span><br><span class="line">[GCC 4.4.7 20120313 (Red Hat 4.4.7-1)] on linux</span><br><span class="line">Type <span class="string">"help"</span>, <span class="string">"copyright"</span>, <span class="string">"credits"</span> or <span class="string">"license"</span> <span class="keyword">for</span> more information.</span><br><span class="line">&gt;&gt;&gt; import tensorflow as tf</span><br><span class="line">&gt;&gt;&gt; hello = tf.constant(<span class="string">'Hello, TensorFlow!'</span>)</span><br><span class="line">&gt;&gt;&gt; sess = tf.Session()</span><br><span class="line">2018-09-24 10:25:36.621775: W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn<span class="string">'t compiled to use SSE4.1 instructions, but these are available on your machine and could speed up CPU computations.</span></span><br><span class="line"><span class="string">2018-09-24 10:25:36.621832: W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn'</span>t compiled to use SSE4.2 instructions, but these are available on your machine and could speed up CPU computations.</span><br><span class="line">2018-09-24 10:25:36.621852: W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn<span class="string">'t compiled to use AVX instructions, but these are available on your machine and could speed up CPU computations.</span></span><br><span class="line"><span class="string">2018-09-24 10:25:38.176557: I tensorflow/core/common_runtime/gpu/gpu_device.cc:955] Found device 0 with properties:</span></span><br><span class="line"><span class="string">name: Tesla K20c</span></span><br><span class="line"><span class="string">major: 3 minor: 5 memoryClockRate (GHz) 0.7055</span></span><br><span class="line"><span class="string">pciBusID 0000:02:00.0</span></span><br><span class="line"><span class="string">Total memory: 4.63GiB</span></span><br><span class="line"><span class="string">Free memory: 4.57GiB</span></span><br><span class="line"><span class="string">2018-09-24 10:25:38.176610: I tensorflow/core/common_runtime/gpu/gpu_device.cc:976] DMA: 0</span></span><br><span class="line"><span class="string">2018-09-24 10:25:38.176620: I tensorflow/core/common_runtime/gpu/gpu_device.cc:986] 0:   Y</span></span><br><span class="line"><span class="string">2018-09-24 10:25:38.176637: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1045] Creating TensorFlow device (/gpu:0) -&gt; (device: 0, name: Tesla K20c, pci bus id: 0000:02:00.0)</span></span><br><span class="line"><span class="string">&gt;&gt;&gt; sess.run(hello)</span></span><br><span class="line"><span class="string">b'</span>Hello, TensorFlow!<span class="string">'</span></span><br><span class="line"><span class="string">&gt;&gt;&gt; a = tf.constant(10)</span></span><br><span class="line"><span class="string">&gt;&gt;&gt; b = tf.constant(32)</span></span><br><span class="line"><span class="string">&gt;&gt;&gt; b = tf.constant(32)</span></span><br><span class="line"><span class="string">&gt;&gt;&gt; sess.run(a + b)</span></span><br><span class="line"><span class="string">42</span></span><br><span class="line"><span class="string">&gt;&gt;&gt; sess.close()</span></span><br></pre></td></tr></table></figure>
+<h1 id="7-参考文档"><a href="#7-参考文档" class="headerlink" title="7 参考文档"></a>7 参考文档</h1><p><a href="https://www.cnblogs.com/xuliangxing/p/7575586.html" target="_blank" rel="noopener">https://www.cnblogs.com/xuliangxing/p/7575586.html</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Linux/" rel="tag"># Linux</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/07/27/leetcode-19/" rel="next" title="LeetCode 19. Remove Nth Node From End of List">
+                <i class="fa fa-chevron-left"></i> LeetCode 19. Remove Nth Node From End of List
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="http://oq8u5pr4b.bkt.clouddn.com/blog/180126/AkjAJ78i9J.jpg?imageslim"
+                alt="Jingwei Zheng" />
+            
+              <p class="site-author-name" itemprop="name">Jingwei Zheng</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/zhengjingwei" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:zhengjingwei@pku.edu.cn" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-ubuntu-server系统安装"><span class="nav-text">1 ubuntu server系统安装</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-网络"><span class="nav-text">1.1 网络</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-更换软件源为清华大学"><span class="nav-text">1.2 更换软件源为清华大学</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-远程登陆"><span class="nav-text">1.3 远程登陆</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-Pre-Installation-Actions"><span class="nav-text">2 Pre-Installation Actions</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-Verify-You-Have-a-CUDA-Capable-GPU"><span class="nav-text">2.1. Verify You Have a CUDA-Capable GPU</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-Verify-You-Have-a-Supported-Version-of-Linux"><span class="nav-text">2.2. Verify You Have a Supported Version of Linux</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-Verify-the-System-Has-gcc-Installed"><span class="nav-text">2.3. Verify the System Has gcc Installed</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-4-Verify-the-System-has-the-Correct-Kernel-Headers-and-Development-Packages-Installed"><span class="nav-text">2.4. Verify the System has the Correct Kernel Headers and Development Packages Installed</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-5-Choose-an-Installation-Method"><span class="nav-text">2.5. Choose an Installation Method</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-6-Download-the-NVIDIA-CUDA-Toolkit"><span class="nav-text">2.6. Download the NVIDIA CUDA Toolkit</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-CUDA-8-0-安装"><span class="nav-text">3 CUDA 8.0 安装</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-runfile安装"><span class="nav-text">3.1 runfile安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-设置环境变量"><span class="nav-text">3.2 设置环境变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-检查CUDA配置"><span class="nav-text">3.3 检查CUDA配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-4-测试CUDA的sammples"><span class="nav-text">3.4 测试CUDA的sammples</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-cuDNN"><span class="nav-text">4 cuDNN</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-下载cuDNN"><span class="nav-text">4.1 下载cuDNN</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-安装cuDNN"><span class="nav-text">4.2 安装cuDNN</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-3-检验cuDNN是否安装成功"><span class="nav-text">4.3 检验cuDNN是否安装成功</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-Anaconda3"><span class="nav-text">5 Anaconda3</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#6-Tensorflow"><span class="nav-text">6 Tensorflow</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#6-1-安装TensorFlow"><span class="nav-text">6.1 安装TensorFlow</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-2-创建一个名为tensorflow的conda环境Python-3-6"><span class="nav-text">6.2 创建一个名为tensorflow的conda环境Python 3.6</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-3-激活-conda-环境"><span class="nav-text">6.3 激活 conda 环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-4-在conda环境中安装TensorFlow-GPU版"><span class="nav-text">6.4  在conda环境中安装TensorFlow GPU版</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-5-当你不用-TensorFlow-的时候，关闭环境"><span class="nav-text">6.5 当你不用 TensorFlow 的时候，关闭环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-6-安装成功后-每次使用-TensorFlow-的时候需要激活-conda-环境（操作步骤2就可以了）"><span class="nav-text">6.6 安装成功后,每次使用 TensorFlow 的时候需要激活 conda 环境（操作步骤2就可以了）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-7-常见问题"><span class="nav-text">6.7 常见问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-8-卸载TensorFlow"><span class="nav-text">6.8 卸载TensorFlow</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-9-测试Tensorflow"><span class="nav-text">6.9 测试Tensorflow</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#7-参考文档"><span class="nav-text">7 参考文档</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jingwei Zheng</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
